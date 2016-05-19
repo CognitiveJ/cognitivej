@@ -34,8 +34,8 @@ publishing {
 }
 
 bintray {
-    user = bintray_user
-    key = bintray_api_key
+    user = project.hasProperty('bintray_user') ? bintray_user : ''
+    key = project.hasProperty('bintray_api_key') ? bintray_api_key : ''
     publications = ['mavenJava']
     dryRun = false
     publish = true
