@@ -48,7 +48,7 @@ repositories {
     }
     
     dependencies {
-    compile "cognitivej:cognitivej:0.0.6"
+    compile "cognitivej:cognitivej:0.6.1"
     ...
     }
     
@@ -58,7 +58,7 @@ repositories {
     <dependency>
       <groupId>cognitivej</groupId>
       <artifactId>cognitivej</artifactId>
-      <version>0.0.6</version>
+      <version>0.6.1</version>
       <type>pom</type>
     </dependency>
 ```
