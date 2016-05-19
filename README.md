@@ -1,5 +1,7 @@
 # CognitiveJ - Image Analysis in Java
  
+ [![Circle CI](https://circleci.com/gh/CognitiveJ/cognitivej.png?style=badge)](https://circleci.com/gh/CognitiveJ/cognitivej)
+
 CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates the interaction between Java applications and 
 Microsofts’ Cognitive (Project Oxford) Machine Learning & Image Processing libraries and allows you to query and analyze images.   
 
