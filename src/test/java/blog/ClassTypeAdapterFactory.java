@@ -213,6 +213,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 public class ClassTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
         if (!Class.class.isAssignableFrom(typeToken.getRawType())) {

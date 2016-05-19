@@ -10,7 +10,10 @@ plugins {
 
 
 apply plugin: 'maven-publish'
-apply plugin: 'groovy'
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 apply from: file('publish.gradle')
 
