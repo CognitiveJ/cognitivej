@@ -64,9 +64,11 @@ repositories {
 ```
 
 
-Chained Builders - The builders are simple lightweight wrappers over the MS Cognitive REST calls that manages the marshalling of parameters/responses, the HTTP communications and retry strategies. The builders are chained to allow for follow up manipulation on resources that have been created or retrieved & where applicable. 
-Scenarios - Scenarios are real world use case classes that greatly simplifies the interaction between the builders and the wrapper classes. _While there is no reason you can’t interact directly with the builders, scenarios have much of the boilerplate logic in place to reduce burden._ 
-Overlay - Allows for creating and writing new images based on the results from the queries **Wrappers** Simple domain wrappers around request/response/parameter objects (e.g. Face, FaceAttributes,Person etc)
+**Chained Builders** - The builders are simple lightweight wrappers over the MS Cognitive REST calls that manages the marshalling of parameters/responses, the HTTP communications and retry strategies. The builders are chained to allow for follow up manipulation on resources that have been created or retrieved & where applicable. 
+
+**Scenarios** - Scenarios are real world use case classes that greatly simplifies the interaction between the builders and the wrapper classes. _While there is no reason you can’t interact directly with the builders, scenarios have much of the boilerplate logic in place to reduce burden._ 
+
+**Overlay** - Allows for creating and writing new images based on the results from the queries **Wrappers** Simple domain wrappers around request/response/parameter objects (e.g. Face, FaceAttributes,Person etc)
  
 **Face – Detect** can detect faces from within an image and return the results as a collection of ‘face’ results. 
 
