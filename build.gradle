@@ -8,12 +8,8 @@ plugins {
     id "com.jfrog.bintray" version "1.6"
 }
 
-
 apply plugin: 'maven-publish'
-apply plugin: 'java'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+apply plugin: 'groovy'
 
 apply from: file('publish.gradle')
 
