@@ -1,6 +1,7 @@
 # CognitiveJ - Image Analysis in Java
- 
- [![Circle CI](https://circleci.com/gh/CognitiveJ/cognitivej.png?style=badge)](https://circleci.com/gh/CognitiveJ/cognitivej)
+ [![Apache-2.0 license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+  [ ![Download](https://api.bintray.com/packages/cognitivej/CognitiveJ/CognitiveJ/images/download.svg) ](https://bintray.com/cognitivej/CognitiveJ/CognitiveJ/_latestVersion)
+   [![Circle CI](https://circleci.com/gh/CognitiveJ/cognitivej.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/CognitiveJ/cognitivej)
 
 CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates the interaction between Java applications and 
 Microsofts’ Cognitive (Project Oxford) Machine Learning & Image Processing libraries and allows you to query and analyze images.   
