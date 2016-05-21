@@ -207,8 +207,8 @@ package cognitivej.vision.face.persongroup;
 
 import cognitivej.core.ChainedBuilder;
 import cognitivej.vision.face.CognitiveContext;
-import cognitivej.vision.face.person.action.AddFaceToPersonAction;
 import cognitivej.vision.face.person.PersonBuilder;
+import cognitivej.vision.face.person.action.AddFaceToPersonAction;
 
 import java.io.InputStream;
 

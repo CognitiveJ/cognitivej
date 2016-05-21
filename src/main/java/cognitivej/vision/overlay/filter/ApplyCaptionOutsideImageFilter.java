@@ -221,16 +221,15 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
     private final Font font;
     private final CognitiveJColourPalette color;
     private final String text;
-    private final Insets growImageBy;
     private int magicPadding = 50;
+    private Insets imageGrownBy;
 
     public ApplyCaptionOutsideImageFilter(@NotNull Location location, @NotNull Font font,
-                                          @NotNull CognitiveJColourPalette color, @NotNull String text, @NotNull Insets growImageBy) {
+                                          @NotNull CognitiveJColourPalette color, @NotNull String text) {
         this.location = location;
         this.font = font;
         this.color = color;
         this.text = text;
-        this.growImageBy = growImageBy;
     }
 
 
@@ -238,13 +237,18 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
         Graphics2D graphics2D = bufferedImage.createGraphics();
-        GrowImageFilter growImageFilter = new GrowImageFilter(growImageBy);
+        imageGrownBy = calculateGrowth();
+        GrowImageFilter growImageFilter = new GrowImageFilter(imageGrownBy);
         BufferedImage grownImage = growImageFilter.applyFilter(bufferedImage);
-        Font font = this.font;
         int height = calculateHeight();
-        ImageCaptionFilter imageCaptionFilter = new ImageCaptionFilter(location, OverlayUtils.calculateMaxFontForString(graphics2D, font, grownImage.getWidth() - magicPadding, height, text), color.getBackground(), text, 10);
+        ImageCaptionFilter imageCaptionFilter = new ImageCaptionFilter(location, OverlayUtils.calculateMaxFontForString(graphics2D, font, grownImage.getWidth() - magicPadding, height, text),
+                color.getBackground(), text, 10);
         graphics2D.dispose();
         return imageCaptionFilter.applyFilter(grownImage);
+    }
+
+    private Insets calculateGrowth() {
+        return new Insets(50, 0, 50, 0);
     }
 
     private int calculateHeight() {
@@ -253,7 +257,7 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
             case TOP_LEFT:
             case TOP_CENTER:
             case TOP_RIGHT:
-                return growImageBy.top;
+                return imageGrownBy.top;
             case CENTER_LEFT:
             case CENTER:
             case CENTER_RIGHT:
@@ -261,7 +265,7 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
             case BOTTOM_LEFT:
             case BOTTOM_CENTER:
             case BOTTOM_RIGHT:
-                return growImageBy.bottom;
+                return imageGrownBy.bottom;
 
         }
         return 0;

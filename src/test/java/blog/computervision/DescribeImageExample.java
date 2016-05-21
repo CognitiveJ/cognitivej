@@ -215,7 +215,7 @@ import java.io.IOException;
 import static java.lang.System.*;
 
 public class DescribeImageExample {
-    private static final String IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/c/c8/1948_Tucker_Sedan_at_the_Blackhawk_Museum.jpg";
+    private static final String IMAGE_URL = "http://www.fathersez.com/wp-content/uploads/2008/09/giza-pyramids.jpg";
 
     public static void main(String[] args) throws IOException {
         ComputerVisionScenario computerVisionScenario =

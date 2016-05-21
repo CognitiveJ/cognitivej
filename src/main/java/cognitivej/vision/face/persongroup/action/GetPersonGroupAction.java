@@ -206,11 +206,11 @@
 package cognitivej.vision.face.persongroup.action;
 
 
+import cognitivej.core.RestAction;
+import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
 import cognitivej.vision.face.CognitiveContext;
 import cognitivej.vision.face.persongroup.PersonGroup;
-import cognitivej.core.RestAction;
-import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.persongroup.error.PersonGroupNotFoundErrorHandler;
 import com.mashape.unirest.http.HttpMethod;
 import org.apache.http.HttpStatus;

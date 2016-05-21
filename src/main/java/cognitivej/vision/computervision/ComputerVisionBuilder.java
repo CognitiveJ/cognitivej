@@ -208,8 +208,8 @@ package cognitivej.vision.computervision;
 
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
-import cognitivej.vision.face.CognitiveContext;
 import cognitivej.vision.computervision.action.*;
+import cognitivej.vision.face.CognitiveContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

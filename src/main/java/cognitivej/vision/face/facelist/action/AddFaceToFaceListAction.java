@@ -222,7 +222,7 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class AddFaceToFaceListAction extends ChainedRestAction<PersistedFace, ChainedFaceListBuilder> {
 

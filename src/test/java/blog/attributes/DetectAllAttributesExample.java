@@ -208,6 +208,7 @@ package blog.attributes;
 import cognitivej.vision.face.scenario.FaceScenarios;
 import cognitivej.vision.face.task.Face;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
+import cognitivej.vision.overlay.RectangleTextPosition;
 import cognitivej.vision.overlay.RectangleType;
 import cognitivej.vision.overlay.builder.ImageOverlayBuilder;
 
@@ -218,13 +219,13 @@ import static java.lang.System.getProperty;
 
 
 public class DetectAllAttributesExample {
-    private static final String IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/5/5d/Barack_Obama_family_portrait_2011.jpg";
+    private static final String IMAGE_URL = "http://thecircular.org/wp-content/uploads/2013/10/Love-Hate-Series-4-Tom-Vaughan-Lawlor-as-Nidge.jpg";
 
     public static void main(String[] args) throws IOException {
         FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"),
                 getProperty("azure.cognitive.emotion.subscriptionKey"));
         List<Face> faces = faceScenarios.findFaces(IMAGE_URL);
         ImageOverlayBuilder.builder(IMAGE_URL).outlineFacesOnImage(faces, RectangleType.CORNERED, CognitiveJColourPalette.MEADOW).
-                writeFaceAttributesToTheSide(faces, CognitiveJColourPalette.MEADOW).launchViewer();
+                writeFaceAttributes(faces, CognitiveJColourPalette.MEADOW, RectangleTextPosition.TOP_OF).launchViewer();
     }
 }
