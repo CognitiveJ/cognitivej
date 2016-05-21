@@ -219,7 +219,6 @@ import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.io.FileUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -252,7 +251,7 @@ public class BlogHelper {
             BufferedImage thumbnail = Thumbnails.of(new URL((String) imageHolder.firstImage().getImage()))
                     .crop(Positions.CENTER).size(200, 200).asBufferedImage();
             ApplyCaptionOutsideImageFilter applyCaptionOutsideImageFilter = new ApplyCaptionOutsideImageFilter(PointLocations.BOTTOM_CENTER,
-                    ImageOverlayBuilder.DEFAULT_TEXT_FONT, CognitiveJColourPalette.WHITE, imageHolder.getName(), new Insets(0, 0, 40, 0));
+                    ImageOverlayBuilder.DEFAULT_TEXT_FONT, CognitiveJColourPalette.WHITE, imageHolder.getName());
             return applyCaptionOutsideImageFilter.applyFilter(thumbnail);
         } catch (IOException e) {
             throw new CognitiveException("Could not make thumbnail", e);

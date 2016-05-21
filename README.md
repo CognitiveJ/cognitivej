@@ -1,5 +1,7 @@
 # CognitiveJ - Image Analysis in Java
  
+ [![Circle CI](https://circleci.com/gh/CognitiveJ/cognitivej.png?style=badge)](https://circleci.com/gh/CognitiveJ/cognitivej)
+
 CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates the interaction between Java applications and 
 Microsofts’ Cognitive (Project Oxford) Machine Learning & Image Processing libraries and allows you to query and analyze images.   
 
@@ -18,12 +20,12 @@ Microsofts’ Cognitive (Project Oxford) Machine Learning & Image Processing lib
 
 **Vision**
 
-*   Picture Describe - Describe visual content of an image and return real world caption to what the picture is of.
-*   Picture Analysis – extract key details from an image and if the image is of an adult/racy nature.
+*   Image Describe - Describe visual content of an image and return real world caption to what the Image is of.
+*   Image Analysis – extract key details from an image and if the image is of an adult/racy nature.
 *   OCR – detect and extract text from an image.
 *   Thumbnail – Create thumbnail images based on key points of interest from the image.
 
-**Overlay**
+**Overlay _(Experimental)_**
 
 *   Apply image layers onto images to visually represent found features.
 *   Apply captions onto faces and images
@@ -48,7 +50,7 @@ repositories {
     }
     
     dependencies {
-    compile "cognitivej:cognitivej:0.0.6"
+    compile "cognitivej:cognitivej:0.6.2"
     ...
     }
     
@@ -58,15 +60,19 @@ repositories {
     <dependency>
       <groupId>cognitivej</groupId>
       <artifactId>cognitivej</artifactId>
-      <version>0.0.6</version>
+      <version>0.6.2</version>
       <type>pom</type>
     </dependency>
 ```
 
 
-Chained Builders - The builders are simple lightweight wrappers over the MS Cognitive REST calls that manages the marshalling of parameters/responses, the HTTP communications and retry strategies. The builders are chained to allow for follow up manipulation on resources that have been created or retrieved & where applicable. 
-Scenarios - Scenarios are real world use case classes that greatly simplifies the interaction between the builders and the wrapper classes. _While there is no reason you can’t interact directly with the builders, scenarios have much of the boilerplate logic in place to reduce burden._ 
-Overlay - Allows for creating and writing new images based on the results from the queries **Wrappers** Simple domain wrappers around request/response/parameter objects (e.g. Face, FaceAttributes,Person etc)
+**Chained Builders** - The builders are simple lightweight wrappers over the MS Cognitive REST calls that manages the marshalling of parameters/responses, the HTTP communications and retry strategies. The builders are chained to allow for follow up manipulation on resources that have been created or retrieved & where applicable. 
+
+**Scenarios** - Scenarios are real world use case classes that greatly simplifies the interaction between the builders and the wrapper classes. _While there is no reason you can’t interact directly with the builders, scenarios have much of the boilerplate logic in place to reduce burden._ 
+
+**Overlay** - Allows for creating and writing new images based on the results from the queries. Note: work is ongoing around collision detection and observing boundaries
+
+**Wrappers** Simple domain wrappers around request/response/parameter objects (e.g. Face, FaceAttributes,Person etc)
  
 **Face – Detect** can detect faces from within an image and return the results as a collection of ‘face’ results. 
 
@@ -159,7 +165,7 @@ public static void main(String[] args) {
 }
 ```
 
-**Emotion – Detect** will detect what emotion a face(s) are showing within an image.
+**Emotion – Detect** will detect what emotion a face(s) is showing within an image.
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-14-36-14.png)
 
 

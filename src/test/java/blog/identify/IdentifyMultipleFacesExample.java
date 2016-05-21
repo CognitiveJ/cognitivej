@@ -215,15 +215,11 @@ import cognitivej.vision.overlay.ImageGrid;
 import cognitivej.vision.overlay.PointLocations;
 import cognitivej.vision.overlay.builder.ImageOverlayBuilder;
 import cognitivej.vision.overlay.filter.ApplyCaptionOutsideImageFilter;
-import cognitivej.vision.overlay.filter.MergeImagesFilter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -269,8 +265,8 @@ public class IdentifyMultipleFacesExample {
     }
 
     private static void buildGrid(ImageOverlayBuilder imageOverlayBuilder, People people) {
-        ImageGrid candidates = new ImageGrid(extractImagesFromPeople(people), 10);
-        ApplyCaptionOutsideImageFilter applyCaptionOutsideImageFilter = new ApplyCaptionOutsideImageFilter(PointLocations.TOP_CENTER, ImageOverlayBuilder.DEFAULT_TEXT_FONT, CognitiveJColourPalette.WHITE, "Candidate Dataset", new Insets(60, 0, 0, 0));
+        ImageGrid candidates = new ImageGrid(extractImagesFromPeople(people), 4);
+        ApplyCaptionOutsideImageFilter applyCaptionOutsideImageFilter = new ApplyCaptionOutsideImageFilter(PointLocations.TOP_CENTER, ImageOverlayBuilder.DEFAULT_TEXT_FONT, CognitiveJColourPalette.WHITE, "Candidate Dataset");
         BufferedImage mergeImage = applyCaptionOutsideImageFilter.applyFilter(candidates.build());
         imageOverlayBuilder.mergeImage(mergeImage);
     }

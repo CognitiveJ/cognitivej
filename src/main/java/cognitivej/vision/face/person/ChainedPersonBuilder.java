@@ -207,11 +207,11 @@ package cognitivej.vision.face.person;
 
 import cognitivej.core.ChainedBuilder;
 import cognitivej.vision.face.CognitiveContext;
-import cognitivej.vision.face.persongroup.error.ListPersonsInPersonGroupAction;
 import cognitivej.vision.face.person.action.AddFaceToPersonAction;
 import cognitivej.vision.face.person.action.CreatePersonAction;
 import cognitivej.vision.face.person.action.DeletePersonAction;
 import cognitivej.vision.face.person.action.UpdatePersonAction;
+import cognitivej.vision.face.persongroup.error.ListPersonsInPersonGroupAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

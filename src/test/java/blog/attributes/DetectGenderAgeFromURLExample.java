@@ -205,6 +205,7 @@
 
 package blog.attributes;
 
+import cognitivej.vision.overlay.CognitiveJColourPalette;
 import cognitivej.vision.overlay.RectangleType;
 import cognitivej.vision.overlay.builder.ImageOverlayBuilder;
 import cognitivej.vision.face.scenario.FaceScenarios;
@@ -224,6 +225,6 @@ public class DetectGenderAgeFromURLExample {
                 System.getProperty("azure.cognitive.emotion.subscriptionKey"));
         ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(FILE_LOCATION_OF_US_PRESIDENT);
         Face face = faceScenarios.findSingleFace(FILE_LOCATION_OF_US_PRESIDENT);
-        imageOverlayBuilder.outlineFaceOnImage(face, RectangleType.FULL).writeGenderAndAgeBelow(face).launchViewer();
+        imageOverlayBuilder.outlineFaceOnImage(face, RectangleType.FULL, ImageOverlayBuilder.DEFAULT_BORDER_WEIGHT, CognitiveJColourPalette.POPPY).writeGenderAndAge(face, CognitiveJColourPalette.POPPY).launchViewer();
     }
 }

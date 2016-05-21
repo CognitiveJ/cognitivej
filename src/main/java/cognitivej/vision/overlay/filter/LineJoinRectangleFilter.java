@@ -212,7 +212,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class LineJoinRectangleFilter implements ImageFilter {
 

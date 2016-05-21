@@ -210,7 +210,6 @@ import cognitivej.vision.face.persongroup.PersistedFace;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

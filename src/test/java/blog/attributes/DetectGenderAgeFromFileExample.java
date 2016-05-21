@@ -208,6 +208,7 @@ package blog.attributes;
 import cognitivej.vision.face.scenario.FaceScenarios;
 import cognitivej.vision.face.task.Face;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
+import cognitivej.vision.overlay.RectangleTextPosition;
 import cognitivej.vision.overlay.RectangleType;
 import cognitivej.vision.overlay.builder.ImageOverlayBuilder;
 import org.apache.commons.io.FileUtils;
@@ -233,9 +234,8 @@ public class DetectGenderAgeFromFileExample {
         ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(imageFile);
         CognitiveJColourPalette colourPalette = CognitiveJColourPalette.STRAWBERRY;
         List<Face> faces = faceScenarios.findFaces(imageFile);
-        faces.forEach(face -> {
-            imageOverlayBuilder.outlineFaceOnImage(face, RectangleType.FULL, ImageOverlayBuilder.DEFAULT_BORDER_WEIGHT, colourPalette).writeGenderAndAgeAbove(face, colourPalette);
-        });
+        faces.forEach(face -> imageOverlayBuilder.outlineFaceOnImage(face, RectangleType.FULL,
+                ImageOverlayBuilder.DEFAULT_BORDER_WEIGHT, colourPalette).writeAge(face, colourPalette, RectangleTextPosition.TOP_OF));
         imageOverlayBuilder.launchViewer();
 
     }

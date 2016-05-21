@@ -215,9 +215,6 @@ import java.util.List;
 import static java.lang.System.*;
 
 
-/**
- * Simple example of detecting a face from a file.
- */
 public class DetectFacialLandmarksExample {
     private static final String IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg";
 
