@@ -131,7 +131,7 @@ public static void main(String[] args) {
 public static void main(String[] args) {
     FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
-    ImageOverlayBuilder.builder(CANDIDATE_1);
+    ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(CANDIDATE_1);
     imageOverlayBuilder.verify(CANDIDATE_2, faceScenarios.verifyFaces(CANDIDATE_1, CANDIDATE_2)).launchViewer();
 }
 ```
