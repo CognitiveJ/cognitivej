@@ -83,7 +83,7 @@ repositories {
 ###### Example
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE_URL);
     imageOverlayBuilder.outlineFacesOnImage(faceScenarios.findFaces(IMAGE_URL), RectangleType.FULL,
