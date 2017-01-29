@@ -271,4 +271,9 @@ public class ComputerVisionScenario {
     public OCRResult ocrImage(@NotNull String imageUrl) {
         return computerVisionBuilder.ocrOnImage(null, false, imageUrl).withResult();
     }
+
+    @NotNull
+    public OCRResult ocrImage(@NotNull InputStream image) {
+        return computerVisionBuilder.ocrOnImage(null, false, image).withResult();
+    }
 }
