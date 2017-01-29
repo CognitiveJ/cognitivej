@@ -398,11 +398,11 @@ public class FaceScenarios {
      * Find a faces within a local image
      *
      * @param image the local image
-     * @return the found faces
+     * @return the found emotion faces
      */
     @NotNull
-    public List<Face> findEmotionFaces(@NotNull InputStream image) {
-        return faceTaskBuilder.detectFace(true, true, FaceAttributes.ALL, image).withResult();
+    public List<Emotion> findEmotionFaces(@NotNull InputStream image) {
+        return emotionBuilder.emotionRecognition(image).withResult();
     }
 
 
@@ -410,7 +410,7 @@ public class FaceScenarios {
      * Find a faces within a local image
      *
      * @param image the image URL
-     * @return the found faces
+     * @return the found emotion faces
      */
     @NotNull
     public List<Emotion> findEmotionFaces(@NotNull String image) {

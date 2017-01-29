@@ -99,7 +99,7 @@ public static void main(String[] args) {
 ###### Example
 ```java
 public static void main(String[] args) throws IOException {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"), 
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     Face faces = faceScenarios.findSingleFace(IMAGE_URL);
     ImageOverlayBuilder.builder(IMAGE_URL).outFaceLandmarksOnImage(faces).launchViewer();
@@ -113,7 +113,7 @@ public static void main(String[] args) throws IOException {
 ###### Example
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     List<Face> faces = faceScenarios.findFaces(IMAGE_URL);
     ImageOverlayBuilder.builder(IMAGE_URL).outlineFacesOnImage(faces, RectangleType.CORNERED,
@@ -129,7 +129,7 @@ public static void main(String[] args) {
 ###### Example
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(CANDIDATE_1);
     imageOverlayBuilder.verify(CANDIDATE_2, faceScenarios.verifyFaces(CANDIDATE_1, CANDIDATE_2)).launchViewer();
@@ -143,7 +143,7 @@ public static void main(String[] args) {
 ###### Example
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"), 
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE);
     List<ImageHolder> candidates = candidates();
@@ -158,7 +158,7 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"), 
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE);
     faceScenarios.findFaces(IMAGE).stream().forEach(imageOverlayBuilder:: pixelateFaceOnImage);
@@ -173,7 +173,7 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"), 
+    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder.builder(IMAGE_URL).outlineEmotionsOnImage(faceScenarios.findEmotionFaces(IMAGE_URL)).launchViewer();
 }
