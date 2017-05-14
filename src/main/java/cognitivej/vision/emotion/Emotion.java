@@ -225,7 +225,7 @@ public class Emotion {
     }
 
     public class Scores {
-        double anger, contempt, disgust, fear, happiness, neutral, sadness, surprise;
+        public double anger, contempt, disgust, fear, happiness, neutral, sadness, surprise;
 
         public Map<EmotionScore, Double> scores() {
             return new HashMap<EmotionScore, Double>() {{
@@ -236,7 +236,7 @@ public class Emotion {
                 put(EmotionScore.HAPPINESS, happiness);
                 put(EmotionScore.NEUTRAL, neutral);
                 put(EmotionScore.SADNESS, sadness);
-                put(EmotionScore.SUPRISE, surprise);
+                put(EmotionScore.SURPRISE, surprise);
             }};
 
         }
@@ -249,7 +249,7 @@ public class Emotion {
     }
 
     public enum EmotionScore {
-        ANGER, CONTEMPT, DISGUST, FEAR, HAPPINESS, NEUTRAL, SADNESS, SUPRISE;
+        ANGER, CONTEMPT, DISGUST, FEAR, HAPPINESS, NEUTRAL, SADNESS, SURPRISE;
     }
 
 
