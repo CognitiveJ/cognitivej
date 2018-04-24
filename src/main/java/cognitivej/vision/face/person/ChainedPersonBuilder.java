@@ -218,18 +218,22 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 
 public class ChainedPersonBuilder extends ChainedBuilder<Person> {
+    
     private final String personGroupId;
     private Person person;
     private PersonBuilder personBuilder;
 
-    public ChainedPersonBuilder(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull Person person) {
+    public ChainedPersonBuilder(@NotNull CognitiveContext cognitiveContext,
+                                @NotNull String personGroupId,
+                                @NotNull Person person) {
         this.personGroupId = personGroupId;
         this.person = person;
         personBuilder = new PersonBuilder(cognitiveContext);
     }
 
-
     /**
+     * Create a personal from given information.
+     *
      * @param personName The name of the Person created
      * @param userData   optional userdata
      * @return CreatePersonAction
@@ -241,29 +245,37 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     }
 
     /**
+     * Add a face to a person.
+     *
      * @param userData Optional userdata
      * @param imageUrl the URL of the image face
      * @return AddFaceToPersonAction
      * @see PersonBuilder#addFaceToPerson(String, String, String, String)
      */
     @NotNull
-    public AddFaceToPersonAction addFaceToPerson(@Nullable String userData, @NotNull String imageUrl) {
+    public AddFaceToPersonAction addFaceToPerson(@Nullable String userData,
+                                                 @NotNull String imageUrl) {
         return personBuilder.addFaceToPerson(personGroupId, person.personId, userData, imageUrl);
     }
 
     /**
-     * @param userData         Optional userdata
+     * Add a face to a person.
+     *
+     * @param userData Optional userdata
      * @param imageInputStream an Image stream of the face
      * @return AddFaceToPersonAction
      * @see PersonBuilder#addFaceToPerson(String, String, String, InputStream)
      */
     @NotNull
-    public AddFaceToPersonAction addFaceToPerson(@Nullable String userData, @NotNull InputStream imageInputStream) {
-        return personBuilder.addFaceToPerson(personGroupId, person.personId, userData, imageInputStream);
+    public AddFaceToPersonAction addFaceToPerson(@Nullable String userData,
+                                                 @NotNull InputStream imageInputStream) {
+        return personBuilder.addFaceToPerson(
+                personGroupId, person.personId, userData, imageInputStream);
     }
 
-
     /**
+     * Delete a person.
+     *
      * @return DeletePersonAction
      * @see PersonBuilder#deletePerson(String, String)
      */
@@ -281,8 +293,9 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
         return personBuilder.deletePerson(personGroupId, person.personId);
     }
 
-
     /**
+     * Update a person with given info.
+     *
      * @param personName personName of the person
      * @param userData   optional userdata
      * @return UpdatePersonAction

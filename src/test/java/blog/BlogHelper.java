@@ -227,8 +227,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlogHelper {
-
+public final class BlogHelper {
+    
     public static List<ImageHolder> loadImagesFrom(String pathname) {
         List<ImageHolder> imageHolders = new ArrayList<>();
         try {
@@ -236,16 +236,17 @@ public class BlogHelper {
             gsonBuilder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
             gsonBuilder.registerTypeAdapter(Class.class, new ClassTypeAdapter());
             Gson gson = gsonBuilder.create();
-            imageHolders.addAll(gson.fromJson(FileUtils.readFileToString(new File(pathname), Charset.defaultCharset()), new TypeToken<List<ImageHolder>>() {
-                    }.getType())
+            imageHolders.addAll(gson.fromJson(FileUtils.readFileToString(
+                    new File(pathname), Charset.defaultCharset()),
+                    new TypeToken<List<ImageHolder>>() {}.getType())
             );
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
         return imageHolders;
     }
-
+    
     public static BufferedImage loadAndNameCandidateImages(ImageHolder imageHolder) {
         try {
             BufferedImage thumbnail = Thumbnails.of(new URL((String) imageHolder.firstImage().getImage()))

@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.person;
 
-
 import cognitivej.core.Utils;
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
@@ -219,131 +218,204 @@ import java.io.File;
 import java.io.InputStream;
 
 public class PersonBuilder {
+    
+    /**
+     * Message for bad person group ID.
+     */
+    private static final String INVALID_PERSON_GROUP_ID_MSG = "Person group ID is invalid. " +
+            "Valid format should be a string composed by numbers, " +
+            "english letters in lower case, '-', '_', " +
+            "and no longer than 64 characters.";
+    
     private final CognitiveContext cognitiveContext;
 
     public PersonBuilder(CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
+    
+    /**
+     * A helper method to validate person group ID.
+     *
+     * @param personGroupId the person group ID to validate.
+     */
+    private static void validatePersonGroupID(@NotNull String personGroupId) {
+        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$",
+                new ParameterValidationException("personGroupId", INVALID_PERSON_GROUP_ID_MSG));
+    }
 
     /**
-     * Create a new person in a specified person group for identify. A newly created person have no registered face, you can call Person - Add a Person Face API to add faces to the person.
+     * Create a new person in a specified person group for identify.
+     * A newly created person have no registered face, you can call
+     * Person - Add a Person Face API to add faces to the person.
      * <p>
      * The number of persons has a subscription limit.
      *
-     * @param personGroupId - The target person's belonging person group's ID.
-     * @param name          - Target person's display name. The maximum length is 128.
-     * @param userData      - 	Optional fields for user-provided data attached to a person. Size limit is 16KB.
+     * @param personGroupId The target person's belonging person group's ID.
+     * @param name Target person's display name. The maximum length is 128.
+     * @param userData Optional fields for user-provided data attached to a person.
+     * Size limit is 16KB.
      * @return a built {@link CreatePersonAction}
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523c">MS Cognitive Docs (Person  - CREATE)</a>
      */
     @NotNull
-    public CreatePersonAction createPerson(@NotNull String personGroupId, @NotNull String name, @Nullable String userData) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name", "The maximum length is 128"));
-        Validation.validate(userData, 16, new ParameterValidationException("userData", "The size limit is 16KB"));
+    public CreatePersonAction createPerson(@NotNull String personGroupId,
+                                           @NotNull String name,
+                                           @Nullable String userData) {
+        validatePersonGroupID(personGroupId);
+        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name",
+                "The maximum length is 128"));
+        Validation.validate(userData, 16, new ParameterValidationException("userData",
+                "The size limit is 16KB"));
         return new CreatePersonAction(cognitiveContext, personGroupId, name, userData);
     }
 
 
     /**
-     * Add a representative face to a person for identification. The input face is specified as an image with a targetFace rectangle. It returns an persistedFaceId representing the added face and this persistedFaceId will not expire.
+     * Add a representative face to a person for identification.
+     * The input face is specified as an image with a targetFace rectangle.
+     * It returns an persistedFaceId representing the added face and this persistedFaceId will not
+     * expire.
      * <p>
      * The persistedFaceId is only used in Face - Identify and Person - Delete a Person Face
      * Each person has a maximum of 248 faces.
      * <p>
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported.
+     * The image file size should be no larger than 4MB.
      * <p>
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
+     * The detectable face size is between 36x36 to 4096x4096 pixels.
+     * The faces out of this range will not be detected.
      * <p>
-     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.
+     * Rectangle specified by targetFace should contain exactly one face.
+     * Zero or multiple faces will be regarded as an error.
+     * Out of detectable face size, large head-pose, or very large occlusions will also result in
+     * fail to add a person face.
      * <p>
-     * The given rectangle specifies both face location and face size at the same time. There is no guarantee of corrent result if you are using rectangle which are not returned from Face - Detect.
+     * The given rectangle specifies both face location and face size at the same time. There is
+     * no guarantee of correct result if you are using rectangle which are not returned from
+     * Face - Detect.
      *
-     * @param personGroupId - The target person's belonging person group's ID.
-     * @param personId      - Target person that the face is added to.
-     * @param userData      - 	Optional fields for user-provided data attached to a person. Size limit is 16KB.
-     * @param url           - 	Face image URL. Valid image size is from 1KB to 4MB. Only one face is allowed per image.
+     * @param personGroupId The target person's belonging person group's ID.
+     * @param personId Target person that the face is added to.
+     * @param userData Optional fields for user-provided data attached to a person.
+     * Size limit is 16KB.
+     * @param url Face image URL. Valid image size is from 1KB to 4MB.
+     * Only one face is allowed per image.
      * @return a built {@link AddFaceToPersonAction}
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b">MS Cognitive Docs (Person - Add a Person Face)</a>
      */
     @NotNull
-    public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId, @NotNull String personId, @Nullable String userData, @NotNull String url) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(userData, 1, new ParameterValidationException("userData", "User-specified data for any purpose. The maximum length is 1KB."));
+    public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId,
+                                                 @NotNull String personId,
+                                                 @Nullable String userData,
+                                                 @NotNull String url) {
+        validatePersonGroupID(personGroupId);
+        Validation.validate(userData, 1, new ParameterValidationException("userData",
+                "User-specified data for any purpose. The maximum length is 1KB."));
         return new AddFaceToPersonAction(cognitiveContext, personGroupId, personId, userData, url);
     }
 
     /**
-     * Add a representative face to a person for identification. The input face is specified as an image with a targetFace rectangle. It returns an persistedFaceId representing the added face and this persistedFaceId will not expire.
+     * Add a representative face to a person for identification.
+     * The input face is specified as an image with a targetFace rectangle.
+     * It returns an persistedFaceId representing the added face and this
+     * persistedFaceId will not expire.
      * <p>
      * The persistedFaceId is only used in Face - Identify and Person - Delete a Person Face
      * Each person has a maximum of 248 faces.
      * <p>
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported.
+     * The image file size should be no larger than 4MB.
      * <p>
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
+     * The detectable face size is between 36x36 to 4096x4096 pixels.
+     * The faces out of this range will not be detected.
      * <p>
-     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.
+     * Rectangle specified by targetFace should contain exactly one face.
+     * Zero or multiple faces will be regarded as an error.
+     * Out of detectable face size, large head-pose, or very large occlusions will also result
+     * in fail to add a person face.
      * <p>
-     * The given rectangle specifies both face location and face size at the same time. There is no guarantee of corrent result if you are using rectangle which are not returned from Face - Detect.
+     * The given rectangle specifies both face location and face size at the same time.
+     * There is no guarantee of corrent result if you are using rectangle which are not returned
+     * from Face - Detect.
      *
-     * @param personGroupId    - The target person's belonging person group's ID.
-     * @param personId         - Target person that the face is added to.
-     * @param userData         - 	Optional fields for user-provided data attached to a person. Size limit is 16KB.
-     * @param imageInputStream - 	Face image image. Valid image size is from 1KB to 4MB. Only one face is allowed per image.
+     * @param personGroupId The target person's belonging person group's ID.
+     * @param personId Target person that the face is added to.
+     * @param userData Optional fields for user-provided data attached to a person.
+     * Size limit is 16KB.
+     * @param imageInputStream Face image image.
+     * Valid image size is from 1KB to 4MB. Only one face is allowed per image.
      * @return a built {@link AddFaceToPersonAction}
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b">MS Cognitive Docs (Person - Add a Person Face)</a>
      */
     @NotNull
-    public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId, @NotNull String personId, @Nullable String userData, @NotNull InputStream imageInputStream) {
-        return new AddFaceToPersonAction(cognitiveContext, personGroupId, personId, userData, imageInputStream);
+    public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId,
+                                                 @NotNull String personId,
+                                                 @Nullable String userData,
+                                                 @NotNull InputStream imageInputStream) {
+        return new AddFaceToPersonAction(
+                cognitiveContext, personGroupId, personId, userData, imageInputStream);
 
     }
 
     /**
-     * Add a representative face to a person for identification. The input face is specified as an image with a targetFace rectangle. It returns an persistedFaceId representing the added face and this persistedFaceId will not expire.
+     * Add a representative face to a person for identification.
+     * The input face is specified as an image with a targetFace rectangle.
+     * It returns an persistedFaceId representing the added face and this persistedFaceId
+     * will not expire.
      * <p>
      * The persistedFaceId is only used in Face - Identify and Person - Delete a Person Face
      * Each person has a maximum of 248 faces.
      * <p>
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported.
+     * The image file size should be no larger than 4MB.
      * <p>
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
+     * The detectable face size is between 36x36 to 4096x4096 pixels.
+     * The faces out of this range will not be detected.
      * <p>
-     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.
+     * Rectangle specified by targetFace should contain exactly one face.
+     * Zero or multiple faces will be regarded as an error. Out of detectable face size,
+     * large head-pose, or very large occlusions will also result in fail to add a person face.
      * <p>
-     * The given rectangle specifies both face location and face size at the same time. There is no guarantee of corrent result if you are using rectangle which are not returned from Face - Detect.
+     * The given rectangle specifies both face location and face size at the same time.
+     * There is no guarantee of corrent result if you are using rectangle which are not returned
+     * from Face - Detect.
      *
      * @param personGroupId The target person's belonging person group's ID.
-     * @param personId      Target person that the face is added to.
-     * @param userData      Optional fields for user-provided data attached to a person. Size limit is 16KB.
-     * @param image         Face image image (as a file). Valid image size is from 1KB to 4MB. Only one face is allowed per image.
+     * @param personId Target person that the face is added to.
+     * @param userData Optional fields for user-provided data attached to a person.
+     * Size limit is 16KB.
+     * @param image Face image image (as a file). Valid image size is from 1KB to 4MB.
+     * Only one face is allowed per image.
      * @return a built {@link AddFaceToPersonAction}
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b">MS Cognitive Docs (Person - Add a Person Face)</a>
      */
     @NotNull
-    public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId, @NotNull String personId, String userData, File image) {
-        return addFaceToPerson(personGroupId, personId, userData, Utils.fileToFileInputStream(image));
-
+    public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId,
+                                                 @NotNull String personId,
+                                                 String userData,
+                                                 File image) {
+        return addFaceToPerson(personGroupId, personId, userData,
+                Utils.fileToFileInputStream(image));
     }
 
     /**
      * Retrieve a person's information, including registered faces, name and userData.
      *
-     * @param personGroupId - The target person's belonging person group's ID.
-     * @param personId      - The target person ID.
+     * @param personGroupId The target person's belonging person group's ID.
+     * @param personId The target person ID.
      * @return a built {@link GetPersonAction}
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523f">MS Cognitive Docs (Person - Get a Person)</a>
      */
     @NotNull
     public GetPersonAction getPerson(@NotNull String personGroupId, @NotNull String personId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validatePersonGroupID(personGroupId);
         return new GetPersonAction(cognitiveContext, personGroupId, personId);
     }
 
 
     /**
-     * Delete an existing person from a person group. Persisted face images of the person will also be deleted.
+     * Delete an existing person from a person group. Persisted face images of the person will also
+     * be deleted.
      *
      * @param personGroupId - The target person's belonging person group's ID.
      * @param personId      - The target person ID.
@@ -351,8 +423,9 @@ public class PersonBuilder {
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523d">MS Cognitive Docs (Person - Delete a Person)</a>
      */
     @NotNull
-    public DeletePersonAction deletePerson(@NotNull String personGroupId, @NotNull String personId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+    public DeletePersonAction deletePerson(@NotNull String personGroupId,
+                                           @NotNull String personId) {
+        validatePersonGroupID(personGroupId);
         return new DeletePersonAction(cognitiveContext, personGroupId, personId);
     }
 
@@ -362,20 +435,26 @@ public class PersonBuilder {
      * @param personGroupId - The target person's belonging person group's ID.
      * @param personId      - The target person ID.
      * @param name          - Target person's display name. The maximum length is 128.
-     * @param userData      - 	Optional fields for user-provided data attached to a person. Size limit is 16KB.
+     * @param userData      - 	Optional fields for user-provided data attached to a person.
+     * Size limit is 16KB.
      * @return a built {@link UpdatePersonAction}
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395242">MS Cognitive Docs (Person - Update a Person)</a>
      */
     @NotNull
-    public UpdatePersonAction updatePerson(@NotNull String personGroupId, @NotNull String personId, String name, String userData) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name", "The maximum length is 128"));
-        Validation.validate(userData, 16, new ParameterValidationException("userData", "The size limit is 16KB"));
+    public UpdatePersonAction updatePerson(@NotNull String personGroupId,
+                                           @NotNull String personId,
+                                           String name, String userData) {
+        validatePersonGroupID(personGroupId);
+        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name",
+                "The maximum length is 128"));
+        Validation.validate(userData, 16, new ParameterValidationException("userData",
+                "The size limit is 16KB"));
         return new UpdatePersonAction(cognitiveContext, personGroupId, personId, name, userData);
     }
 
     /**
-     * Retrieve information about a face (specified by face ID, person ID and its belonging person group ID).
+     * Retrieve information about a face (specified by face ID, person ID and its belonging person
+     * group ID).
      *
      * @param personGroupId   - The target person's belonging person group's ID.
      * @param personId        - The target person ID.
@@ -384,8 +463,10 @@ public class PersonBuilder {
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395240">MS Cognitive Docs (Person - Get a Person Face)</a>
      */
     @NotNull
-    public GetPersonFaceAction getPersonFace(@NotNull String personGroupId, @NotNull String personId, String persistedFaceId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+    public GetPersonFaceAction getPersonFace(@NotNull String personGroupId,
+                                             @NotNull String personId,
+                                             String persistedFaceId) {
+        validatePersonGroupID(personGroupId);
         return new GetPersonFaceAction(cognitiveContext, personGroupId, personId, persistedFaceId);
     }
 
@@ -399,9 +480,12 @@ public class PersonBuilder {
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523e">MS Cognitive Docs (Person - Delete a Person Face)</a>
      */
     @NotNull
-    public DeletePersonFaceAction deletePersonFace(@NotNull String personGroupId, String personId, String persistedFaceId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        return new DeletePersonFaceAction(cognitiveContext, personGroupId, personId, persistedFaceId);
+    public DeletePersonFaceAction deletePersonFace(@NotNull String personGroupId,
+                                                   String personId,
+                                                   String persistedFaceId) {
+        validatePersonGroupID(personGroupId);
+        return new DeletePersonFaceAction(
+                cognitiveContext, personGroupId, personId, persistedFaceId);
     }
 
 
@@ -416,14 +500,20 @@ public class PersonBuilder {
      * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395243">MS Cognitive Docs (Person - Update a Person Face)</a>
      */
     @NotNull
-    public UpdateFaceToPersonAction updatePersonFace(@NotNull String personGroupId, @NotNull String personId, @NotNull String persistedFaceId, @Nullable String userData) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(userData, 1, new ParameterValidationException("userData", "User-specified data for any purpose. The maximum length is 1KB."));
-        return new UpdateFaceToPersonAction(cognitiveContext, personGroupId, personId, persistedFaceId, userData);
+    public UpdateFaceToPersonAction updatePersonFace(@NotNull String personGroupId,
+                                                     @NotNull String personId,
+                                                     @NotNull String persistedFaceId,
+                                                     @Nullable String userData) {
+        validatePersonGroupID(personGroupId);
+        Validation.validate(userData, 1, new ParameterValidationException("userData",
+                "User-specified data for any purpose. The maximum length is 1KB."));
+        return new UpdateFaceToPersonAction(
+                cognitiveContext, personGroupId, personId, persistedFaceId, userData);
     }
 
     /**
-     * List all people in a person group, and retrieve person information (including person ID, name, user data and registered faces of the person).
+     * List all people in a person group, and retrieve person information (including person ID,
+     * name, user data and registered faces of the person).
      *
      * @param personGroupId - The target person's belonging person group's ID.
      * @return a built {@link ListPersonsInPersonGroupAction}
@@ -431,7 +521,7 @@ public class PersonBuilder {
      */
     @NotNull
     public ListPersonsInPersonGroupAction listPersonsInPersonGroup(@NotNull String personGroupId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validatePersonGroupID(personGroupId);
         return new ListPersonsInPersonGroupAction(cognitiveContext, personGroupId);
     }
 }

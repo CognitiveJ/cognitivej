@@ -210,11 +210,10 @@ import cognitivej.core.CognitiveResult;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Person extends CognitiveResult {
-    public String personId, name, userData;
+    
+    public final String personId, name, userData;
     List<String> persistedFaceIds = new ArrayList<>();
-
 
     public Person(String personId, String name, String userData) {
         this.personId = personId;
@@ -231,6 +230,5 @@ public class Person extends CognitiveResult {
                 ", persistedFaceIds=" + persistedFaceIds +
                 '}';
     }
-
-
+    
 }
