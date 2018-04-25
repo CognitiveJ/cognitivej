@@ -207,8 +207,10 @@ package cognitivej.vision.face.task;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class FaceGrouping {
@@ -217,12 +219,36 @@ public final class FaceGrouping {
      * A partition of the original faces based on face similarity.
      * Groups are ranked by number of faces.
      */
-    private final List<List<String>> groups = new ArrayList<>();
+    private final List<List<String>> groups;
     
     /**
      * Face ids array of faces that cannot find any similar faces from original faces.
      */
-    private final List<String> messyGroup = new ArrayList<>();
+    private final List<String> messyGroup;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private FaceGrouping() {
+        groups = null;
+        messyGroup = null;
+    }
+    
+    @NotNull
+    public List<List<String>> getGroups() {
+        if (groups == null) {
+            throw new RuntimeException("Groups are not properly initialized.");
+        }
+        return Collections.unmodifiableList(groups);
+    }
+    
+    @NotNull
+    public List<String> getMessyGroup() {
+        if (messyGroup == null) {
+            throw new RuntimeException("MessyGroup are not properly initialized.");
+        }
+        return Collections.unmodifiableList(messyGroup);
+    }
     
     @Override
     public String toString() {

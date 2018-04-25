@@ -3,20 +3,19 @@ package examples;
 import cognitivej.vision.computervision.ComputerVisionScenario;
 import cognitivej.vision.computervision.ImageDescription;
 import cognitivej.vision.computervision.OCRResult;
-import cognitivej.vision.face.facelist.FaceList;
-import cognitivej.vision.face.persongroup.PersistedFace;
-import cognitivej.vision.face.persongroup.PersonGroup;
 import cognitivej.vision.face.scenario.FaceScenarios;
 import cognitivej.vision.face.scenario.ImageHolder;
 import cognitivej.vision.face.scenario.ImageNamingStrategy;
 import cognitivej.vision.face.scenario.People;
 import cognitivej.vision.face.scenario.ScenarioHelper;
 import cognitivej.vision.face.task.Face;
+import cognitivej.vision.face.task.FaceGrouping;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import cognitivej.vision.overlay.RectangleType;
 import cognitivej.vision.overlay.builder.ImageOverlayBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.System.getProperty;
@@ -69,22 +68,15 @@ public final class Examples {
                 RectangleType.FULL, CognitiveJColourPalette.STRAWBERRY).launchViewer();
     }
     
+    /**
+     * Find similar faces and group them.
+     */
     public static void faceSimilar() {
-        String adHocFaceListID = "ad-hoc";
-        FaceList faceList = faceScenarios()
-                .faceList()
-                .createFaceList(adHocFaceListID, "Ad Hoc", null)
-                .withResult();
-        PersistedFace persistedFace = faceScenarios().faceList()
-                .addFaceToFaceList(adHocFaceListID, null, null, OBAMA_1).then()
-                .addFaceToFaceList(adHocFaceListID, OBAMA_2).then()
-                .addFaceToFaceList(adHocFaceListID, GABEN_1).then()
-                .addFaceToFaceList(adHocFaceListID, GABEN_2).then()
-                .addFaceToFaceList(adHocFaceListID, GABEN_3).then()
-                .addFaceToFaceList(adHocFaceListID, JEFF_DEAN_1).then()
-                .addFaceToFaceList(adHocFaceListID, JEFF_DEAN_2)
-                .withResult();
-        // TODO
+        FaceGrouping faceGrouping = faceScenarios().groupFaceListOnSingleFace(Arrays.asList(
+                OBAMA_1, OBAMA_2, GABEN_1, GABEN_2, GABEN_3, JEFF_DEAN_1, JEFF_DEAN_2))
+                .getGroupings();
+        System.out.println("Grouped: " + faceGrouping.getGroups());
+        System.out.println("UnGrouped: " + faceGrouping.getMessyGroup());
     }
     
     /**
