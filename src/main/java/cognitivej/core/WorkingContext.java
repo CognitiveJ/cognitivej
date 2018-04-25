@@ -215,7 +215,7 @@ import java.util.Map;
 public final class WorkingContext {
     
     private Map<String, String> headers = new HashMap<>();
-    private Map<String, String> pathVaribles = new HashMap<>();
+    private Map<String, String> pathVariables = new HashMap<>();
     private Map<String, Object> queryParams = new HashMap<>();
     private Map<String, Object> payload = new HashMap<>();
     private String path;
@@ -241,7 +241,7 @@ public final class WorkingContext {
     
     @NotNull
     public WorkingContext addPathVariable(@NotNull String key, @NotNull String value) {
-        pathVaribles.put(key, value);
+        pathVariables.put(key, value);
         return this;
     }
     
@@ -265,8 +265,8 @@ public final class WorkingContext {
         return payload;
     }
     
-    public Map<String, String> getPathVaribles() {
-        return pathVaribles;
+    public Map<String, String> getPathVariables() {
+        return pathVariables;
     }
     
     public WorkingContext httpMethod(HttpMethod httpMethod) {
@@ -280,7 +280,7 @@ public final class WorkingContext {
     
     @NotNull
     public String getPathBuilt() {
-        return new StrSubstitutor(pathVaribles).replace(path);
+        return new StrSubstitutor(pathVariables).replace(path);
     }
     
     @NotNull
