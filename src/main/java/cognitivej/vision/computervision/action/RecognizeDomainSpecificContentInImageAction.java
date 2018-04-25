@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.Utils;
 import cognitivej.core.WorkingContext;
@@ -225,43 +224,48 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-public class RecognizeDomainSpecificContentInImageAction extends RestAction<DomainSpecificContent> {
+public final class RecognizeDomainSpecificContentInImageAction
+        extends RestAction<DomainSpecificContent> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final List<DomainSpecificDetails> models;
-
-
-    public RecognizeDomainSpecificContentInImageAction(@NotNull CognitiveContext cognitiveContext, @NotNull List<DomainSpecificDetails> models, @NotNull Object image) {
+    
+    public RecognizeDomainSpecificContentInImageAction(@NotNull CognitiveContext cognitiveContext,
+                                                       @NotNull List<DomainSpecificDetails> models,
+                                                       @NotNull Object image) {
         super(cognitiveContext);
         this.models = models;
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("vision/v1.0/models/${models}/analyze")
                 .httpMethod(HttpMethod.POST);
-
-        if (Utils.isNotEmpty(models))
+        if (Utils.isNotEmpty(models)) {
             workingContext().addPathVariable("models", StringUtils.join(models, ','));
-        if (image instanceof String)
+        }
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return DomainSpecificContent.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidVisionImageErrorHandler());
         errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
     }
+    
 }

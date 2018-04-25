@@ -206,19 +206,34 @@
 package cognitivej.vision.computervision.action;
 
 import cognitivej.vision.computervision.ImageAnalysis;
+import cognitivej.vision.computervision.ImageAnalysis.Tags;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-
-public class TagImageResponse {
-    public List<ImageAnalysis.Tags> tags = new ArrayList<>();
-
+public final class TagImageResponse {
+    
+    private final List<ImageAnalysis.Tags> tags;
+    
+    private TagImageResponse() {
+        tags = null;
+    }
+    
+    @NotNull
+    public List<Tags> getTags() {
+        if (tags == null) {
+            throw new RuntimeException("Tags are not properly initialized!");
+        }
+        return Collections.unmodifiableList(tags);
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }

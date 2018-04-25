@@ -218,13 +218,30 @@ import cognitivej.vision.face.scenario.VerificationSet;
 import cognitivej.vision.face.task.Face;
 import cognitivej.vision.face.task.FaceAttributes;
 import cognitivej.vision.face.task.Verification;
-import cognitivej.vision.overlay.*;
-import cognitivej.vision.overlay.filter.*;
+import cognitivej.vision.overlay.BorderWeight;
+import cognitivej.vision.overlay.CognitiveJColourPalette;
+import cognitivej.vision.overlay.CopyImagetoClipBoard;
+import cognitivej.vision.overlay.PointLocations;
+import cognitivej.vision.overlay.RectangleTextPosition;
+import cognitivej.vision.overlay.RectangleType;
+import cognitivej.vision.overlay.filter.ApplyCaptionOutsideImageFilter;
+import cognitivej.vision.overlay.filter.LineJoinRectangleFilter;
+import cognitivej.vision.overlay.filter.MergeImagesFilter;
+import cognitivej.vision.overlay.filter.OverlayPointsFilter;
+import cognitivej.vision.overlay.filter.OverlayRectangleFilter;
+import cognitivej.vision.overlay.filter.PixelatedImageSectionFilter;
+import cognitivej.vision.overlay.filter.TextOnRectangleFilter;
 import org.apache.commons.lang3.text.WordUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -278,7 +295,7 @@ public final class ImageOverlayBuilder {
      */
     @NotNull
     public ImageOverlayBuilder ocrImage(@NotNull OCRResult ocrResult) {
-        ocrResult.regions.forEach(this::outlineOCRRegion);
+        ocrResult.getRegions().forEach(this::outlineOCRRegion);
         return this;
     }
     
@@ -290,7 +307,7 @@ public final class ImageOverlayBuilder {
      */
     @NotNull
     private ImageOverlayBuilder outlineOCRRegion(@NotNull OCRResult.Region region) {
-        region.lines.forEach(this::outlineOCRLine);
+        region.getLines().forEach(this::outlineOCRLine);
         return this;
     }
     
@@ -300,7 +317,7 @@ public final class ImageOverlayBuilder {
                 line.boundingBoxAsAwtRectangle(), RectangleType.FULL, BorderWeight.THINNER,
                 CognitiveJColourPalette.randomColour());
         bufferedImage = overlayRectangleFilter.applyFilter(bufferedImage);
-        line.words.forEach(this::outlineOCRWord);
+        line.getWords().forEach(this::outlineOCRWord);
         return this;
         
     }
@@ -315,7 +332,9 @@ public final class ImageOverlayBuilder {
                 word.boundingBoxAsAwtRectangle(),
                 new Insets(0, 0, 0, 0),
                 new Font("Noto Sans", Font.PLAIN, 12),
-                CognitiveJColourPalette.TRANS_GRAY, RectangleTextPosition.BOTTOM_OF, word.text);
+                CognitiveJColourPalette.TRANS_GRAY,
+                RectangleTextPosition.BOTTOM_OF,
+                word.getText());
         bufferedImage = textOnRectangleFilter.applyFilter(
                 overlayRectangleFilter.applyFilter(bufferedImage));
         return this;

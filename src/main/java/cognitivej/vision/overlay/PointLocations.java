@@ -205,7 +205,7 @@
 
 package cognitivej.vision.overlay;
 
-import java.awt.*;
+import java.awt.Point;
 
 
 public enum PointLocations implements Location {

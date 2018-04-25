@@ -208,7 +208,11 @@ package cognitivej.vision.face.task;
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
 import cognitivej.vision.face.CognitiveContext;
-import cognitivej.vision.face.task.action.*;
+import cognitivej.vision.face.task.action.DetectFaceAction;
+import cognitivej.vision.face.task.action.FindSimilarFacesAction;
+import cognitivej.vision.face.task.action.GroupFacesAction;
+import cognitivej.vision.face.task.action.IdentifyFacesAction;
+import cognitivej.vision.face.task.action.VerifyFaceAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;

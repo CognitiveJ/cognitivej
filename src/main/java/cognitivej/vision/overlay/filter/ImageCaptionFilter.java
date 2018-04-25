@@ -208,7 +208,10 @@ package cognitivej.vision.overlay.filter;
 import cognitivej.vision.overlay.Location;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public class ImageCaptionFilter implements ImageFilter {

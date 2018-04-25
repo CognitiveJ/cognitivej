@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -220,50 +219,51 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class GetThumbnailAction extends RestAction<InputStream> {
+public final class GetThumbnailAction extends RestAction<InputStream> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final int width;
     private final int height;
     private final boolean smartCropping;
-
-
-    public GetThumbnailAction(@NotNull CognitiveContext cognitiveContext, int width, int height, boolean smartCropping, @NotNull Object image) {
+    
+    public GetThumbnailAction(@NotNull CognitiveContext cognitiveContext, int width, int height,
+                              boolean smartCropping, @NotNull Object image) {
         super(cognitiveContext);
         this.width = width;
         this.height = height;
-
         this.smartCropping = smartCropping;
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("vision/v1.0/generateThumbnail")
                 .httpMethod(HttpMethod.POST);
-
-
+        
         workingContext().addQueryParameter("width", String.valueOf(width));
         workingContext().addQueryParameter("height", String.valueOf(height));
         workingContext().addQueryParameter("smartCropping", String.valueOf(smartCropping));
-        if (image instanceof String)
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return InputStream.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidVisionImageErrorHandler());
         errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
     }
+    
 }

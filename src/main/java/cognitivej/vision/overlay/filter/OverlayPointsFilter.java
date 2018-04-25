@@ -210,7 +210,11 @@ import cognitivej.vision.overlay.BorderWeight;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.List;
 

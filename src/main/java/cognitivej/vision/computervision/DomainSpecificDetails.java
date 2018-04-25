@@ -205,12 +205,21 @@
 
 package cognitivej.vision.computervision;
 
-
 import java.util.Arrays;
 import java.util.List;
 
 public enum DomainSpecificDetails {
-    celebrities;
-
+    
+    CELEBRITIES;
+    
+    /**
+     * A list of all {@code DomainSpecificDetails}.
+     */
     public static final List<DomainSpecificDetails> ALL = Arrays.asList(values());
+    
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
+    
 }

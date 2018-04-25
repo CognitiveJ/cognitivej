@@ -205,22 +205,58 @@
 
 package cognitivej.vision.computervision;
 
-
+import cognitivej.vision.computervision.ImageAnalysis.Celebrity;
+import cognitivej.vision.computervision.ImageDescription.ImageDescriptionMetaData;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class DomainSpecificContent {
-    public String requestId;
-    public ImageDescription.ImageDescriptionMetaData metadata;
-    public List<ImageAnalysis.Celebrity> results = new ArrayList<>();
-
+public final class DomainSpecificContent {
+    
+    private final String requestId;
+    private final ImageDescription.ImageDescriptionMetaData metadata;
+    private final List<ImageAnalysis.Celebrity> results;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private DomainSpecificContent() {
+        requestId = null;
+        metadata = null;
+        results = null;
+    }
+    
+    @NotNull
+    public String getRequestId() {
+        if (requestId == null) {
+            throw new RuntimeException("RequestID is not properly initialized!");
+        }
+        return requestId;
+    }
+    
+    @NotNull
+    public ImageDescriptionMetaData getMetadata() {
+        if (metadata == null) {
+            throw new RuntimeException("MetaData is not properly initialized!");
+        }
+        return metadata;
+    }
+    
+    @NotNull
+    public List<Celebrity> getResults() {
+        if (results == null) {
+            throw new RuntimeException("Results are not properly initialized!");
+        }
+        return Collections.unmodifiableList(results);
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }
 

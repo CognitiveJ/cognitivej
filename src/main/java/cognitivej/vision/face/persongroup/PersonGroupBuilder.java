@@ -208,7 +208,13 @@ package cognitivej.vision.face.persongroup;
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
 import cognitivej.vision.face.CognitiveContext;
-import cognitivej.vision.face.persongroup.action.*;
+import cognitivej.vision.face.persongroup.action.CreatePersonGroupAction;
+import cognitivej.vision.face.persongroup.action.DeletePersonGroupAction;
+import cognitivej.vision.face.persongroup.action.GetPersonGroupAction;
+import cognitivej.vision.face.persongroup.action.GetPersonGroupTrainingStatusAction;
+import cognitivej.vision.face.persongroup.action.ListPersonGroupsAction;
+import cognitivej.vision.face.persongroup.action.TrainPersonGroupAction;
+import cognitivej.vision.face.persongroup.action.UpdatePersonGroupAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

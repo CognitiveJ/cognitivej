@@ -205,10 +205,15 @@
 
 package cognitivej.vision.computervision;
 
-
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
-import cognitivej.vision.computervision.action.*;
+import cognitivej.vision.computervision.action.AnalyzeImageAction;
+import cognitivej.vision.computervision.action.DescribeImageAction;
+import cognitivej.vision.computervision.action.GetThumbnailAction;
+import cognitivej.vision.computervision.action.ListDomainSpecificModelsAction;
+import cognitivej.vision.computervision.action.OCROnImageAction;
+import cognitivej.vision.computervision.action.RecognizeDomainSpecificContentInImageAction;
+import cognitivej.vision.computervision.action.TagImageAction;
 import cognitivej.vision.face.CognitiveContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -216,198 +221,233 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.util.List;
 
-public class ComputerVisionBuilder {
-
+public final class ComputerVisionBuilder {
+    
     private final CognitiveContext cognitiveContext;
-
+    
     public ComputerVisionBuilder(@NotNull CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
-
-
+    
+    
     /**
-     * This operation generates a description of an image in human readable language with complete sentences.
-     * The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.
+     * This operation generates a description of an image in human readable language with complete
+     * sentences.
+     * The description is based on a collection of content tags, which are also returned by the
+     * operation. More than one description can be generated for each image.
      * Descriptions are ordered by their confidence score. All descriptions are in English.
      *
      * @param maxCandidates Maximum number of candidate descriptions to be returned
-     * @param imageUrl      URL of input image.
+     * @param imageUrl URL of input image.
      * @return a built {@link DescribeImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fe">MS Cognitive Docs (Computer Vision - Describe Image)</a>
      */
     @NotNull
     public DescribeImageAction describeImage(int maxCandidates, @NotNull String imageUrl) {
         return new DescribeImageAction(cognitiveContext, maxCandidates, imageUrl);
     }
-
+    
     /**
-     * This operation generates a description of an image in human readable language with complete sentences.
-     * The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.
+     * This operation generates a description of an image in human readable language with complete
+     * sentences.
+     * The description is based on a collection of content tags, which are also returned by the
+     * operation. More than one description can be generated for each image.
      * Descriptions are ordered by their confidence score. All descriptions are in English.
      *
      * @param maxCandidates Maximum number of candidate descriptions to be returned
-     * @param image         inputsteam of local image.
+     * @param image input steam of local image.
      * @return a built {@link DescribeImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fe">MS Cognitive Docs (Computer Vision - Describe Image)</a>
      */
     @NotNull
     public DescribeImageAction describeImage(int maxCandidates, @NotNull InputStream image) {
         return new DescribeImageAction(cognitiveContext, maxCandidates, image);
     }
-
+    
     /**
      * This operation extracts a rich set of visual features based on the image content.
      *
-     * @param visualFeatures        A string indicating what visual feature types to return
+     * @param visualFeatures A string indicating what visual feature types to return
      * @param domainSpecificDetails indicating which domain-specific details to return
-     * @param imageUrl              URL of input image.
+     * @param imageUrl URL of input image.
      * @return a built {@link AnalyzeImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa">MS Cognitive Docs (Computer Vision - Analyze Image)</a>
      */
     @NotNull
-    public AnalyzeImageAction analyzeImage(@NotNull List<VisualFeatures> visualFeatures, @NotNull List<DomainSpecificDetails> domainSpecificDetails, @NotNull String imageUrl) {
-        return new AnalyzeImageAction(cognitiveContext, visualFeatures, domainSpecificDetails, imageUrl);
+    public AnalyzeImageAction analyzeImage(
+            @NotNull List<VisualFeatures> visualFeatures,
+            @NotNull List<DomainSpecificDetails> domainSpecificDetails,
+            @NotNull String imageUrl) {
+        return new AnalyzeImageAction(
+                cognitiveContext, visualFeatures, domainSpecificDetails, imageUrl);
     }
-
+    
     /**
      * This operation extracts a rich set of visual features based on the image content.
      *
-     * @param visualFeatures        A string indicating what visual feature types to return
+     * @param visualFeatures A string indicating what visual feature types to return
      * @param domainSpecificDetails indicating which domain-specific details to return
-     * @param image                 Image input image.
+     * @param image Image input image.
      * @return a built {@link AnalyzeImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fa">MS Cognitive Docs (Computer Vision - Analyze Image)</a>
      */
     @NotNull
-    public AnalyzeImageAction analyzeImage(@NotNull List<VisualFeatures> visualFeatures, @NotNull List<DomainSpecificDetails> domainSpecificDetails, @NotNull InputStream image) {
-        return new AnalyzeImageAction(cognitiveContext, visualFeatures, domainSpecificDetails, image);
+    public AnalyzeImageAction analyzeImage(
+            @NotNull List<VisualFeatures> visualFeatures,
+            @NotNull List<DomainSpecificDetails> domainSpecificDetails,
+            @NotNull InputStream image) {
+        return new AnalyzeImageAction(
+                cognitiveContext, visualFeatures, domainSpecificDetails, image);
     }
-
-
+    
     /**
-     * Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+     * Optical Character Recognition (OCR) detects text in an image and extracts the recognized
+     * characters into a machine-usable character stream.
      * <p>
      * Upon success, the OCR results will be returned.
      * <p>
-     * Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+     * Upon failure, the error code together with an error message will be returned. The error code
+     * can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,
+     * NotSupportedLanguage, or InternalServerError.
      *
-     * @param language          The BCP-47 language code of the text to be detected in the image.The default value is "unk", then the service will auto detect the language of the text in the image.
-     * @param detectOrientation Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it's upside-down).
-     * @param imageUrl          URL of input image.
+     * @param language The BCP-47 language code of the text to be detected in the image.The default
+     * value is "unk", then the service will auto detect the language of the text in the image.
+     * @param detectOrientation Whether detect the text orientation in the image. With
+     * detectOrientation=true the OCR service tries to detect the image orientation and correct it
+     * before further processing (e.g. if it's upside-down).
+     * @param imageUrl URL of input image.
      * @return a built {@link OCROnImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fc">MS Cognitive Docs (Computer Vision - OCR)</a>
      */
     @NotNull
-    public OCROnImageAction ocrOnImage(@Nullable String language, boolean detectOrientation, @NotNull String imageUrl) {
+    public OCROnImageAction ocrOnImage(@Nullable String language, boolean detectOrientation,
+                                       @NotNull String imageUrl) {
         return new OCROnImageAction(cognitiveContext, language, detectOrientation, imageUrl);
     }
-
+    
     /**
-     * Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.
+     * Optical Character Recognition (OCR) detects text in an image and extracts the recognized
+     * characters into a machine-usable character stream.
      * <p>
      * Upon success, the OCR results will be returned.
      * <p>
-     * Upon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage, NotSupportedLanguage, or InternalServerError.
+     * Upon failure, the error code together with an error message will be returned. The error code
+     * can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,
+     * NotSupportedLanguage, or InternalServerError.
      *
-     * @param language          The BCP-47 language code of the text to be detected in the image.The default value is "unk", then the service will auto detect the language of the text in the image.
-     * @param detectOrientation Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it's upside-down).
-     * @param image             InputStream of local image.
+     * @param language The BCP-47 language code of the text to be detected in the image.
+     * The default value is "unk", then the service will auto detect the language of the text in
+     * the image.
+     * @param detectOrientation Whether detect the text orientation in the image. With
+     * detectOrientation=true the OCR service tries to detect the image orientation and correct it
+     * before further processing (e.g. if it's upside-down).
+     * @param image InputStream of local image.
      * @return a built {@link OCROnImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fc">MS Cognitive Docs (Computer Vision - OCR)</a>
      */
     @NotNull
-    public OCROnImageAction ocrOnImage(@NotNull String language, boolean detectOrientation, @NotNull InputStream image) {
+    public OCROnImageAction ocrOnImage(@Nullable String language, boolean detectOrientation,
+                                       @NotNull InputStream image) {
         return new OCROnImageAction(cognitiveContext, language, detectOrientation, image);
     }
-
+    
     /**
      * This operation generates a thumbnail image with the user-specified width and height.
-     * <p>By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI.
-     * <p>Smart cropping helps when you specify an aspect ratio that differs from that of the input image
+     * <p>By default, the service analyzes the image, identifies the region of interest (ROI), and
+     * generates smart cropping coordinates based on the ROI.
+     * <p>Smart cropping helps when you specify an aspect ratio that differs from that of the input
+     * image
      *
-     * @param width     Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
-     * @param height    Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.
+     * @param width Width of the thumbnail. It must be between 1 and 1024. Recommended minimum of
+     * 50.
+     * @param height Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of
+     * 50.
      * @param smartCrop Boolean flag for enabling smart cropping.
-     * @param imageUrl  URL of input image.
+     * @param imageUrl URL of input image.
      * @return a built {@link GetThumbnailAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fb">MS Cognitive Docs (Computer Vision - Get Thumbnail)</a>
      */
     @NotNull
-    public GetThumbnailAction getThumbnail(int width, int height, boolean smartCrop, @NotNull String imageUrl) {
-        Validation.validateInt(width, 1024, new ParameterValidationException("width", "It must be between 1 and 1024. Recommended minimum of 50."));
-        Validation.validateInt(height, 1024, new ParameterValidationException("height", "It must be between 1 and 1024. Recommended minimum of 50."));
+    public GetThumbnailAction getThumbnail(int width, int height, boolean smartCrop,
+                                           @NotNull String imageUrl) {
+        Validation.validateInt(width, 1024, new ParameterValidationException("width",
+                "It must be between 1 and 1024. Recommended minimum of 50."));
+        Validation.validateInt(height, 1024, new ParameterValidationException("height",
+                "It must be between 1 and 1024. Recommended minimum of 50."));
         return new GetThumbnailAction(cognitiveContext, width, height, smartCrop, imageUrl);
     }
-
-
+    
+    
     /**
      * This operation recognizes content within an image by applying a domain-specific model.
-     * <p>The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request.
+     * <p>The list of domain-specific models that are supported by the Computer Vision API can be
+     * retrieved using the /models GET request.
      * <p>Currently, the API only provides a single domain-specific model: celebrities.
      *
-     * @param model    The domain-specific content to recognize.
+     * @param model The domain-specific content to recognize.
      * @param imageUrl URL of input image.
      * @return a built {@link RecognizeDomainSpecificContentInImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e200">MS Cognitive Docs (Computer Vision - Recognize Domain Specific Content)</a>
      */
     @NotNull
-    public RecognizeDomainSpecificContentInImageAction recognizeDomainSpecificContentInImage(@NotNull List<DomainSpecificDetails> model, @NotNull String imageUrl) {
+    public RecognizeDomainSpecificContentInImageAction recognizeDomainSpecificContentInImage(
+            @NotNull List<DomainSpecificDetails> model, @NotNull String imageUrl) {
         return new RecognizeDomainSpecificContentInImageAction(cognitiveContext, model, imageUrl);
     }
-
+    
     /**
      * This operation recognizes content within an image by applying a domain-specific model.
-     * <p>The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request.
+     * <p>The list of domain-specific models that are supported by the Computer Vision API can be
+     * retrieved using the /models GET request.
      * <p>Currently, the API only provides a single domain-specific model: celebrities.
      *
      * @param model The domain-specific content to recognize.
      * @param image Input Stream of a local image.
      * @return a built {@link RecognizeDomainSpecificContentInImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e200">MS Cognitive Docs (Computer Vision - Recognize Domain Specific Content)</a>
      */
     @NotNull
-    public RecognizeDomainSpecificContentInImageAction recognizeDomainSpecificContentInImage(@NotNull List<DomainSpecificDetails> model, @NotNull InputStream image) {
+    public RecognizeDomainSpecificContentInImageAction recognizeDomainSpecificContentInImage(
+            @NotNull List<DomainSpecificDetails> model, @NotNull InputStream image) {
         return new RecognizeDomainSpecificContentInImageAction(cognitiveContext, model, image);
     }
-
-
+    
     /**
-     * This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content.
-     * <p>Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello” may be accompanied by the hint “musical instrument”. All tags are in English.
+     * This operation generates a list of words, or tags, that are relevant to the content of the
+     * supplied image. The Computer Vision API can return tags based on objects, living beings,
+     * scenery or actions found in images. Unlike categories, tags are not organized according to a
+     * hierarchical classification system, but correspond to image content.
+     * <p>Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello”
+     * may be accompanied by the hint “musical instrument”. All tags are in English.
      *
      * @param imageUrl URL of input image.
      * @return a built {@link TagImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1ff">MS Cognitive Docs (Computer Vision - Tag Image)</a>
      */
     @NotNull
     public TagImageAction tagImage(@NotNull String imageUrl) {
         return new TagImageAction(cognitiveContext, imageUrl);
     }
-
+    
     /**
-     * This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content.
-     * <p>Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello” may be accompanied by the hint “musical instrument”. All tags are in English.
+     * This operation generates a list of words, or tags, that are relevant to the content of the
+     * supplied image. The Computer Vision API can return tags based on objects, living beings,
+     * scenery or actions found in images. Unlike categories, tags are not organized according to a
+     * hierarchical classification system, but correspond to image content.
+     * <p>Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello”
+     * may be accompanied by the hint “musical instrument”. All tags are in English.
      *
-     * @param image inputstream of local image.
+     * @param image input stream of local image.
      * @return a built {@link TagImageAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1ff">MS Cognitive Docs (Computer Vision - Tag Image)</a>
      */
     @NotNull
     public TagImageAction tagImage(@NotNull InputStream image) {
         return new TagImageAction(cognitiveContext, image);
     }
-
+    
     /**
-     * This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content.
-     * <p>Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello” may be accompanied by the hint “musical instrument”. All tags are in English.
+     * This operation generates a list of words, or tags, that are relevant to the content of the
+     * supplied image. The Computer Vision API can return tags based on objects, living beings,
+     * scenery or actions found in images. Unlike categories, tags are not organized according to a
+     * hierarchical classification system, but correspond to image content.
+     * <p>Tags may contain hints to avoid ambiguity or provide context, for example the tag “cello”
+     * may be accompanied by the hint “musical instrument”. All tags are in English.
      *
      * @return a built {@link ListDomainSpecificModelsAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/56f91f2d778daf23d8ec6739/operations/56f91f2e778daf14a499e1fd">MS Cognitive Docs (Computer Vision - List Domain Specific Models)</a>
      */
     @NotNull
     public ListDomainSpecificModelsAction listDomainSpecificModels() {
         return new ListDomainSpecificModelsAction(cognitiveContext);
     }
-
-
+    
 }

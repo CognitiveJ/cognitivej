@@ -207,27 +207,64 @@ package cognitivej.vision.computervision;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-
-public class ListDomainSpecificModelsResponse {
-
-    public List<Model> models;
-
-    public class Model {
-        public String name;
-        public List<String> categories = new ArrayList<>();
-
+public final class ListDomainSpecificModelsResponse {
+    
+    private final List<Model> models;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private ListDomainSpecificModelsResponse() {
+        models = null;
+    }
+    
+    @NotNull
+    public List<Model> getModels() {
+        if (models == null) {
+            throw new RuntimeException("Models are not properly initialized!");
+        }
+        return Collections.unmodifiableList(models);
+    }
+    
+    public final class Model {
+        
+        private final String name;
+        private final List<String> categories;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Model() {
+            name = null;
+            categories = null;
+        }
+        
+        public String getName() {
+            return name;
+        }
+        
+        @NotNull
+        public List<String> getCategories() {
+            if (categories == null) {
+                throw new RuntimeException("Category is not properly initialized!");
+            }
+            return Collections.unmodifiableList(categories);
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

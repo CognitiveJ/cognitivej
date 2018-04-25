@@ -205,49 +205,11 @@
 
 package cognitivej.vision.computervision;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
+ * A mysterious useless Helper class.
  * Created by Ian on 03/05/2016.
  */
-public class OCRResultHelper {
-
-
-
-    public static void main(String[] args) {
-        //
-        NestedTwo nestedTwo2 = new NestedTwo("Is");
-        NestedTwo nestedTwo3 = new NestedTwo("A");
-        NestedTwo nestedTwo4 = new NestedTwo("Deep");
-        NestedTwo nestedTwo5 = new NestedTwo("Nested");
-        NestedTwo nestedTwo6 = new NestedTwo("String");
-/*
-
-        Top top = new Top();
-
-        top.nestedOneList.add(new NestedOne().nestedTwo.add(new NestedTwo("This")));
-*/
-
-
-
-    }
-}
-
-class Top {
-    List<NestedOne> nestedOneList = new ArrayList<>();
-
-}
-
-class NestedOne {
-    List<NestedTwo> nestedTwo = new ArrayList<>();
-
-}
-
-class NestedTwo {
-    String word;
-
-    public NestedTwo(String word) {
-        this.word = word;
-    }
+public final class OCRResultHelper {
+    
+    public static void main(String[] args) {}
 }

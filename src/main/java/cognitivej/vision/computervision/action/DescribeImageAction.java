@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -221,41 +220,44 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class DescribeImageAction extends RestAction<ImageDescription> {
+public final class DescribeImageAction extends RestAction<ImageDescription> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final int maxCandidates;
-
-
-    public DescribeImageAction(@NotNull CognitiveContext cognitiveContext, int maxCandidates, @NotNull Object image) {
+    
+    public DescribeImageAction(@NotNull CognitiveContext cognitiveContext, int maxCandidates,
+                               @NotNull Object image) {
         super(cognitiveContext);
         this.maxCandidates = maxCandidates;
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("vision/v1.0/describe")
                 .httpMethod(HttpMethod.POST);
         workingContext().addQueryParameter("maxCandidates", String.valueOf(maxCandidates));
-        if (image instanceof String)
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return ImageDescription.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidVisionImageErrorHandler());
-        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
+        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                new FailedToProcessImageErrorHandler());
     }
 }

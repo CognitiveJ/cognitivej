@@ -205,14 +205,24 @@
 
 package cognitivej.vision.computervision;
 
-
 import org.apache.commons.lang3.text.WordUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class ComputerVisionString {
-
+/**
+ * A class responsible for generating the string from image description.
+ */
+public final class ComputerVisionString {
+    
+    /**
+     * Generate a string from {@code imageDescription}.
+     *
+     * @param imageDescription the source of image string.
+     * @return the string of {@code imageDescription}.
+     */
     @NotNull
     public static String describe(@NotNull ImageDescription imageDescription) {
-        return WordUtils.capitalize(imageDescription.description.captions.get(0).text);
+        return WordUtils.capitalize(
+                imageDescription.getDescription().getCaptions().get(0).getText());
     }
+    
 }

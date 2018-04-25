@@ -205,118 +205,357 @@
 
 package cognitivej.vision.computervision;
 
-
+import cognitivej.vision.computervision.ImageDescription.Description;
+import cognitivej.vision.computervision.ImageDescription.ImageDescriptionMetaData;
 import cognitivej.vision.face.task.FaceRectangle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ImageAnalysis {
-    public String requestId;
-    public ImageDescription.ImageDescriptionMetaData metadata;
-    public List<Category> categories = new ArrayList<>();
-    public Adult adult;
-    public List<Tags> tags = new ArrayList<>();
-    public ImageDescription.Description description;
-    public List<AnalysisFace> faces = new ArrayList<>();
-    public AnalysisColor color;
-    public AnalysisImageType imageType;
-
-    public class AnalysisImageType {
-        public int clipArtType, lineDrawingType;
-
+/**
+ * Data class for Image analysis.
+ */
+public final class ImageAnalysis {
+    
+    private final String requestId;
+    private final ImageDescription.ImageDescriptionMetaData metadata;
+    private final List<Category> categories;
+    private final Adult adult;
+    private final List<Tags> tags;
+    private final ImageDescription.Description description;
+    private final List<AnalysisFace> faces;
+    private final AnalysisColor color;
+    private final AnalysisImageType imageType;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private ImageAnalysis() {
+        requestId = null;
+        metadata = null;
+        categories = null;
+        adult = null;
+        tags = null;
+        description = null;
+        faces = null;
+        color = null;
+        imageType = null;
+    }
+    
+    public String getRequestId() {
+        return requestId;
+    }
+    
+    public ImageDescriptionMetaData getMetadata() {
+        return metadata;
+    }
+    
+    @NotNull
+    public List<Category> getCategories() {
+        if (categories == null) {
+            throw new RuntimeException("Categories are not correctly initialized!");
+        }
+        return Collections.unmodifiableList(categories);
+    }
+    
+    public Adult getAdult() {
+        return adult;
+    }
+    
+    @NotNull
+    public List<Tags> getTags() {
+        if (tags == null) {
+            throw new RuntimeException("Tags are not correctly initialized!");
+        }
+        return Collections.unmodifiableList(tags);
+    }
+    
+    public Description getDescription() {
+        return description;
+    }
+    
+    @NotNull
+    public List<AnalysisFace> getFaces() {
+        if (faces == null) {
+            throw new RuntimeException("Faces are not correctly initialized!");
+        }
+        return Collections.unmodifiableList(faces);
+    }
+    
+    public AnalysisColor getColor() {
+        return color;
+    }
+    
+    public AnalysisImageType getImageType() {
+        return imageType;
+    }
+    
+    public final class AnalysisImageType {
+        
+        private final int clipArtType = 0, lineDrawingType = 0;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private AnalysisImageType() {}
+        
+        public int getClipArtType() {
+            return clipArtType;
+        }
+        
+        public int getLineDrawingType() {
+            return lineDrawingType;
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
-    public class AnalysisFace {
-        public double age;
-        public String gender;
-        public FaceRectangle faceRectangle;
-
+    
+    public final class AnalysisFace {
+        
+        private final double age;
+        private final String gender;
+        private final FaceRectangle faceRectangle;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private AnalysisFace() {
+            age = 0;
+            gender = null;
+            faceRectangle = null;
+        }
+        
+        public double getAge() {
+            return age;
+        }
+        
+        public String getGender() {
+            return gender;
+        }
+        
+        public FaceRectangle getFaceRectangle() {
+            return faceRectangle;
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
-
+        
     }
-
-    public class AnalysisColor {
-        public String dominantColorForeground, dominantColorBackground;
-        public List<String> dominantColors;
-        public String accentColor;
-        public boolean isBWImg;
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    
+    public final class AnalysisColor {
+        
+        private final String dominantColorForeground, dominantColorBackground;
+        private final List<String> dominantColors;
+        private final String accentColor;
+        private final boolean isBWImg;
+        
+        private AnalysisColor() {
+            dominantColorForeground = dominantColorBackground = null;
+            dominantColors = null;
+            accentColor = null;
+            isBWImg = false;
         }
-    }
-
-    public class Category {
-        public String name;
-        public double score;
-        public CategoryDetail detail;
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        
+        public String getDominantColorForeground() {
+            return dominantColorForeground;
         }
-    }
-
-    public class CategoryDetail {
-        public List<Celebrity> celebrities;
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        
+        public String getDominantColorBackground() {
+            return dominantColorBackground;
         }
-
-    }
-
-    public class Celebrity {
-        public String name;
-        public FaceRectangle faceRectangle;
-        public double confidence;
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        
+        @NotNull
+        public List<String> getDominantColors() {
+            if (dominantColors == null) {
+                throw new RuntimeException("DominantColors are not correctly initialized!");
+            }
+            return Collections.unmodifiableList(dominantColors);
         }
-
-    }
-
-    public class Adult {
-        public boolean isAdultContent;
-        public boolean isRacyContent;
-        public double adultScore;
-        public double racyScore;
-
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        
+        public String getAccentColor() {
+            return accentColor;
         }
-
-    }
-
-    public class Tags {
-        public String name;
-        public double confidence;
-
+        
+        public boolean isBWImg() {
+            return isBWImg;
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
+    
+    public final class Category {
+        
+        private final String name;
+        private final double score;
+        private final CategoryDetail detail;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Category() {
+            name = null;
+            score = 0;
+            detail = null;
+        }
+        
+        public String getName() {
+            return name;
+        }
+        
+        public double getScore() {
+            return score;
+        }
+        
+        public CategoryDetail getDetail() {
+            return detail;
+        }
+        
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        }
+    }
+    
+    public final class CategoryDetail {
+        
+        private final List<Celebrity> celebrities;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private CategoryDetail() {
+            celebrities = null;
+        }
+        
+        @NotNull
+        public List<Celebrity> getCelebrities() {
+            if (celebrities == null) {
+                throw new RuntimeException("Categories have not been correctly initialized!");
+            }
+            return Collections.unmodifiableList(celebrities);
+        }
+        
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        }
+        
+    }
+    
+    public final class Celebrity {
+        
+        private final String name;
+        private final FaceRectangle faceRectangle;
+        private final double confidence;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Celebrity() {
+            name = null;
+            faceRectangle = null;
+            confidence = 0;
+        }
+        
+        public String getName() {
+            return name;
+        }
+        
+        public FaceRectangle getFaceRectangle() {
+            return faceRectangle;
+        }
+        
+        public double getConfidence() {
+            return confidence;
+        }
+        
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        }
+        
+    }
+    
+    public final class Adult {
+        
+        private final boolean isAdultContent;
+        private final boolean isRacyContent;
+        private final double adultScore;
+        private final double racyScore;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Adult() {
+            isAdultContent = isRacyContent = false;
+            adultScore = racyScore = 0;
+        }
+        
+        public boolean isAdultContent() {
+            return isAdultContent;
+        }
+        
+        public boolean isRacyContent() {
+            return isRacyContent;
+        }
+        
+        public double getAdultScore() {
+            return adultScore;
+        }
+        
+        public double getRacyScore() {
+            return racyScore;
+        }
+        
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        }
+        
+    }
+    
+    public final class Tags {
+        
+        private final String name;
+        private final double confidence;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Tags() {
+            name = null;
+            confidence = 0;
+        }
+        
+        public String getName() {
+            return name;
+        }
+        
+        public double getConfidence() {
+            return confidence;
+        }
+        
+        @Override
+        public String toString() {
+            return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+        }
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }
 

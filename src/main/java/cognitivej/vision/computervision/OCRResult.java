@@ -205,87 +205,171 @@
 
 package cognitivej.vision.computervision;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-import java.util.ArrayList;
+import java.awt.Rectangle;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Integer.valueOf;
 
-public class OCRResult {
-    public String language;
-    public String orientation;
-    public List<Region> regions = new ArrayList<>();
-
-
-
-    public class Region {
-        public String boundingBox;
-        public List<Line> lines = new ArrayList<>();
-
+public final class OCRResult {
+    
+    private final String language;
+    private final String orientation;
+    private final List<Region> regions;
+    
+    private OCRResult() {
+        language = orientation = null;
+        regions = null;
+    }
+    
+    @NotNull
+    public String getLanguage() {
+        if (language == null) {
+            throw new RuntimeException("Language is not properly initialized.");
+        }
+        return language;
+    }
+    
+    @NotNull
+    public String getOrientation() {
+        if (orientation == null) {
+            throw new RuntimeException("Orientation is not properly initialized.");
+        }
+        return orientation;
+    }
+    
+    @NotNull
+    public List<Region> getRegions() {
+        if (regions == null) {
+            throw new RuntimeException("Regions are not properly initialized!");
+        }
+        return Collections.unmodifiableList(regions);
+    }
+    
+    public final class Region {
+        
+        private final String boundingBox;
+        private final List<Line> lines;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Region() {
+            boundingBox = null;
+            lines = null;
+        }
+        
+        public String getBoundingBox() {
+            return boundingBox;
+        }
+        
+        @NotNull
+        public List<Line> getLines() {
+            if (lines == null) {
+                throw new RuntimeException("Lines are not properly initialized!");
+            }
+            return Collections.unmodifiableList(lines);
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
-
+        
         @NotNull
         public Rectangle boundingBoxAsAwtRectangle() {
             return splitBoundingBoxToRectangle(boundingBox);
         }
-
-
+        
     }
-
-    public class Line {
-        public String boundingBox;
-        public List<Word> words = new ArrayList<>();
-
-
+    
+    public final class Line {
+        
+        private final String boundingBox;
+        private final List<Word> words;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Line() {
+            boundingBox = null;
+            words = null;
+        }
+        
+        public String getBoundingBox() {
+            return boundingBox;
+        }
+        
+        @NotNull
+        public List<Word> getWords() {
+            if (words == null) {
+                throw new RuntimeException("Words are not properly initialized!");
+            }
+            return Collections.unmodifiableList(words);
+        }
+        
         @NotNull
         public Rectangle boundingBoxAsAwtRectangle() {
             return splitBoundingBoxToRectangle(boundingBox);
         }
-
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
-    public class Word {
-        public String boundingBox;
-        public String text;
-
+    
+    public final class Word {
+        
+        private final String boundingBox;
+        private final String text;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Word() {
+            boundingBox = text = null;
+        }
+        
+        public String getBoundingBox() {
+            return boundingBox;
+        }
+        
+        public String getText() {
+            return text;
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
-
-
+        
         @NotNull
         public Rectangle boundingBoxAsAwtRectangle() {
             return splitBoundingBoxToRectangle(boundingBox);
         }
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
-
+    
     @NotNull
     public static Rectangle splitBoundingBoxToRectangle(String boundingBox) {
         String[] split = StringUtils.split(boundingBox, ",");
-        if (split.length == 4)
-            return new Rectangle(valueOf(split[0]), valueOf(split[1]), valueOf(split[2]), valueOf(split[3]));
-        else
+        if (split.length == 4) {
+            return new Rectangle(
+                    valueOf(split[0]), valueOf(split[1]), valueOf(split[2]), valueOf(split[3]));
+        } else {
             return new Rectangle();
+        }
     }
+    
 }
 

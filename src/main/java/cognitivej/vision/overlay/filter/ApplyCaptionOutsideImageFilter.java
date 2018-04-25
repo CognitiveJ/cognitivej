@@ -211,7 +211,9 @@ import cognitivej.vision.overlay.Location;
 import cognitivej.vision.overlay.OverlayUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
 

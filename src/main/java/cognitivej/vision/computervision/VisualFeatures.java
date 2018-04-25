@@ -205,12 +205,24 @@
 
 package cognitivej.vision.computervision;
 
-
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A collection of supported visual features.
+ */
 public enum VisualFeatures {
-    Categories, Tags, Description, Faces, ImageType, Color, Adult;
-
+    
+    CATEGORIES, TAGS, DESCRIPTION, FACES, IMAGE_TYPE, COLOR, ADULT;
+    
+    /**
+     * A list of all visual features.
+     */
     public static final List<VisualFeatures> ALL = Arrays.asList(values());
+    
+    @Override
+    public String toString() {
+        String temp = super.toString().toLowerCase();
+        return temp.substring(0, 1).toUpperCase() + temp.substring(1);
+    }
 }

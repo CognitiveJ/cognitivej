@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -220,38 +219,42 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class TagImageAction extends RestAction<TagImageResponse> {
+public final class TagImageAction extends RestAction<TagImageResponse> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     public TagImageAction(@NotNull CognitiveContext cognitiveContext, @NotNull Object image) {
         super(cognitiveContext);
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("vision/v1.0/tag")
                 .httpMethod(HttpMethod.POST);
-
-        if (image instanceof String)
+        
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return TagImageResponse.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidVisionImageErrorHandler());
-        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
+        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                new FailedToProcessImageErrorHandler());
     }
+    
 }

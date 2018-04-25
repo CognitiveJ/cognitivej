@@ -205,50 +205,130 @@
 
 package cognitivej.vision.computervision;
 
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ImageDescription {
-
-    public String requestId;
-    public ImageDescriptionMetaData metadata;
-    public Description description;
-
-    public class Description {
-
-        public List<String> tags = new ArrayList<>();
-        public List<Caption> captions = new ArrayList<>();
-
+public final class ImageDescription {
+    
+    private final String requestId;
+    private final ImageDescriptionMetaData metadata;
+    private final Description description;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private ImageDescription() {
+        requestId = null;
+        metadata = null;
+        description = null;
+    }
+    
+    public String getRequestId() {
+        return requestId;
+    }
+    
+    public ImageDescriptionMetaData getMetadata() {
+        return metadata;
+    }
+    
+    public Description getDescription() {
+        return description;
+    }
+    
+    public final class Description {
+        
+        private final List<String> tags;
+        private final List<Caption> captions;
+        
+        private Description() {
+            tags = null;
+            captions = null;
+        }
+        
+        @NotNull
+        public List<String> getTags() {
+            if (tags == null) {
+                throw new RuntimeException("Tags are not properly initialized!");
+            }
+            return Collections.unmodifiableList(tags);
+        }
+        
+        @NotNull
+        public List<Caption> getCaptions() {
+            if (captions == null) {
+                throw new RuntimeException("Captions are not properly initialized!");
+            }
+            return Collections.unmodifiableList(captions);
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
-    public class Caption {
-        public String text;
-        public double confidence;
-
+    
+    public final class Caption {
+        
+        private final String text;
+        private final double confidence;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Caption() {
+            text = null;
+            confidence = 0;
+        }
+        
+        public String getText() {
+            return text;
+        }
+        
+        public double getConfidence() {
+            return confidence;
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
-    public class ImageDescriptionMetaData {
-        public String format;
-        public int width, height;
-
+    
+    public final class ImageDescriptionMetaData {
+        
+        private final String format;
+        private final int width, height;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private ImageDescriptionMetaData() {
+            format = null;
+            width = height = 0;
+        }
+        
+        public String getFormat() {
+            return format;
+        }
+        
+        public int getWidth() {
+            return width;
+        }
+        
+        public int getHeight() {
+            return height;
+        }
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

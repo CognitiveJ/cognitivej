@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -219,32 +218,35 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class ListDomainSpecificModelsAction extends RestAction<ListDomainSpecificModelsResponse> {
+public final class ListDomainSpecificModelsAction
+        extends RestAction<ListDomainSpecificModelsResponse> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     public ListDomainSpecificModelsAction(@NotNull CognitiveContext cognitiveContext) {
         super(cognitiveContext);
         buildContext();
     }
-
-
+    
     private void buildContext() {
         workingContext.setPath("vision/v1.0/models")
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return ListDomainSpecificModelsResponse.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
+        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                new FailedToProcessImageErrorHandler());
     }
+    
 }

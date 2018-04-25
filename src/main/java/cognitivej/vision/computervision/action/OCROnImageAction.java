@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.Utils;
 import cognitivej.core.WorkingContext;
@@ -223,46 +222,51 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class OCROnImageAction extends RestAction<OCRResult> {
+public final class OCROnImageAction extends RestAction<OCRResult> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String language;
     private final boolean detectOrientation;
-
-
-    public OCROnImageAction(@NotNull CognitiveContext cognitiveContext, @Nullable String language, boolean detectOrientation, @NotNull Object image) {
+    
+    public OCROnImageAction(@NotNull CognitiveContext cognitiveContext, @Nullable String language,
+                            boolean detectOrientation, @NotNull Object image) {
         super(cognitiveContext);
         this.language = language;
         this.detectOrientation = detectOrientation;
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("vision/v1.0/ocr")
                 .httpMethod(HttpMethod.POST);
-
-        if (Utils.isNotBlank(language))
+        
+        if (Utils.isNotBlank(language)) {
             workingContext().addQueryParameter("language", language);
+        }
         workingContext().addQueryParameter("detectOrientation", String.valueOf(detectOrientation));
-        if (image instanceof String)
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return OCRResult.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidVisionImageErrorHandler());
-        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
+        errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                new FailedToProcessImageErrorHandler());
     }
+    
 }

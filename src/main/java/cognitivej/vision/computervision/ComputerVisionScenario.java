@@ -216,17 +216,18 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
- * Holds a collection of useful scenarios when using computer vision (see documentation for specifics)
+ * Holds a collection of useful scenarios when using computer vision (see documentation for
+ * specifics)
  */
 
-public class ComputerVisionScenario {
-
+public final class ComputerVisionScenario {
+    
     private final ComputerVisionBuilder computerVisionBuilder;
-
+    
     public ComputerVisionScenario(@NotNull String subscriptionKey) {
         computerVisionBuilder = new ComputerVisionBuilder(CognitiveContext.build(subscriptionKey));
     }
-
+    
     /**
      * Describes an image.
      *
@@ -237,8 +238,7 @@ public class ComputerVisionScenario {
     public ImageDescription describeImage(@NotNull String imageUrl) {
         return computerVisionBuilder.describeImage(1, imageUrl).withResult();
     }
-
-
+    
     /**
      * Describes an image.
      *
@@ -249,8 +249,7 @@ public class ComputerVisionScenario {
     public ImageDescription describeImage(@NotNull InputStream image) {
         return computerVisionBuilder.describeImage(1, image).withResult();
     }
-
-
+    
     /**
      * Describes an image.
      *
@@ -266,14 +265,16 @@ public class ComputerVisionScenario {
             throw new ImageNotFoundException(image);
         }
     }
-
+    
     @NotNull
     public OCRResult ocrImage(@NotNull String imageUrl) {
         return computerVisionBuilder.ocrOnImage(null, false, imageUrl).withResult();
     }
-
+    
     @NotNull
     public OCRResult ocrImage(@NotNull InputStream image) {
-        return computerVisionBuilder.ocrOnImage(null, false, image).withResult();
+        return computerVisionBuilder.ocrOnImage(
+                null, false, image).withResult();
     }
+    
 }

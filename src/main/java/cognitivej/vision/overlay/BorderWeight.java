@@ -206,7 +206,7 @@
 package cognitivej.vision.overlay;
 
 
-import java.awt.*;
+import java.awt.Insets;
 
 public enum BorderWeight {
     XXTHICK(50), XTHICK(30), THICK(20), THIN(5), THINNER(2);

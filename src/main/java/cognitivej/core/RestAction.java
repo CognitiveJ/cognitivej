@@ -206,7 +206,11 @@
 package cognitivej.core;
 
 
-import cognitivej.core.error.*;
+import cognitivej.core.error.ConcurrentOperationConflictErrorHandler;
+import cognitivej.core.error.ErrorHandler;
+import cognitivej.core.error.ForbiddenErrorHandler;
+import cognitivej.core.error.RateLimitExceededErrorHandler;
+import cognitivej.core.error.UnAuthorizedErrorHandler;
 import cognitivej.core.error.exceptions.CognitiveException;
 import cognitivej.vision.face.CognitiveContext;
 import com.google.gson.Gson;

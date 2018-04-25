@@ -205,7 +205,6 @@
 
 package cognitivej.vision.computervision.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.Utils;
 import cognitivej.core.WorkingContext;
@@ -226,46 +225,55 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-public class AnalyzeImageAction extends RestAction<ImageAnalysis> {
+public final class AnalyzeImageAction extends RestAction<ImageAnalysis> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final List<VisualFeatures> visualFeatures;
     private final List<DomainSpecificDetails> domainSpecificDetails;
-
-
-    public AnalyzeImageAction(@NotNull CognitiveContext cognitiveContext, @NotNull List<VisualFeatures> visualFeatures, List<DomainSpecificDetails> domainSpecificDetails, Object image) {
+    
+    public AnalyzeImageAction(@NotNull CognitiveContext cognitiveContext,
+                              @NotNull List<VisualFeatures> visualFeatures,
+                              List<DomainSpecificDetails> domainSpecificDetails,
+                              Object image) {
         super(cognitiveContext);
         this.visualFeatures = visualFeatures;
         this.domainSpecificDetails = domainSpecificDetails;
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("vision/v1.0/analyze")
                 .httpMethod(HttpMethod.POST);
-        if (Utils.isNotEmpty(visualFeatures))
-            workingContext().addQueryParameter("visualFeatures", StringUtils.join(visualFeatures, ','));
-        if (Utils.isNotEmpty(visualFeatures))
-            workingContext().addQueryParameter("details", StringUtils.join(domainSpecificDetails, ','));
-        if (image instanceof String)
+        if (Utils.isNotEmpty(visualFeatures)) {
+            workingContext().addQueryParameter("visualFeatures",
+                    StringUtils.join(visualFeatures, ','));
+        }
+        if (Utils.isNotEmpty(visualFeatures)) {
+            workingContext().addQueryParameter("details",
+                    StringUtils.join(domainSpecificDetails, ','));
+        }
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return ImageAnalysis.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidVisionImageErrorHandler());
         errorHandlers.put(HttpStatus.SC_INTERNAL_SERVER_ERROR, new FailedToProcessImageErrorHandler());
     }
+    
 }
