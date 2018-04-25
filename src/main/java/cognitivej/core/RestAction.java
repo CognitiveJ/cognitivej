@@ -233,7 +233,7 @@ import java.util.Map;
 
 public abstract class RestAction<T> {
     
-    private static final String PROJECTOXFORD_AI = "https://api.projectoxford.ai/";
+    private static final String PROJECTOXFORD_AI = "https://eastus.api.cognitive.microsoft.com/";
     public static final String IMAGE_INPUT_STREAM_KEY = "imageInputStream";
     private final CognitiveContext cognitiveContext;
     
@@ -308,8 +308,9 @@ public abstract class RestAction<T> {
     }
     
     private Object typeResponse(Object responseBody) {
-        if (typedResponse() == null || responseBody instanceof InputStream)
+        if (typedResponse() == null || responseBody instanceof InputStream) {
             return responseBody;
+        }
         return gson.fromJson((String) responseBody, typedResponse());
     }
     
