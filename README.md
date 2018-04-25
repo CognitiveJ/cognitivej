@@ -1,48 +1,47 @@
 # CognitiveJ - Image Analysis in Java
  [![Apache-2.0 license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-  [ ![Download](https://api.bintray.com/packages/cognitivej/CognitiveJ/CognitiveJ/images/download.svg) ](https://bintray.com/cognitivej/CognitiveJ/CognitiveJ/_latestVersion)
-   [![Circle CI](https://circleci.com/gh/CognitiveJ/cognitivej.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/CognitiveJ/cognitivej)
 
-CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates the interaction between Java applications and 
-Microsofts’ Cognitive (Project Oxford) Machine Learning & Image Processing libraries and allows you to query and analyze images.   
+CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates the interaction 
+between Java applications and Microsofts’ Cognitive (Project Oxford) Machine Learning & Image 
+Processing libraries and allows you to query and analyze images.  
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-11-54-02.png) 
 
-**Faces**
+## Faces
 
-*   Facial Detection – Capture faces, gender, age and associated facial features and landmarks from an image
-*   Emotion Detection – Derive emotional state from faces within an image
-*   Verification – Verify, with a confidence scale on whether 2 different faces are of the same person
-*   Identification – Identify a person from a set of known people.
-*   Find Similar – detect, group and rank similar faces
-*   Grouping – group people based on facial characteristics
-*   Person Group/Person/Face Lists; Create, manage and train groups, face lists and persons to interact with the identification/grouping/find similar face features.
+- Facial Detection – Capture faces, gender, age and associated facial features and landmarks from an image
+- Emotion Detection – Derive emotional state from faces within an image
+- Verification – Verify, with a confidence scale on whether 2 different faces are of the same person
+- Identification – Identify a person from a set of known people.
+- Find Similar – detect, group and rank similar faces
+- Grouping – group people based on facial characteristics
+- Person Group/Person/Face Lists; Create, manage and train groups, face lists and persons to interact with the identification/grouping/find similar face features.
 
 
-**Vision**
+## Vision
 
-*   Image Describe - Describe visual content of an image and return real world caption to what the Image is of.
-*   Image Analysis – extract key details from an image and if the image is of an adult/racy nature.
-*   OCR – detect and extract text from an image.
-*   Thumbnail – Create thumbnail images based on key points of interest from the image.
+- Image Describe - Describe visual content of an image and return real world caption to what the Image is of.
+- Image Analysis – extract key details from an image and if the image is of an adult/racy nature.
+-  OCR – detect and extract text from an image.
+- Thumbnail – Create thumbnail images based on key points of interest from the image.
 
-**Overlay _(Experimental)_**
+## Overlay _(Experimental)
 
-*   Apply image layers onto images to visually represent found features.
-*   Apply captions onto faces and images
-*   Graphically illustrate the Faces/Vision feature sets.
-*   Pixelate faces in an image.
+- Apply image layers onto images to visually represent found features.
+- Apply captions onto faces and images
+- Graphically illustrate the Faces/Vision feature sets.
+- Pixelate faces in an image.
 
-**Other Features**
+## Other Features
 
-*   Works with local or remote images
-*   validation of parameters
+* Works with local or remote images
+* validation of parameters
 
-**Getting Started**
+## Getting Started
 
-*   Java 8
-*   Subscription keys for the MS Cognitive libraries ([free registration here](https://www.microsoft.com/cognitive-services/))
-*   Add the dependency from JCenter
+- Java 8
+- Subscription keys for the MS Cognitive libraries ([free registration here](https://www.microsoft.com/cognitive-services/))
+- Add the dependency from JCenter
 
 ###### Gradle
 ```groovy
@@ -52,18 +51,8 @@ repositories {
     
     dependencies {
     compile "cognitivej:cognitivej:0.6.2"
-    ...
     }
     
-```
-###### Maven
-```xml
-    <dependency>
-      <groupId>cognitivej</groupId>
-      <artifactId>cognitivej</artifactId>
-      <version>0.6.2</version>
-      <type>pom</type>
-    </dependency>
 ```
 
 
