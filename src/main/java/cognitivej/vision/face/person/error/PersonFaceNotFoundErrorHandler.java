@@ -212,7 +212,7 @@ import org.jetbrains.annotations.NotNull;
 public final class PersonFaceNotFoundErrorHandler extends ErrorHandler {
     
     private final String personGroupId, personId, persistedFaceId;
-
+    
     public PersonFaceNotFoundErrorHandler(@NotNull String personGroupId,
                                           @NotNull String personId,
                                           @NotNull String persistedFaceId) {
@@ -220,7 +220,7 @@ public final class PersonFaceNotFoundErrorHandler extends ErrorHandler {
         this.personId = personId;
         this.persistedFaceId = persistedFaceId;
     }
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new PersonFaceNotFoundException(

@@ -229,7 +229,7 @@ public final class AddFaceToPersonAction
     private final String personId;
     private final String userData;
     private final CognitiveContext cognitiveContext;
-
+    
     public AddFaceToPersonAction(@NotNull CognitiveContext cognitiveContext,
                                  @NotNull String personGroupId, @NotNull String personId,
                                  @Nullable String userData, @NotNull Object image) {
@@ -240,7 +240,7 @@ public final class AddFaceToPersonAction
         this.userData = userData;
         buildContext(image);
     }
-
+    
     private void buildContext(Object payload) {
         workingContext.addQueryParameter("userData", userData)
                 .setPath("face/v1.0/persongroups/${personGroupId}/" +
@@ -255,31 +255,30 @@ public final class AddFaceToPersonAction
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, payload);
         }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @NotNull
     @Override
     protected ChainedPersistedFaceBuilder groupBuilder(PersistedFace persistedFace) {
         return new ChainedPersistedFaceBuilder(
                 cognitiveContext, personGroupId, personId, persistedFace);
     }
-
+    
     @Override
     protected PersistedFace postProcess(Object response) {
         PersistedFace persistedFace = (PersistedFace) response;
-        persistedFace.userData = userData;
-        return persistedFace;
+        return new PersistedFace(persistedFace.persistedFaceId, userData);
     }
-
+    
     @Override
     protected Type typedResponse() {
         return PersistedFace.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_BAD_REQUEST, new InvalidImageErrorHandler());

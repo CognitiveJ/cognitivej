@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
@@ -217,29 +216,28 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ListFaceListsAction extends RestAction<List<FaceList>> {
+public final class ListFaceListsAction extends RestAction<List<FaceList>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     public ListFaceListsAction(@NotNull CognitiveContext cognitiveContext) {
         super(cognitiveContext);
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/facelists")
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
-        return new TypeToken<List<FaceList>>() {
-        }.getType();
+        return new TypeToken<List<FaceList>>() {}.getType();
     }
-
-
+    
 }

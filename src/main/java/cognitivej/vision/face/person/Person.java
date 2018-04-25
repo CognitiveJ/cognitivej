@@ -210,7 +210,7 @@ import cognitivej.core.CognitiveResult;
 public final class Person extends CognitiveResult {
     
     private final String personId, name, userData;
-
+    
     public Person(String personId, String name, String userData) {
         this.personId = personId;
         this.name = name;

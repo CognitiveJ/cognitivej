@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face;
 
-
 import cognitivej.vision.face.task.Face;
 import cognitivej.vision.face.task.FaceAttributes;
 import org.jetbrains.annotations.NotNull;
@@ -213,7 +212,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.EnumSet;
 import java.util.Map;
 
-public class FaceStringBuilder {
+public final class FaceStringBuilder {
 
     /**
      * Retrieves and formats the age.
@@ -233,7 +232,8 @@ public class FaceStringBuilder {
      */
     @NotNull
     public static String genderAndAge(@NotNull Face face) {
-        return String.format("%s, %.1f", face.faceAttributesResp.gender, face.faceAttributesResp.age);
+        return String.format("%s, %.1f",
+                face.faceAttributesResp.gender, face.faceAttributesResp.age);
     }
 
     public static String buildStringFor(Face face, EnumSet<FaceAttributes> faceAttributes) {
@@ -247,4 +247,5 @@ public class FaceStringBuilder {
         }
         return builder.toString();
     }
+    
 }

@@ -217,7 +217,7 @@ public final class DeletePersonFaceAction extends RestAction<Void> {
     private final String personGroupId;
     private final String personId;
     private final String persistedFaceId;
-
+    
     public DeletePersonFaceAction(@NotNull CognitiveContext cognitiveContext,
                                   @NotNull String personGroupId, @NotNull String personId,
                                   @NotNull String persistedFaceId) {
@@ -227,7 +227,7 @@ public final class DeletePersonFaceAction extends RestAction<Void> {
         this.persistedFaceId = persistedFaceId;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/persongroups/${personGroupId}/" +
                 "persons/${personId}/persistedFaces/${persistedFaceId}")
@@ -236,10 +236,10 @@ public final class DeletePersonFaceAction extends RestAction<Void> {
                 .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.DELETE);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
 }

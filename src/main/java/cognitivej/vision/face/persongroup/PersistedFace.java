@@ -208,7 +208,8 @@ package cognitivej.vision.face.persongroup;
 import cognitivej.core.CognitiveResult;
 
 public class PersistedFace extends CognitiveResult{
-    public String persistedFaceId, userData;
+    
+    public final String persistedFaceId, userData;
 
     public PersistedFace(String persistedFaceId, String userData) {
         this.persistedFaceId = persistedFaceId;

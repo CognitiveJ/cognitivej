@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist.action;
 
-
 import cognitivej.core.ChainedRestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -224,62 +223,68 @@ import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-public class AddFaceToFaceListAction extends ChainedRestAction<PersistedFace, ChainedFaceListBuilder> {
-
+public final class AddFaceToFaceListAction
+        extends ChainedRestAction<PersistedFace, ChainedFaceListBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final CognitiveContext cognitiveContext;
     private final String faceListId;
     private final String userData;
     private final String targetFace;
-
-    public AddFaceToFaceListAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId, @Nullable String userData, @Nullable String targetFace, @NotNull Object image) {
+    
+    public AddFaceToFaceListAction(@NotNull CognitiveContext cognitiveContext,
+                                   @NotNull String faceListId, @Nullable String userData,
+                                   @Nullable String targetFace, @NotNull Object image) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.faceListId = faceListId;
         this.userData = userData;
         this.targetFace = targetFace;
         buildContext(image);
-
     }
-
+    
     private void buildContext(Object image) {
         workingContext.addQueryParameter("userData", userData)
-                .setPath("face/v1.0/facelists/${faceListId}/persistedFaces").addPathVariable("faceListId", faceListId)
+                .setPath("face/v1.0/facelists/${faceListId}/persistedFaces")
+                .addPathVariable("faceListId", faceListId)
                 .addQueryParameter("userData", userData)
                 .httpMethod(HttpMethod.POST);
-        if (isNotEmpty(targetFace))
+        if (isNotEmpty(targetFace)) {
             workingContext.addQueryParameter("targetFace", targetFace);
-        if (image instanceof String)
+        }
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_NOT_FOUND, new FaceListNotFoundErrorHandler(faceListId));
     }
-
+    
     @Override
     protected PersistedFace postProcess(Object response) {
         PersistedFace f = (PersistedFace) response;
-        f.userData = userData;
-        return f;
+        return new PersistedFace(f.persistedFaceId, userData);
     }
-
+    
     @Override
     protected Type typedResponse() {
         return PersistedFace.class;
     }
-
+    
     @NotNull
     @Override
     protected ChainedFaceListBuilder groupBuilder(PersistedFace result) {
         return new ChainedFaceListBuilder(cognitiveContext, faceListId);
     }
+    
 }

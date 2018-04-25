@@ -205,34 +205,37 @@
 
 package cognitivej.vision.face.facelist.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
 import com.mashape.unirest.http.HttpMethod;
 import org.jetbrains.annotations.NotNull;
 
-public class DeleteFaceListFaceAction extends RestAction<Void> {
+public final class DeleteFaceListFaceAction extends RestAction<Void> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String faceListId;
     private final String persistedFaceId;
-
-    public DeleteFaceListFaceAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId, @NotNull String persistedFaceId) {
+    
+    public DeleteFaceListFaceAction(@NotNull CognitiveContext cognitiveContext,
+                                    @NotNull String faceListId, @NotNull String persistedFaceId) {
         super(cognitiveContext);
         this.faceListId = faceListId;
         this.persistedFaceId = persistedFaceId;
         buildContext();
     }
-
+    
     private void buildContext() {
-        workingContext.setPath("face/v1.0/facelists/${faceListId}/persistedFaces/${persistedFaceId}").addPathVariable("faceListId", faceListId)
+        workingContext
+                .setPath("face/v1.0/facelists/${faceListId}/persistedFaces/${persistedFaceId}")
+                .addPathVariable("faceListId", faceListId)
                 .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.DELETE);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
 }

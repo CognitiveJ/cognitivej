@@ -205,25 +205,14 @@
 
 package cognitivej.vision.face.facelist.error;
 
-
 /**
  * Thrown when Person Group exists.
- *
- * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395246">MS Cognitive Docs (Person Group)</a>
  */
-public class FaceListAlreadyExistsException extends RuntimeException {
-    private final String personGroupId;
-
+public final class FaceListAlreadyExistsException extends RuntimeException {
+    
     public FaceListAlreadyExistsException(String personGroupId, String message) {
         super(String.format("personGroupId:%s;%s", personGroupId, message));
-        this.personGroupId = personGroupId;
     }
-
-    /**
-     * @return the person group id that exists
-     */
-    public String getPersonGroupId() {
-        return personGroupId;
-    }
+    
 }
 

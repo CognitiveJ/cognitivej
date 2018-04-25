@@ -209,23 +209,29 @@ import cognitivej.core.Utils;
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
 import cognitivej.vision.face.CognitiveContext;
-import cognitivej.vision.face.facelist.action.*;
+import cognitivej.vision.face.facelist.action.AddFaceToFaceListAction;
+import cognitivej.vision.face.facelist.action.CreateFaceListAction;
+import cognitivej.vision.face.facelist.action.DeleteFaceListAction;
+import cognitivej.vision.face.facelist.action.DeleteFaceListFaceAction;
+import cognitivej.vision.face.facelist.action.GetFaceListAction;
+import cognitivej.vision.face.facelist.action.ListFaceListsAction;
+import cognitivej.vision.face.facelist.action.UpdateFaceListAction;
 import cognitivej.vision.face.persongroup.action.DeletePersonGroupAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 
-public class FaceListBuilder {
+public final class FaceListBuilder {
     
     /**
      * Message for bad person group ID.
      */
     private static final String INVALID_FACE_LIST_ID_MSG =
             "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.";
-
+    
     private final CognitiveContext cognitiveContext;
-
+    
     public FaceListBuilder(CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
@@ -239,7 +245,7 @@ public class FaceListBuilder {
         Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$",
                 new ParameterValidationException("faceListId", INVALID_FACE_LIST_ID_MSG));
     }
-
+    
     /**
      * Create an empty face list with user-specified face list ID, name and an optional user-data.
      * 64 face lists are allowed to exist in one subscription.
@@ -268,7 +274,7 @@ public class FaceListBuilder {
                 new ParameterValidationException("userData", "The size limit is 16KB"));
         return new CreateFaceListAction(cognitiveContext, faceListId, name, userData);
     }
-
+    
     /**
      * Add a face to a face list. The input face is specified as an image with a targetFace
      * rectangle. It returns an persistedFaceId representing the added face, and persistedFaceId
@@ -295,11 +301,11 @@ public class FaceListBuilder {
      *
      * @param faceListId Valid character is letter in lower case or digit or '-' or '_',
      * maximum length is 64.
-     * @param userData   User-specified data for any purpose. The maximum length is 1KB.
+     * @param userData User-specified data for any purpose. The maximum length is 1KB.
      * @param targetFace A face rectangle to specify the target face to be added into the face list,
      * in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100".
      * No targetFace means to detect the only face in the entire image.
-     * @param imageUrl   Image url. Image file size should between 1KB to 4MB. Only one face is
+     * @param imageUrl Image url. Image file size should between 1KB to 4MB. Only one face is
      * allowed per image.
      * @return a built {@link AddFaceToFaceListAction}
      */
@@ -314,7 +320,7 @@ public class FaceListBuilder {
         return new AddFaceToFaceListAction(
                 cognitiveContext, faceListId, userData, targetFace, imageUrl);
     }
-
+    
     /**
      * Add a face to a face list. The input face is specified as an image with a targetFace
      * rectangle. It returns an persistedFaceId representing the added face, and persistedFaceId
@@ -341,11 +347,11 @@ public class FaceListBuilder {
      *
      * @param faceListId Valid character is letter in lower case or digit or '-' or '_',
      * maximum length is 64.
-     * @param userData   User-specified data for any purpose. The maximum length is 1KB.
+     * @param userData User-specified data for any purpose. The maximum length is 1KB.
      * @param targetFace A face rectangle to specify the target face to be added into the face list,
      * in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100".
      * No targetFace means to detect the only face in the entire image.
-     * @param image      Image stream. Image file size should between 1KB to 4MB. Only one face is
+     * @param image Image stream. Image file size should between 1KB to 4MB. Only one face is
      * allowed per image.
      * @return a built {@link AddFaceToFaceListAction}
      */
@@ -360,7 +366,7 @@ public class FaceListBuilder {
         return new AddFaceToFaceListAction(
                 cognitiveContext, faceListId, userData, targetFace, image);
     }
-
+    
     /**
      * Retrieve a face list's information, including face list ID, name, userData and faces in the
      * face list. Face list simply represents a list of faces, and could be treated as a searchable
@@ -375,7 +381,7 @@ public class FaceListBuilder {
         validateFaceListID(faceListId);
         return new GetFaceListAction(cognitiveContext, faceListId);
     }
-
+    
     /**
      * Retrieve information about all existing face lists. Only face list ID, name and user data
      * will be returned. Try Face List - Get a Face List to retrieve face information inside
@@ -387,8 +393,8 @@ public class FaceListBuilder {
     public ListFaceListsAction listFaceLists() {
         return new ListFaceListsAction(cognitiveContext);
     }
-
-
+    
+    
     /**
      * Delete an existing face list according to face list ID. Persisted face images in the face
      * list will also be deleted.
@@ -402,8 +408,8 @@ public class FaceListBuilder {
         validateFaceListID(faceListId);
         return new DeleteFaceListAction(cognitiveContext, faceListId);
     }
-
-
+    
+    
     /**
      * Update face changes to a face list. Face list simply represents a list of faces, and could be
      * treat as a searchable data source in Face - Find Similar.
@@ -411,8 +417,8 @@ public class FaceListBuilder {
      * @param faceListId User-provided person group ID as a string. The valid characters include
      * numbers, english letters in lower case, '-' and '_'. The maximum length of the personGroupId
      * is 64
-     * @param name       FaceList display name. The maximum length is 128.
-     * @param userData   User-provided data attached to the faceList. The size limit is 16KB
+     * @param name FaceList display name. The maximum length is 128.
+     * @param userData User-provided data attached to the faceList. The size limit is 16KB
      * (UTF-16 encoded).
      * @return a built {@link UpdateFaceListAction}
      */
@@ -439,9 +445,10 @@ public class FaceListBuilder {
      * @return a built {@link DeleteFaceListFaceAction}
      */
     @NotNull
-    public DeleteFaceListFaceAction deleteFaceListFace(@NotNull String faceListId, @NotNull String persistedFaceId) {
+    public DeleteFaceListFaceAction deleteFaceListFace(@NotNull String faceListId,
+                                                       @NotNull String persistedFaceId) {
         validateFaceListID(faceListId);
         return new DeleteFaceListFaceAction(cognitiveContext, faceListId, persistedFaceId);
     }
-
+    
 }

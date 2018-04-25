@@ -221,7 +221,7 @@ public final class DeletePersonAction extends RestAction<Void> {
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
-
+    
     public DeletePersonAction(@NotNull CognitiveContext cognitiveContext,
                               @NotNull String personGroupId, @NotNull String personId) {
         super(cognitiveContext);
@@ -229,19 +229,19 @@ public final class DeletePersonAction extends RestAction<Void> {
         this.personId = personId;
         buildContext(personGroupId);
     }
-
+    
     private void buildContext(String id) {
         workingContext.setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}")
                 .addPathVariable("personGroupId", id)
                 .addPathVariable("personId", personId)
                 .httpMethod(HttpMethod.DELETE);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_NOT_FOUND,

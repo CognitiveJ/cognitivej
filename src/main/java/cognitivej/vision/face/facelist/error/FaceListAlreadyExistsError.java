@@ -209,16 +209,17 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class FaceListAlreadyExistsError extends ErrorHandler {
+public final class FaceListAlreadyExistsError extends ErrorHandler {
+    
     private final String faceListId;
-
+    
     public FaceListAlreadyExistsError(@NotNull String id) {
         this.faceListId = id;
     }
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new FaceListAlreadyExistsException(faceListId, extractErrorString(httpResponse));
     }
+    
 }

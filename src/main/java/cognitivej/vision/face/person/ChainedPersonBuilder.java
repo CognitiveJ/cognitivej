@@ -217,12 +217,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 
-public class ChainedPersonBuilder extends ChainedBuilder<Person> {
+public final class ChainedPersonBuilder extends ChainedBuilder<Person> {
     
     private final String personGroupId;
     private final Person person;
     private final PersonBuilder personBuilder;
-
+    
     public ChainedPersonBuilder(@NotNull CognitiveContext cognitiveContext,
                                 @NotNull String personGroupId,
                                 @NotNull Person person) {
@@ -230,12 +230,12 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
         this.person = person;
         this.personBuilder = new PersonBuilder(cognitiveContext);
     }
-
+    
     /**
      * Create a personal from given information.
      *
      * @param personName The name of the Person created
-     * @param userData   optional userdata
+     * @param userData optional userdata
      * @return CreatePersonAction
      * @see PersonBuilder#createPerson(String, String, String)
      */
@@ -243,7 +243,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     public CreatePersonAction createPerson(@NotNull String personName, @Nullable String userData) {
         return personBuilder.createPerson(personGroupId, personName, userData);
     }
-
+    
     /**
      * Add a face to a person.
      *
@@ -258,7 +258,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
         return personBuilder.addFaceToPerson(
                 personGroupId, person.getPersonId(), userData, imageUrl);
     }
-
+    
     /**
      * Add a face to a person.
      *
@@ -273,7 +273,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
         return personBuilder.addFaceToPerson(
                 personGroupId, person.getPersonId(), userData, imageInputStream);
     }
-
+    
     /**
      * Delete a person.
      *
@@ -284,7 +284,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     public DeletePersonAction deletePerson() {
         return personBuilder.deletePerson(personGroupId, person.getPersonId());
     }
-
+    
     /**
      * @return DeletePersonAction
      * @see PersonBuilder#getPerson(String, String)
@@ -293,12 +293,12 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     public DeletePersonAction getPerson() {
         return personBuilder.deletePerson(personGroupId, person.getPersonId());
     }
-
+    
     /**
      * Update a person with given info.
      *
      * @param personName personName of the person
-     * @param userData   optional userdata
+     * @param userData optional userdata
      * @return UpdatePersonAction
      * @see PersonBuilder#updatePerson(String, String, String, String)
      */
@@ -307,7 +307,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
         return personBuilder.updatePerson(
                 personGroupId, person.getPersonId(), personName, userData);
     }
-
+    
     /**
      * @return ListPersonsInPersonGroupAction
      * @see PersonBuilder#listPersonsInPersonGroup(String)
@@ -316,5 +316,5 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     public ListPersonsInPersonGroupAction listPersonsInPersonGroup() {
         return personBuilder.listPersonsInPersonGroup(personGroupId);
     }
-
+    
 }

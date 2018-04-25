@@ -219,7 +219,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class UpdateFaceListAction extends ChainedRestAction<FaceList, ChainedFaceListBuilder> {
+public final class UpdateFaceListAction
+        extends ChainedRestAction<FaceList, ChainedFaceListBuilder> {
 
     private final WorkingContext workingContext = new WorkingContext();
     private final CognitiveContext cognitiveContext;
@@ -227,19 +228,22 @@ public class UpdateFaceListAction extends ChainedRestAction<FaceList, ChainedFac
     private final String name;
     private final String userData;
 
-    public UpdateFaceListAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId, @Nullable String name, @Nullable String userData) {
+    public UpdateFaceListAction(@NotNull CognitiveContext cognitiveContext,
+                                @NotNull String faceListId,
+                                @Nullable String name,
+                                @Nullable String userData) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.faceListId = faceListId;
         this.name = name;
         this.userData = userData;
         buildContext();
-
     }
 
     private void buildContext() {
         workingContext.addPayload("name", name).addPayload("userData", userData)
-                .setPath("face/v1.0/facelists/${faceListId}").addPathVariable("faceListId", faceListId)
+                .setPath("face/v1.0/facelists/${faceListId}")
+                .addPathVariable("faceListId", faceListId)
                 .httpMethod(HttpMethod.PATCH);
     }
 
@@ -256,7 +260,7 @@ public class UpdateFaceListAction extends ChainedRestAction<FaceList, ChainedFac
     @NotNull
     @Override
     protected ChainedFaceListBuilder groupBuilder(FaceList faceList) {
-        return new ChainedFaceListBuilder(cognitiveContext, faceList.faceListId);
+        return new ChainedFaceListBuilder(cognitiveContext, faceList.getFaceListId());
     }
 
     @Override

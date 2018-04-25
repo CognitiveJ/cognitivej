@@ -210,11 +210,11 @@ import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
 public final class InvalidImageErrorHandler extends ErrorHandler {
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new InvalidImageException(extractErrorString(httpResponse));
     }
-
-
+    
+    
 }

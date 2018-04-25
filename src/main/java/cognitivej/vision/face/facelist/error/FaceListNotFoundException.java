@@ -205,19 +205,12 @@
 
 package cognitivej.vision.face.facelist.error;
 
-
-public class FaceListNotFoundException extends RuntimeException {
-
-    private final String faceListId;
-
+public final class FaceListNotFoundException extends RuntimeException {
+    
     public FaceListNotFoundException(String faceListId, String message) {
         super(String.format("faceListId:%s;%s", faceListId, message));
-        this.faceListId = faceListId;
     }
-
-    public String getFaceListId() {
-        return faceListId;
-    }
+    
 }
 
 

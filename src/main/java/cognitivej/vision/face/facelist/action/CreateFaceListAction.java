@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist.action;
 
-
 import cognitivej.core.ChainedRestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -220,50 +219,55 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class CreateFaceListAction extends ChainedRestAction<FaceList, ChainedFaceListBuilder> {
-
+public final class CreateFaceListAction
+        extends ChainedRestAction<FaceList, ChainedFaceListBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final CognitiveContext cognitiveContext;
     private final String faceListId;
     private final String name;
     private final String userData;
-
-    public CreateFaceListAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId, @Nullable String name, @Nullable String userData) {
+    
+    public CreateFaceListAction(@NotNull CognitiveContext cognitiveContext,
+                                @NotNull String faceListId,
+                                @Nullable String name,
+                                @Nullable String userData) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.faceListId = faceListId;
         this.name = name;
         this.userData = userData;
         buildContext();
-
+        
     }
-
+    
     private void buildContext() {
         workingContext.addPayload("name", name).addPayload("userData", userData)
-                .setPath("face/v1.0/facelists/${faceListId}").addPathVariable("faceListId", faceListId)
+                .setPath("face/v1.0/facelists/${faceListId}")
+                .addPathVariable("faceListId", faceListId)
                 .httpMethod(HttpMethod.PUT);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected FaceList postProcess(Object response) {
         return new FaceList(faceListId, name, userData);
     }
-
+    
     @NotNull
     @Override
     protected ChainedFaceListBuilder groupBuilder(FaceList faceList) {
-        return new ChainedFaceListBuilder(cognitiveContext, faceList.faceListId);
+        return new ChainedFaceListBuilder(cognitiveContext, faceList.getFaceListId());
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_CONFLICT, new FaceListAlreadyExistsError(faceListId));
     }
-
+    
 }
 

@@ -213,15 +213,15 @@ public final class PersonNotFoundErrorHandler extends ErrorHandler {
     
     private final String personGroupId;
     private final String personId;
-
+    
     public PersonNotFoundErrorHandler(String personGroupId, String personId) {
         this.personGroupId = personGroupId;
         this.personId = personId;
     }
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
-        throw new PersonNotFoundException(personGroupId, personId,extractErrorString(httpResponse));
+        throw new PersonNotFoundException(personGroupId, personId, extractErrorString(httpResponse));
     }
     
 }

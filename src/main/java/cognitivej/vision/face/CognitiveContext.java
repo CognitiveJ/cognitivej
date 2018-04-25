@@ -205,12 +205,12 @@
 
 package cognitivej.vision.face;
 
-
 import cognitivej.core.CognitiveResult;
 import cognitivej.core.ResultChain;
 
-public class CognitiveContext {
-    public String subscriptionKey;
+public final class CognitiveContext {
+    
+    public final String subscriptionKey;
     private ResultChain resultChain = new ResultChain();
 
     public CognitiveContext(String subscriptionKey) {
@@ -232,4 +232,5 @@ public class CognitiveContext {
     public void resetResultChain() {
         resultChain = new ResultChain(); //done this way to leave previous instance readable.
     }
+    
 }

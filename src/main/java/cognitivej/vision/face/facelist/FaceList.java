@@ -213,14 +213,26 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.List;
 
 public final class FaceList extends CognitiveResult {
-
-    public String faceListId, name, userData;
-    private List<PersistedFace> persistedFaces;
-
+    
+    private final String faceListId, name, userData;
+    private final List<PersistedFace> persistedFaces = null;
+    
     public FaceList(String faceListId, String name, String userData) {
         this.faceListId = faceListId;
         this.name = name;
         this.userData = userData;
+    }
+    
+    public String getFaceListId() {
+        return faceListId;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getUserData() {
+        return userData;
     }
     
     @Override
@@ -235,7 +247,7 @@ public final class FaceList extends CognitiveResult {
                 ? !faceListId.equals(faceList.faceListId)
                 : faceList.faceListId != null) {
             return false;
-        } else if (name != null ?
+        } else if (name != null?
                 !name.equals(faceList.name)
                 : faceList.name != null) {
             return false;
@@ -248,20 +260,20 @@ public final class FaceList extends CognitiveResult {
                 ? persistedFaces.equals(faceList.persistedFaces)
                 : faceList.persistedFaces == null;
     }
-
+    
     @Override
     public int hashCode() {
-        int result = faceListId != null ? faceListId.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (userData != null ? userData.hashCode() : 0);
-        result = 31 * result + (persistedFaces != null ? persistedFaces.hashCode() : 0);
+        int result = faceListId != null? faceListId.hashCode(): 0;
+        result = 31 * result + (name != null? name.hashCode(): 0);
+        result = 31 * result + (userData != null? userData.hashCode(): 0);
+        result = 31 * result + (persistedFaces != null? persistedFaces.hashCode(): 0);
         return result;
     }
-
+    
     public List<PersistedFace> getPersistedFaces() {
         return persistedFaces;
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

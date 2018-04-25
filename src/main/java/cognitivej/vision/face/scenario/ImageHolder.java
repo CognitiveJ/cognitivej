@@ -215,6 +215,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ImageHolder<T> implements Comparable<ImageHolder> {
+    
     private final String name;
     private final String userData;
     private final List<VisionImage<T>> images = new ArrayList<>();

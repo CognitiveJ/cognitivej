@@ -227,7 +227,7 @@ public final class GetPersonFaceAction
     private final String personId;
     private final String persistedFaceId;
     private final CognitiveContext cognitiveContext;
-
+    
     public GetPersonFaceAction(@NotNull CognitiveContext cognitiveContext,
                                @NotNull String personGroupId, @NotNull String personId,
                                @NotNull String persistedFaceId) {
@@ -238,7 +238,7 @@ public final class GetPersonFaceAction
         this.persistedFaceId = persistedFaceId;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/persongroups/${personGroupId}/" +
                 "persons/${personId}/persistedFaces/${persistedFaceId}")
@@ -247,24 +247,24 @@ public final class GetPersonFaceAction
                 .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @NotNull
     @Override
     protected ChainedPersistedFaceBuilder groupBuilder(PersistedFace persistedFace) {
         return new ChainedPersistedFaceBuilder(
                 cognitiveContext, personGroupId, personId, persistedFace);
     }
-
+    
     @Override
     protected Type typedResponse() {
         return PersistedFace.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonFaceNotFoundErrorHandler(

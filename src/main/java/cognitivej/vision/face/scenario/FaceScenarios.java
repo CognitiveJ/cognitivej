@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import cognitivej.core.Utils;
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
@@ -240,7 +239,7 @@ import java.util.stream.Collectors;
 /**
  * Holds a collection of useful scenarios when using face (see documentation for specifics)
  */
-public class FaceScenarios {
+public final class FaceScenarios {
     
     private FaceListBuilder faceListBuilder;
     private PersonGroupBuilder personGroupBuilder;
@@ -249,10 +248,12 @@ public class FaceScenarios {
     private EmotionBuilder emotionBuilder;
     
     /**
-     * @param faceSubscriptionKey your MS Cognitive key(s) - Signup here -https://www.microsoft.com/cognitive-services/en-us/face-api
+     * @param faceSubscriptionKey your MS Cognitive key(s) -
+     * Signup here -https://www.microsoft.com/cognitive-services/en-us/face-api
      * @param emotionSubscriptionKey the emotion subscription key
      */
-    public FaceScenarios(@NotNull String faceSubscriptionKey, @Nullable String emotionSubscriptionKey) {
+    public FaceScenarios(@NotNull String faceSubscriptionKey,
+                         @Nullable String emotionSubscriptionKey) {
         CognitiveContext faceCognitiveContext = CognitiveContext.build(faceSubscriptionKey);
         faceListBuilder = new FaceListBuilder(faceCognitiveContext);
         personGroupBuilder = new PersonGroupBuilder(faceCognitiveContext);
@@ -263,28 +264,37 @@ public class FaceScenarios {
     
     
     /**
-     * Creates a {@link cognitivej.vision.face.facelist.FaceList} and add a number of images to the newly created list.
+     * Creates a {@link cognitivej.vision.face.facelist.FaceList} and add a number of images to the
+     * newly created list.
      *
      * @param faceListName - the name of the face list to be created.
      * @param holdingImages - a list of file of type {@link ImageHolder}
      * @return the faceListId of the created {@link cognitivej.vision.face.facelist.FaceList}.
      */
     public String createFaceListAndAddFiles(String faceListName, List<ImageHolder> holdingImages) {
-        String faceListId = String.format("%s_%s_%s", faceListName, RandomStringUtils.randomAlphabetic(3).toLowerCase(), RandomStringUtils.randomNumeric(3));
+        String faceListId = String.format("%s_%s_%s", faceListName,
+                RandomStringUtils.randomAlphabetic(3).toLowerCase(),
+                RandomStringUtils.randomNumeric(3));
         faceListBuilder.createFaceList(faceListId, faceListName, null).withNoResult();
-        holdingImages.forEach((ImageHolder it) -> {
-            if (it.firstImage().isLocalFile())
-                faceListBuilder.addFaceToFaceList(faceListId, it.getUserData(), "", Utils.fileToFileInputStream((File) it.firstImage().getImage())).withNoResult();
-            else
-                faceListBuilder.addFaceToFaceList(faceListId, it.getUserData(), "", (String) it.firstImage().getImage()).withNoResult();
+        holdingImages.forEach(it -> {
+            if (it.firstImage().isLocalFile()) {
+                faceListBuilder.addFaceToFaceList(faceListId, it.getUserData(), "",
+                        Utils.fileToFileInputStream(
+                                (File) it.firstImage().getImage())).withNoResult();
+            } else {
+                faceListBuilder.addFaceToFaceList(faceListId, it.getUserData(), "",
+                        (String) it.firstImage().getImage()).withNoResult();
+            }
         });
         return faceListId;
     }
     
     
-    public Person createPersonInGroup(final String personGroupId, String personName, boolean createGroupIfMissing) {
+    public Person createPersonInGroup(String personGroupId, String personName,
+                                      boolean createGroupIfMissing) {
         if (createGroupIfMissing) {
-            boolean exists = !Utils.throwsException(() -> personGroupBuilder.getGroup(personGroupId), PersonGroupNotFoundException.class);
+            boolean exists = !Utils.throwsException(() ->
+                    personGroupBuilder.getGroup(personGroupId), PersonGroupNotFoundException.class);
             if (!exists) {
                 personGroupBuilder.createGroup(personGroupId, personGroupId, "");
             }
@@ -301,19 +311,26 @@ public class FaceScenarios {
      * @return The created personGroupId
      */
     public String createGroupWithPeople(@NotNull String personGroupId, @NotNull People people) {
-        Validation.validateArray(people.simplePersons(), 1, 1000, new ParameterValidationException("people", "People list is invalid. min 1, max 1000"));
-        boolean exists = !Utils.throwsException(() -> personGroupBuilder.getGroup(personGroupId).withResult(), PersonGroupNotFoundException.class);
+        Validation.validateArray(people.simplePersons(), 1, 1000,
+                new ParameterValidationException("people",
+                        "People list is invalid. min 1, max 1000"));
+        boolean exists = !Utils.throwsException(() ->
+                personGroupBuilder.getGroup(personGroupId).withResult(),
+                PersonGroupNotFoundException.class);
         if (!exists) {
             personGroupBuilder.createGroup(personGroupId, personGroupId, "").withNoResult();
         }
-        people.simplePersons().stream().forEach(simplePerson -> {
-            Person person = personBuilder.createPerson(personGroupId, simplePerson.personName, simplePerson.personUserData).withResult();
+        people.simplePersons().forEach(simplePerson -> {
+            Person person = personBuilder.createPerson(personGroupId, simplePerson.personName,
+                    simplePerson.personUserData).withResult();
             List<ImageHolder> personImages = simplePerson.personImages;
             for (ImageHolder imageHolder : personImages) {
                 if (imageHolder.firstImage().isLocalFile()) {
-                    personBuilder.addFaceToPerson(personGroupId, person.getPersonId(), "", (File) imageHolder.firstImage().getImage()).withNoResult();
+                    personBuilder.addFaceToPerson(personGroupId, person.getPersonId(), "",
+                            (File) imageHolder.firstImage().getImage()).withNoResult();
                 } else {
-                    personBuilder.addFaceToPerson(personGroupId, person.getPersonId(), "", (String) imageHolder.firstImage().getImage()).withNoResult();
+                    personBuilder.addFaceToPerson(personGroupId, person.getPersonId(), "",
+                            (String) imageHolder.firstImage().getImage()).withNoResult();
                 }
             }
         });
@@ -321,21 +338,27 @@ public class FaceScenarios {
         return personGroupId;
     }
     
-    public void createGroupWithFromVisionImages(@NotNull String faceListId, @NotNull List<VisionImage> visionImages) {
-        Validation.validateArray(visionImages, 1, 1000, new ParameterValidationException("visionImages", "Face list is invalid. min 1, max 1000"));
-        boolean exists = !Utils.throwsException(() -> faceListBuilder.getFaceList(faceListId).withResult(), FaceListNotFoundException.class);
+    public void createGroupWithFromVisionImages(@NotNull String faceListId,
+                                                @NotNull List<VisionImage> visionImages) {
+        Validation.validateArray(visionImages, 1, 1000,
+                new ParameterValidationException("visionImages",
+                        "Face list is invalid. min 1, max 1000"));
+        boolean exists = !Utils.throwsException(() ->
+                faceListBuilder.getFaceList(faceListId).withResult(),
+                FaceListNotFoundException.class);
         if (!exists) {
             faceListBuilder.createFaceList(faceListId, faceListId, "").withNoResult();
         }
         
         visionImages.forEach(it -> {
             if (it.isLocalFile())
-                faceListBuilder.addFaceToFaceList(faceListId, "", "", Utils.fileToFileInputStream((File) it.getImage())).withNoResult();
+                faceListBuilder.addFaceToFaceList(faceListId, "", "",
+                        Utils.fileToFileInputStream((File) it.getImage())).withNoResult();
             else
-                faceListBuilder.addFaceToFaceList(faceListId, "", "", (String) it.getImage()).withNoResult();
+                faceListBuilder.addFaceToFaceList(faceListId, "", "",
+                        (String) it.getImage()).withNoResult();
         });
     }
-    
     
     /**
      * Find a single face within a given url
@@ -346,12 +369,13 @@ public class FaceScenarios {
      */
     @NotNull
     public Face findSingleFace(@NotNull String imageUrl) {
-        List<Face> faces = faceTaskBuilder.detectFace(true, true, FaceAttributes.ALL, imageUrl).withResult();
+        List<Face> faces = faceTaskBuilder.detectFace(true, true,
+                FaceAttributes.ALL, imageUrl).withResult();
         if (Utils.isEmpty(faces) || faces.size() > 1)
-            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(), "a single face was not present");
+            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(),
+                    "a single face was not present");
         return faces.get(0);
     }
-    
     
     /**
      * @param file - the Image
@@ -377,9 +401,11 @@ public class FaceScenarios {
      */
     @NotNull
     public Face findSingleFace(@NotNull InputStream image) {
-        List<Face> faces = faceTaskBuilder.detectFace(true, true, FaceAttributes.ALL, image).withResult();
+        List<Face> faces = faceTaskBuilder.detectFace(true, true,
+                FaceAttributes.ALL, image).withResult();
         if (Utils.isEmpty(faces) || faces.size() > 1)
-            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(), "a single face was not present");
+            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(),
+                    "a single face was not present");
         return faces.get(0);
     }
     
@@ -391,9 +417,9 @@ public class FaceScenarios {
      */
     @NotNull
     public List<Face> findFaces(@NotNull InputStream image) {
-        return faceTaskBuilder.detectFace(true, true, FaceAttributes.ALL, image).withResult();
+        return faceTaskBuilder.detectFace(
+                true, true, FaceAttributes.ALL, image).withResult();
     }
-    
     
     /**
      * Find a faces within a local image
@@ -406,7 +432,6 @@ public class FaceScenarios {
         return emotionBuilder.emotionRecognition(image).withResult();
     }
     
-    
     /**
      * Find a faces within a local image
      *
@@ -418,7 +443,6 @@ public class FaceScenarios {
         return emotionBuilder.emotionRecognition(image).withResult();
     }
     
-    
     /**
      * Find a faces within a local image
      *
@@ -429,10 +453,10 @@ public class FaceScenarios {
     public Emotion findEmotionSingleFace(@NotNull String image) {
         List<Emotion> emotions = emotionBuilder.emotionRecognition(image).withResult();
         if (Utils.isEmpty(emotions) || emotions.size() > 1)
-            throw new SingleFaceNotFoundException(Utils.isEmpty(emotions)? 0: emotions.size(), "a single face was not present");
+            throw new SingleFaceNotFoundException(Utils.isEmpty(emotions)? 0: emotions.size(),
+                    "a single face was not present");
         return emotions.get(0);
     }
-    
     
     /**
      * Find faces within a given url
@@ -440,10 +464,9 @@ public class FaceScenarios {
      * @param imageUrl the url of face(s)
      * @return the found faces
      */
-    
-    
     public List<Face> findFaces(@NotNull String imageUrl) {
-        return faceTaskBuilder.detectFace(true, true, FaceAttributes.ALL, imageUrl).withResult();
+        return faceTaskBuilder.detectFace(true, true,
+                FaceAttributes.ALL, imageUrl).withResult();
     }
     
     /**
@@ -451,14 +474,15 @@ public class FaceScenarios {
      *
      * @param face1Url - the first face
      * @param face2Url - the second face.
-     * @return a verificationset.
+     * @return a verification set.
      * @throws SingleFaceNotFoundException - if any 1 of the 2 images don't contain excatly 1 face
      */
     @NotNull
     public VerificationSet verifyFaces(@NotNull String face1Url, @NotNull String face2Url) {
         Face firstFace = findSingleFace(face1Url);
         Face secondFace = findSingleFace(face2Url);
-        Verification verification = faceTaskBuilder.verifyFace(firstFace.faceId, secondFace.faceId).withResult();
+        Verification verification =
+                faceTaskBuilder.verifyFace(firstFace.faceId, secondFace.faceId).withResult();
         return new VerificationSet(firstFace, secondFace, verification);
     }
     
@@ -471,11 +495,11 @@ public class FaceScenarios {
      * @throws SingleFaceNotFoundException if 1 face is not found in the image.
      */
     @NotNull
-    public IdentificationSet identifyPersonInGroup(@NotNull String personGroupId, @NotNull String imageUrl) {
+    public IdentificationSet identifyPersonInGroup(@NotNull String personGroupId,
+                                                   @NotNull String imageUrl) {
         Face singleFace = findSingleFace(imageUrl);
         return identifyPersonInGroup(personGroupId, singleFace);
     }
-    
     
     /**
      * Finds similar people from a list of faces.
@@ -488,7 +512,9 @@ public class FaceScenarios {
     @NotNull
     public FindSimilarSet findSimilar(@NotNull String faceListId, @NotNull String imageUrl) {
         Face singleFace = findSingleFace(imageUrl);
-        List<FindSimilar> result = faceTaskBuilder.findSimilarFace(singleFace.faceId, Collections.emptyList(), faceListId, 20).withResult();
+        List<FindSimilar> result = faceTaskBuilder.findSimilarFace(
+                singleFace.faceId, Collections.emptyList(), faceListId, 20)
+                .withResult();
         FaceList faceList = faceListBuilder.getFaceList(faceListId).withResult();
         return new FindSimilarSet(singleFace, faceList, result);
     }
@@ -497,7 +523,7 @@ public class FaceScenarios {
      * Groups Single Face Images into groups.
      *
      * @param images the image urls (as a list).
-     * @return a biuild {@link FaceGroupingSet}
+     * @return a built {@link FaceGroupingSet}
      */
     @NotNull
     public FaceGroupingSet groupFaceListOnSingleFace(List<String> images) {
@@ -505,44 +531,62 @@ public class FaceScenarios {
         for (String image : images) {
             imageAndFaces.add(new ImageAndFace<>(image, findSingleFace(image)));
         }
-        List<String> faceIds = imageAndFaces.parallelStream().map(it -> it.getFace().faceId).collect(Collectors.toList());
+        List<String> faceIds = imageAndFaces.parallelStream()
+                .map(it -> it.getFace().faceId).collect(Collectors.toList());
         FaceGrouping groupings = faceTaskBuilder.groupFaces(faceIds).withResult();
         return new FaceGroupingSet(imageAndFaces, groupings);
     }
     
     @NotNull
-    public IdentificationSet identifyPersonInGroup(@NotNull String personGroupId, @NotNull InputStream image) {
+    public IdentificationSet identifyPersonInGroup(@NotNull String personGroupId,
+                                                   @NotNull InputStream image) {
         Face singleFace = findSingleFace(image);
         return identifyPersonInGroup(personGroupId, singleFace);
     }
     
     @NotNull
-    private IdentificationSet identifyPersonInGroup(@NotNull String personGroupId, @NotNull Face singleFace) {
-        Identification identification = Utils.elementAt(faceTaskBuilder.identifyFaces(Collections.singletonList(singleFace.faceId), personGroupId, 1).withResult(), 0);
+    private IdentificationSet identifyPersonInGroup(@NotNull String personGroupId,
+                                                    @NotNull Face singleFace) {
+        Identification identification = Utils.elementAt(
+                faceTaskBuilder.identifyFaces(Collections.singletonList(singleFace.faceId),
+                        personGroupId, 1).withResult(), 0);
         if (identification != null && Utils.isNotEmpty(identification.candidates))
-            return new IdentificationSet(singleFace, identification, personBuilder.getPerson(personGroupId, identification.candidates.get(0).personId).withResult());
+            return new IdentificationSet(singleFace, identification, personBuilder.getPerson(
+                    personGroupId, identification.candidates.get(0).personId).withResult());
         return new IdentificationSet(singleFace, identification);
     }
     
-    
     @NotNull
-    public List<IdentificationSet> identifyPersonsInGroup(@NotNull String personGroupId, @NotNull List<Face> faces) {
-        Validation.validateArray(faces, 1, 10, new ParameterValidationException("faces", "Max of 10 faces allowed"));
-        List<Identification> collection = faceTaskBuilder.identifyFaces(Utils.extractFaceIds(faces), personGroupId, 1).withResult();
+    public List<IdentificationSet> identifyPersonsInGroup(@NotNull String personGroupId,
+                                                          @NotNull List<Face> faces) {
+        Validation.validateArray(faces, 1, 10, new ParameterValidationException(
+                "faces", "Max of 10 faces allowed"));
+        List<Identification> collection = faceTaskBuilder.identifyFaces(Utils.extractFaceIds(faces),
+                personGroupId, 1).withResult();
         return buildIdentificationList(personGroupId, faces, collection);
     }
     
     @NotNull
-    public List<IdentificationSet> identifyPersonsInGroup(@NotNull String personGroupId, @NotNull String imageUrl) {
+    public List<IdentificationSet> identifyPersonsInGroup(@NotNull String personGroupId,
+                                                          @NotNull String imageUrl) {
         return identifyPersonsInGroup(personGroupId, findFaces(imageUrl));
     }
     
     @NotNull
-    private List<IdentificationSet> buildIdentificationList(@NotNull String personGroupId, @NotNull List<Face> faces, @NotNull List<Identification> identificationList) {
+    private List<IdentificationSet> buildIdentificationList(
+            @NotNull String personGroupId, @NotNull List<Face> faces,
+            @NotNull List<Identification> identificationList) {
         List<IdentificationSet> identificationSetList = new ArrayList<>();
         for (Identification identification : identificationList) {
-            Optional<Face> first = faces.stream().filter(x -> x.faceId.equals(identification.faceId)).findFirst();
-            identificationSetList.add(new IdentificationSet(first.get(), identification, Utils.isNotEmpty(identification.candidates)? personBuilder.getPerson(personGroupId, identification.candidates.get(0).personId).withResult(): null));
+            Optional<Face> first = faces.stream()
+                    .filter(x -> x.faceId.equals(identification.faceId)).findFirst();
+            identificationSetList.add(new IdentificationSet(
+                    first.get(), identification,
+                    Utils.isNotEmpty(identification.candidates)
+                            ? personBuilder.getPerson(
+                                    personGroupId, identification.candidates.get(0).personId)
+                            .withResult()
+                            : null));
             System.out.println(identification);
         }
         return identificationSetList;
@@ -564,7 +608,7 @@ public class FaceScenarios {
     public void deleteAllFaceLists() {
         List<FaceList> faceLists = faceListBuilder.listFaceLists().withResult();
         for (FaceList faceList : faceLists) {
-            faceListBuilder.deleteFaceList(faceList.faceListId).withNoResult();
+            faceListBuilder.deleteFaceList(faceList.getFaceListId()).withNoResult();
         }
     }
     
@@ -579,9 +623,9 @@ public class FaceScenarios {
     }
     
     /**
-     * returns all facelists.
+     * returns all face lists.
      *
-     * @return all faceslist for this account.
+     * @return all faces list for this account.
      */
     @NotNull
     public List<FaceList> getAllFaceLists() {
@@ -589,9 +633,9 @@ public class FaceScenarios {
     }
     
     /**
-     * Deletes a faceList
+     * Deletes a faceList.
      *
-     * @param faceListId the facelist to be deleted
+     * @param faceListId the face list to be deleted
      */
     public void deleteFaceList(@NotNull String faceListId) {
         faceListBuilder.deleteFaceList(faceListId).withNoResult();
@@ -641,5 +685,6 @@ public class FaceScenarios {
     public FaceTaskBuilder faceTask() {
         return faceTaskBuilder;
     }
+    
 }
 

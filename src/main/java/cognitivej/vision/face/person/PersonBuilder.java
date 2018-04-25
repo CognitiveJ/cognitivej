@@ -228,7 +228,7 @@ public final class PersonBuilder {
             "and no longer than 64 characters.";
     
     private final CognitiveContext cognitiveContext;
-
+    
     public PersonBuilder(CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
@@ -242,7 +242,7 @@ public final class PersonBuilder {
         Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$",
                 new ParameterValidationException("personGroupId", INVALID_PERSON_GROUP_ID_MSG));
     }
-
+    
     /**
      * Create a new person in a specified person group for identify.
      * A newly created person have no registered face, you can call
@@ -267,8 +267,8 @@ public final class PersonBuilder {
                 "The size limit is 16KB"));
         return new CreatePersonAction(cognitiveContext, personGroupId, name, userData);
     }
-
-
+    
+    
     /**
      * Add a representative face to a person for identification.
      * The input face is specified as an image with a targetFace rectangle.
@@ -311,7 +311,7 @@ public final class PersonBuilder {
                 "User-specified data for any purpose. The maximum length is 1KB."));
         return new AddFaceToPersonAction(cognitiveContext, personGroupId, personId, userData, url);
     }
-
+    
     /**
      * Add a representative face to a person for identification.
      * The input face is specified as an image with a targetFace rectangle.
@@ -351,9 +351,9 @@ public final class PersonBuilder {
                                                  @NotNull InputStream imageInputStream) {
         return new AddFaceToPersonAction(
                 cognitiveContext, personGroupId, personId, userData, imageInputStream);
-
+        
     }
-
+    
     /**
      * Add a representative face to a person for identification.
      * The input face is specified as an image with a targetFace rectangle.
@@ -393,7 +393,7 @@ public final class PersonBuilder {
         return addFaceToPerson(personGroupId, personId, userData,
                 Utils.fileToFileInputStream(image));
     }
-
+    
     /**
      * Retrieve a person's information, including registered faces, name and userData.
      *
@@ -406,14 +406,14 @@ public final class PersonBuilder {
         validatePersonGroupID(personGroupId);
         return new GetPersonAction(cognitiveContext, personGroupId, personId);
     }
-
-
+    
+    
     /**
      * Delete an existing person from a person group. Persisted face images of the person will also
      * be deleted.
      *
      * @param personGroupId - The target person's belonging person group's ID.
-     * @param personId      - The target person ID.
+     * @param personId - The target person ID.
      * @return a built {@link GetPersonAction}
      */
     @NotNull
@@ -422,14 +422,14 @@ public final class PersonBuilder {
         validatePersonGroupID(personGroupId);
         return new DeletePersonAction(cognitiveContext, personGroupId, personId);
     }
-
+    
     /**
      * Update a person's name or userData field.
      *
      * @param personGroupId - The target person's belonging person group's ID.
-     * @param personId      - The target person ID.
-     * @param name          - Target person's display name. The maximum length is 128.
-     * @param userData      - 	Optional fields for user-provided data attached to a person.
+     * @param personId - The target person ID.
+     * @param name - Target person's display name. The maximum length is 128.
+     * @param userData - 	Optional fields for user-provided data attached to a person.
      * Size limit is 16KB.
      * @return a built {@link UpdatePersonAction}
      */
@@ -444,13 +444,13 @@ public final class PersonBuilder {
                 "The size limit is 16KB"));
         return new UpdatePersonAction(cognitiveContext, personGroupId, personId, name, userData);
     }
-
+    
     /**
      * Retrieve information about a face (specified by face ID, person ID and its belonging person
      * group ID).
      *
-     * @param personGroupId   - The target person's belonging person group's ID.
-     * @param personId        - The target person ID.
+     * @param personGroupId - The target person's belonging person group's ID.
+     * @param personId - The target person ID.
      * @param persistedFaceId - The target face ID.
      * @return a built {@link GetPersonFaceAction}
      */
@@ -461,12 +461,12 @@ public final class PersonBuilder {
         validatePersonGroupID(personGroupId);
         return new GetPersonFaceAction(cognitiveContext, personGroupId, personId, persistedFaceId);
     }
-
+    
     /**
      * Delete a face from a person. Relative image for the persisted face will also be deleted.
      *
-     * @param personGroupId   - The target person's belonging person group's ID.
-     * @param personId        - The target person ID.
+     * @param personGroupId - The target person's belonging person group's ID.
+     * @param personId - The target person ID.
      * @param persistedFaceId - The target face ID.
      * @return a built {@link DeletePersonFaceAction}
      */
@@ -478,15 +478,15 @@ public final class PersonBuilder {
         return new DeletePersonFaceAction(
                 cognitiveContext, personGroupId, personId, persistedFaceId);
     }
-
-
+    
+    
     /**
      * Update a person face's userData field.
      *
-     * @param personGroupId   - The target person's belonging person group's ID.
-     * @param personId        - The target person ID.
+     * @param personGroupId - The target person's belonging person group's ID.
+     * @param personId - The target person ID.
      * @param persistedFaceId - The target face ID.
-     * @param userData        - Attach user data to person's face. The size limit is 1KB.
+     * @param userData - Attach user data to person's face. The size limit is 1KB.
      * @return a built {@link UpdateFaceToPersonAction}
      */
     @NotNull
@@ -500,7 +500,7 @@ public final class PersonBuilder {
         return new UpdateFaceToPersonAction(
                 cognitiveContext, personGroupId, personId, persistedFaceId, userData);
     }
-
+    
     /**
      * List all people in a person group, and retrieve person information (including person ID,
      * name, user data and registered faces of the person).

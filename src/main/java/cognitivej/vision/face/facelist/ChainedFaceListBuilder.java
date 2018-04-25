@@ -216,13 +216,13 @@ public final class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
     
     private final String faceListId;
     private final FaceListBuilder faceListBuilder;
-
+    
     public ChainedFaceListBuilder(@NotNull CognitiveContext cognitiveContext,
                                   @NotNull String faceListId) {
         this.faceListId = faceListId;
         this.faceListBuilder = new FaceListBuilder(cognitiveContext);
     }
-
+    
     /**
      * @param userData optional user centric data
      * @param imageUrl the image url of the face
@@ -234,10 +234,10 @@ public final class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
                                                      @NotNull String imageUrl) {
         return faceListBuilder.addFaceToFaceList(faceListId, userData, "", imageUrl);
     }
-
+    
     /**
      * @param userData optional user data
-     * @param image    image stream of the face
+     * @param image image stream of the face
      * @return AddFaceToFaceListAction
      * @see FaceListBuilder#addFaceToFaceList(String, String, String, String)
      */
@@ -246,5 +246,5 @@ public final class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
                                                      @NotNull InputStream image) {
         return faceListBuilder.addFaceToFaceList(faceListId, userData, "", image);
     }
-
+    
 }

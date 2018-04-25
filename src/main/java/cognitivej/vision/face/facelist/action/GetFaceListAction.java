@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -218,33 +217,36 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class GetFaceListAction extends RestAction<FaceList> {
+public final class GetFaceListAction extends RestAction<FaceList> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String id;
-
+    
     public GetFaceListAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId) {
         super(cognitiveContext);
         this.id = faceListId;
         buildContext(faceListId);
     }
-
+    
     private void buildContext(String faceListId) {
-        workingContext.setPath("face/v1.0/facelists/${faceListId}").addPathVariable("faceListId", faceListId)
+        workingContext.setPath("face/v1.0/facelists/${faceListId}")
+                .addPathVariable("faceListId", faceListId)
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Class<FaceList> typedResponse() {
         return FaceList.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_NOT_FOUND, new FaceListNotFoundErrorHandler(id));
     }
+    
 }

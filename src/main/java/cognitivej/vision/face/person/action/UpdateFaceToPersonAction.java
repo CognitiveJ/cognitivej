@@ -225,7 +225,7 @@ public final class UpdateFaceToPersonAction
     private final String persistedFaceId;
     private final String userData;
     private final CognitiveContext cognitiveContext;
-
+    
     public UpdateFaceToPersonAction(@NotNull CognitiveContext cognitiveContext,
                                     @NotNull String personGroupId, @NotNull String personId,
                                     @NotNull String persistedFaceId, @Nullable String userData) {
@@ -237,7 +237,7 @@ public final class UpdateFaceToPersonAction
         this.userData = userData;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.addPayload("userData", userData)
                 .setPath("face/v1.0/persongroups/${personGroupId}/" +
@@ -247,24 +247,24 @@ public final class UpdateFaceToPersonAction
                 .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.PATCH);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @NotNull
     @Override
     protected ChainedPersistedFaceBuilder groupBuilder(PersistedFace persistedFace) {
         return new ChainedPersistedFaceBuilder(
                 cognitiveContext, personGroupId, personId, persistedFace);
     }
-
+    
     @Override
     protected PersistedFace postProcess(Object response) {
         return new PersistedFace(persistedFaceId, userData);
     }
-
+    
     @Override
     protected Type typedResponse() {
         return PersistedFace.class;

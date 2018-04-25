@@ -209,18 +209,17 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-public class FaceListNotFoundErrorHandler extends ErrorHandler {
-
+public final class FaceListNotFoundErrorHandler extends ErrorHandler {
+    
     private final String faceListId;
-
+    
     public FaceListNotFoundErrorHandler(String faceListId) {
         this.faceListId = faceListId;
     }
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new FaceListNotFoundException(faceListId, extractErrorString(httpResponse));
     }
-
-
+    
 }

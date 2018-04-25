@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -217,28 +216,32 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class DeleteFaceListAction extends RestAction<Void> {
+public final class DeleteFaceListAction extends RestAction<Void> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String faceListId;
-
-    public DeleteFaceListAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId) {
+    
+    public DeleteFaceListAction(@NotNull CognitiveContext cognitiveContext,
+                                @NotNull String faceListId) {
         super(cognitiveContext);
         this.faceListId = faceListId;
         buildContext(faceListId);
     }
-
+    
     private void buildContext(String id) {
-        workingContext.setPath("face/v1.0/facelists/${id}").addPathVariable("id", id)
+        workingContext.setPath("face/v1.0/facelists/${id}")
+                .addPathVariable("id", id)
                 .httpMethod(HttpMethod.DELETE);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_NOT_FOUND, new FaceListNotFoundErrorHandler(faceListId));
     }
+    
 }

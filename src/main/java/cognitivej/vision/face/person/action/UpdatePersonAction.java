@@ -222,7 +222,7 @@ public final class UpdatePersonAction extends ChainedRestAction<Person, ChainedP
     private final String name;
     private final String userData;
     private final CognitiveContext cognitiveContext;
-
+    
     public UpdatePersonAction(@NotNull CognitiveContext cognitiveContext,
                               @NotNull String personGroupId, @NotNull String personId,
                               @NotNull String name, @Nullable String userData) {
@@ -234,7 +234,7 @@ public final class UpdatePersonAction extends ChainedRestAction<Person, ChainedP
         this.userData = userData;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.addPayload("name", name).addPayload("userData", userData)
                 .setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}")
@@ -242,17 +242,17 @@ public final class UpdatePersonAction extends ChainedRestAction<Person, ChainedP
                 .addPathVariable("personId", personId)
                 .httpMethod(HttpMethod.PATCH);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Person postProcess(Object response) {
         return new Person(personId, name, userData);
     }
-
+    
     @NotNull
     @Override
     protected ChainedPersonBuilder groupBuilder(Person person) {
