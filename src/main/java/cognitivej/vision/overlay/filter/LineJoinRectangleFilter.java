@@ -220,14 +220,14 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class LineJoinRectangleFilter implements ImageFilter {
-
+    
     private Rectangle rectangle1;
     private Rectangle rectangle2;
     private BorderWeight lineThickness;
     private CognitiveJColourPalette color;
     private int xOffset;
     private final Insets insets;
-
+    
     public LineJoinRectangleFilter(Rectangle rectangle1, Rectangle rectangle2, BorderWeight lineThickness, CognitiveJColourPalette color, int xOffset, Insets insets) {
         this.rectangle1 = rectangle1;
         this.rectangle2 = rectangle2;
@@ -236,7 +236,7 @@ public class LineJoinRectangleFilter implements ImageFilter {
         this.xOffset = xOffset;
         this.insets = insets;
     }
-
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
@@ -247,13 +247,13 @@ public class LineJoinRectangleFilter implements ImageFilter {
         Point leftRectangleTop = new Point(rectangle1.x + rectangle1.width, rectangle1.y);
         Point rightRectangleTop = new Point(rectangle2.x + xOffset, rectangle2.y + insets.top);
         Point rightRectangleBottom = new Point(rectangle2.x + xOffset, rectangle2.y + insets.top + rectangle2.height);
-
+        
         PointDistance pointDistance = calculatePoints(leftRectangleTop, leftRectangleBottom, rightRectangleTop, rightRectangleBottom);
         graphics2D.drawLine(pointDistance.getLeftPoint().x, pointDistance.getLeftPoint().y, pointDistance.getRightPoint().x, pointDistance.getRightPoint().y);
         graphics2D.dispose();
         return bufferedImage;
     }
-
+    
     private PointDistance calculatePoints(Point leftRectangleTop, Point leftRectangleBottom, Point rightRectangleTop, Point rightRectangleBottom) {
         PointDistance distance1 = new PointDistance(leftRectangleTop, rightRectangleTop);
         PointDistance distance2 = new PointDistance(leftRectangleBottom, rightRectangleTop);
@@ -263,28 +263,28 @@ public class LineJoinRectangleFilter implements ImageFilter {
         Collections.sort(pointDistances, (o1, o2) -> Double.compare(o1.getDistance(), o2.getDistance()));
         return pointDistances.get(0);
     }
-
+    
     private class PointDistance {
         Point leftPoint;
         Point rightPoint;
-
+        
         public PointDistance(Point leftPoint, Point rightPoint) {
             this.leftPoint = leftPoint;
             this.rightPoint = rightPoint;
         }
-
+        
         public double getDistance() {
             return leftPoint.distance(rightPoint);
         }
-
+        
         public Point getLeftPoint() {
             return leftPoint;
         }
-
+        
         public Point getRightPoint() {
             return rightPoint;
         }
     }
-
-
+    
+    
 }

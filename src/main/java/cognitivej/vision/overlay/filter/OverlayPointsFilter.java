@@ -219,19 +219,19 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class OverlayPointsFilter implements ImageFilter {
-
-
+    
+    
     private final List<Point> rectangle;
     private final CognitiveJColourPalette color;
     private BorderWeight borderWeight;
-
+    
     public OverlayPointsFilter(List<Point> points,
                                BorderWeight borderWeight, CognitiveJColourPalette color) {
         this.rectangle = points;
         this.borderWeight = borderWeight;
         this.color = color;
     }
-
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
@@ -240,12 +240,12 @@ public class OverlayPointsFilter implements ImageFilter {
         graphics2D.dispose();
         return bufferedImage;
     }
-
+    
     private void drawRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color, BorderWeight borderWeight) {
         workingGraphics.setColor(color);
         workingGraphics.setStroke(new BasicStroke(borderWeight.thickness()));
         workingGraphics.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
-
-
+    
+    
 }

@@ -216,11 +216,11 @@ import java.awt.image.WritableRaster;
 public class PixelatedImageSectionFilter implements ImageFilter {
     private Rectangle pixelateSection;
     private static final int PIX_SIZE = 20;
-
+    
     public PixelatedImageSectionFilter(@NotNull Rectangle pixelatedSection) {
         this.pixelateSection = pixelatedSection;
     }
-
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
@@ -241,6 +241,6 @@ public class PixelatedImageSectionFilter implements ImageFilter {
         bufferedImage.setData(dest);
         return bufferedImage;
     }
-
-
+    
+    
 }

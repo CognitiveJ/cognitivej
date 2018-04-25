@@ -214,11 +214,11 @@ import java.io.File;
  * The requested image was not found at location;
  */
 public class ImageNotFoundException extends RuntimeException {
-
+    
     public ImageNotFoundException(@NotNull File file) {
         super(String.format("File not found at location: %s", file.getAbsolutePath()));
     }
-
+    
     public ImageNotFoundException(@NotNull String imageUrl) {
         super(String.format("Image not found at location: %s", imageUrl));
     }

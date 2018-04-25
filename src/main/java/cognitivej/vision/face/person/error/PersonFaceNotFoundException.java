@@ -211,7 +211,7 @@ import org.jetbrains.annotations.NotNull;
  * Thrown when Person Group does not exist (not found).
  */
 public final class PersonFaceNotFoundException extends RuntimeException {
-
+    
     public PersonFaceNotFoundException(@NotNull String groupId,
                                        @NotNull String personId,
                                        @NotNull String persistedFaceId,

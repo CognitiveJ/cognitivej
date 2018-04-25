@@ -220,8 +220,8 @@ public class ImageCaptionFilter implements ImageFilter {
     private final Color color;
     private String text;
     private int insets;
-
-
+    
+    
     public ImageCaptionFilter(Location location, Font font, Color color, String text, int insets) {
         this.location = location;
         this.font = font;
@@ -229,24 +229,24 @@ public class ImageCaptionFilter implements ImageFilter {
         this.text = text;
         this.insets = insets;
     }
-
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage baseImage) {
         Graphics2D g = baseImage.createGraphics();
         g.setFont(font);
         g.setColor(color);
-
+        
         int imageWidth = baseImage.getWidth();
         int imageHeight = baseImage.getHeight();
         int textWidth = g.getFontMetrics().stringWidth(text);
         int textHeight = g.getFontMetrics().getHeight() / 2;
-
+        
         Point p = location.calculate(
                 imageWidth, imageHeight, textWidth, 0,
                 insets, insets, insets, insets
         );
-
+        
         double yRatio = p.y / (double) baseImage.getHeight();
         int yOffset = (int) ((1.0 - yRatio) * textHeight);
         g.drawString(text, p.x, p.y + yOffset);

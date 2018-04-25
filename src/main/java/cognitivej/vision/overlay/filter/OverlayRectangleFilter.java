@@ -218,13 +218,13 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class OverlayRectangleFilter implements ImageFilter {
-
-
+    
+    
     private final Rectangle rectangle;
     private final RectangleType rectangleType;
     private final CognitiveJColourPalette color;
     private BorderWeight borderWeight;
-
+    
     public OverlayRectangleFilter(Rectangle rectangle, RectangleType rectangleType,
                                   BorderWeight borderWeight, CognitiveJColourPalette color) {
         this.rectangle = rectangle;
@@ -232,12 +232,12 @@ public class OverlayRectangleFilter implements ImageFilter {
         this.borderWeight = borderWeight;
         this.color = color;
     }
-
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
         Graphics2D graphics2D = bufferedImage.createGraphics();
-
+        
         if (rectangleType.equals(RectangleType.CORNERED))
             drawCornerRectangle(graphics2D, color.getBackground(), borderWeight, rectangle);
         else
@@ -245,7 +245,7 @@ public class OverlayRectangleFilter implements ImageFilter {
         graphics2D.dispose();
         return bufferedImage;
     }
-
+    
     private void drawRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color, BorderWeight borderWeight, boolean fillRect) {
         workingGraphics.setColor(color);
         workingGraphics.setStroke(new BasicStroke(borderWeight.thickness()));
@@ -253,9 +253,9 @@ public class OverlayRectangleFilter implements ImageFilter {
             workingGraphics.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         else
             workingGraphics.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-
+        
     }
-
+    
     public void drawCornerRectangle(Graphics2D workingGraphics, Color color, BorderWeight borderWeight, Rectangle rectangle) {
         workingGraphics.setColor(color);
         workingGraphics.setStroke(new BasicStroke(borderWeight.thickness()));
@@ -266,19 +266,19 @@ public class OverlayRectangleFilter implements ImageFilter {
         //left up corner
         workingGraphics.drawLine(rectangle.x, rectangle.y, rectangle.x + cornerLength, rectangle.y);
         workingGraphics.drawLine(rectangle.x, rectangle.y, rectangle.x, rectangle.y + cornerLength);
-
+        
         //right up corner
         workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y, (rectangle.x + rectangle.width) - cornerLength, rectangle.y);
         workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y, rectangle.x + rectangle.width, rectangle.y + cornerLength);
-
+        
         //left down corner
         workingGraphics.drawLine(rectangle.x, rectangle.y + rectangle.height, rectangle.x + cornerLength, rectangle.y + rectangle.height);
         workingGraphics.drawLine(rectangle.x, rectangle.y + rectangle.height, rectangle.x, (rectangle.y + rectangle.height) - cornerLength);
-
+        
         //right down corner
         workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y + rectangle.height, (rectangle.x + rectangle.width) - cornerLength, rectangle.y + rectangle.height);
         workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y + rectangle.height, rectangle.x + rectangle.width, (rectangle.y + rectangle.height) - cornerLength);
     }
-
-
+    
+    
 }

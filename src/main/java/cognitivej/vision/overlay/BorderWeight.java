@@ -210,17 +210,17 @@ import java.awt.Insets;
 
 public enum BorderWeight {
     XXTHICK(50), XTHICK(30), THICK(20), THIN(5), THINNER(2);
-
+    
     private final int thickness;
-
+    
     BorderWeight(int thickness) {
         this.thickness = thickness;
     }
-
+    
     public int thickness() {
         return thickness;
     }
-
+    
     public Insets insets() {
         return new Insets(thickness / 2, thickness / 2, thickness / 2, thickness / 2);
     }

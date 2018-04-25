@@ -209,18 +209,13 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class InvalidVisionImageErrorHandler extends ErrorHandler {
-
-
-    public InvalidVisionImageErrorHandler() {
-
-    }
-
+public final class InvalidVisionImageErrorHandler extends ErrorHandler {
+    
+    public InvalidVisionImageErrorHandler() {}
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new InvalidVisionImageException(extractErrorString(httpResponse));
     }
-
-
+    
 }

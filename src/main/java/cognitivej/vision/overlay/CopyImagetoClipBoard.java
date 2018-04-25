@@ -227,20 +227,20 @@ public class CopyImagetoClipBoard implements ClipboardOwner {
             System.exit(1);
         }
     }
-
+    
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
         //can't do much here.
     }
-
+    
     private class TransferableImage implements Transferable {
-
+        
         Image i;
-
+        
         TransferableImage(Image i) {
             this.i = i;
         }
-
+        
         public Object getTransferData(DataFlavor flavor)
                 throws UnsupportedFlavorException, IOException {
             if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
@@ -249,13 +249,13 @@ public class CopyImagetoClipBoard implements ClipboardOwner {
                 throw new UnsupportedFlavorException(flavor);
             }
         }
-
+        
         public DataFlavor[] getTransferDataFlavors() {
             DataFlavor[] flavors = new DataFlavor[1];
             flavors[0] = DataFlavor.imageFlavor;
             return flavors;
         }
-
+        
         public boolean isDataFlavorSupported(DataFlavor flavor) {
             DataFlavor[] flavors = getTransferDataFlavors();
             for (DataFlavor flavor1 : flavors) {
@@ -263,9 +263,9 @@ public class CopyImagetoClipBoard implements ClipboardOwner {
                     return true;
                 }
             }
-
+            
             return false;
         }
     }
-
+    
 }

@@ -209,7 +209,7 @@ import java.awt.Point;
 
 
 public enum PointLocations implements Location {
-
+    
     TOP_LEFT() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -219,8 +219,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     TOP_CENTER() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -230,8 +230,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     TOP_RIGHT() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -241,8 +241,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     CENTER_LEFT() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -252,8 +252,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     CENTER() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -263,8 +263,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     CENTER_RIGHT() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -274,8 +274,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     BOTTOM_LEFT() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -285,8 +285,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     BOTTOM_CENTER() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -296,8 +296,8 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },
-
-
+    
+    
     BOTTOM_RIGHT() {
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
@@ -307,7 +307,7 @@ public enum PointLocations implements Location {
             return new Point(x, y);
         }
     },;
-
+    
     @Override
     public PointLocations location() {
         return this;

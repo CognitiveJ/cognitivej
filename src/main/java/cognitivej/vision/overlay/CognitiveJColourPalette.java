@@ -219,7 +219,7 @@ public class CognitiveJColourPalette {
     public static final CognitiveJColourPalette TRANS_GRAY = new CognitiveJColourPalette(new Color(81, 81, 81, 220), Color.WHITE);
     public static final CognitiveJColourPalette BLUE = new CognitiveJColourPalette(Color.BLUE, Color.WHITE);
     public static final CognitiveJColourPalette WHITE = new CognitiveJColourPalette(Color.WHITE, Color.BLACK);
-
+    
     public static final CognitiveJColourPalette POPPY = new CognitiveJColourPalette(Color.decode("#FF420E"), Color.WHITE);
     public static final CognitiveJColourPalette MIST = new CognitiveJColourPalette(Color.decode("#90AFC5"), Color.WHITE);
     public static final CognitiveJColourPalette STEAM = new CognitiveJColourPalette(Color.decode("#90BD9E"), Color.WHITE);
@@ -230,7 +230,7 @@ public class CognitiveJColourPalette {
     public static final CognitiveJColourPalette HOT_PINK = new CognitiveJColourPalette(Color.decode("#F52549"), Color.WHITE);
     public static final CognitiveJColourPalette CHARTREUSE = new CognitiveJColourPalette(Color.decode("#9BC01C"), Color.WHITE);
     public static final CognitiveJColourPalette STRAWBERRY = new CognitiveJColourPalette(Color.decode("#CB0000"), Color.WHITE);
-
+    
     private static Random rand = new Random();
     private static List<CognitiveJColourPalette> cognitiveJColourPaletteList = new ArrayList<CognitiveJColourPalette>() {{
         add(YELLOW);
@@ -247,21 +247,21 @@ public class CognitiveJColourPalette {
     }};
     private final Color background;
     private final Color foreground;
-
+    
     CognitiveJColourPalette(Color background, Color foreground) {
-
+        
         this.background = background;
         this.foreground = foreground;
     }
-
+    
     public Color getBackground() {
         return background;
     }
-
+    
     public Color getForeground() {
         return foreground;
     }
-
+    
     @NotNull
     public static CognitiveJColourPalette randomColour() {
         return cognitiveJColourPaletteList.get(rand.nextInt(cognitiveJColourPaletteList.size()));

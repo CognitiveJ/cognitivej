@@ -216,8 +216,8 @@ public class OverlayUtils {
         float fontSize = font.getSize();
         FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
         Rectangle2D bounds = font.getStringBounds(text, fontRenderContext);
-        while (bounds.getWidth() > maxWidth || bounds.getHeight()>maxHeight) {
-
+        while (bounds.getWidth() > maxWidth || bounds.getHeight() > maxHeight) {
+            
             font = font.deriveFont((fontSize -= 2));
             bounds = font.getStringBounds(text, fontRenderContext);
         }

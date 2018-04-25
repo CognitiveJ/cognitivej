@@ -216,13 +216,13 @@ public class MergeImagesFilter implements ImageFilter {
     private BufferedImage mergeImage;
     private final Insets insets;
     private final Position position;
-
+    
     public MergeImagesFilter(BufferedImage mergeImage, Insets insets, Position position) {
         this.mergeImage = mergeImage;
         this.insets = insets;
         this.position = position;
     }
-
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
@@ -233,7 +233,7 @@ public class MergeImagesFilter implements ImageFilter {
         graphics2D.dispose();
         return newImage;
     }
-
+    
     private int existingImageY(BufferedImage bufferedImage) {
         switch (position) {
             case LEFT:
@@ -247,7 +247,7 @@ public class MergeImagesFilter implements ImageFilter {
         }
         return 0;
     }
-
+    
     private int existingImageX(BufferedImage bufferedImage) {
         switch (position) {
             case LEFT:
@@ -261,7 +261,7 @@ public class MergeImagesFilter implements ImageFilter {
         }
         return 0;
     }
-
+    
     private int newImageX(BufferedImage bufferedImage) {
         switch (position) {
             case LEFT:
@@ -275,7 +275,7 @@ public class MergeImagesFilter implements ImageFilter {
         }
         return 0;
     }
-
+    
     private int newImageY(BufferedImage bufferedImage) {
         switch (position) {
             case LEFT:
@@ -288,9 +288,9 @@ public class MergeImagesFilter implements ImageFilter {
                 return bufferedImage.getHeight() + insets.bottom;
         }
         return 0;
-
+        
     }
-
+    
     protected int calculateNewHeight(@NotNull BufferedImage bufferedImage) {
         switch (position) {
             case LEFT:
@@ -302,7 +302,7 @@ public class MergeImagesFilter implements ImageFilter {
         }
         return 0;
     }
-
+    
     protected int calculateNewWidth(@NotNull BufferedImage bufferedImage) {
         switch (position) {
             case LEFT:
@@ -314,11 +314,11 @@ public class MergeImagesFilter implements ImageFilter {
         }
         return 0;
     }
-
+    
     private BufferedImage createNewBufferedImage(int newWidth, int newHeight, int imageType) {
         return new BufferedImage(newWidth, newHeight, imageType);
     }
-
+    
     public enum Position {
         LEFT, RIGHT, TOP, BOTTOM
     }

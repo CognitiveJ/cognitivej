@@ -210,25 +210,25 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class ImageGrid {
-
+    
     private final List<BufferedImage> elements;
     private final int cols;
     private int padding = 5;
-
+    
     public ImageGrid(List<BufferedImage> elements, int cols) {
         this.elements = elements;
         this.cols = cols;
     }
-
+    
     public BufferedImage build() {
         BufferedImage newImage = new BufferedImage(calculateNeededWidth(elements, cols), calculateNeededHeight(elements, cols), BufferedImage.TYPE_INT_RGB);
         Graphics g = newImage.getGraphics();
         int startX = 0;
         int startY = 0;
-
+        
         int runningHeight = 0;
         int rowHeight = 0;
-
+        
         for (int i = 0; i < elements.size(); i++) {
             BufferedImage gridImage = elements.get(i);
             if (i % cols == 0) {
@@ -240,12 +240,12 @@ public class ImageGrid {
             }
             runningHeight = gridImage.getHeight();
             g.drawImage(gridImage, startX, startY, null, null);
-
+            
         }
         g.dispose();
         return newImage;
     }
-
+    
     private int calculateNeededHeight(List<BufferedImage> elements, int cols) {
         int lastRowHeight = 0;
         int neededRowHeight = padding;
@@ -257,9 +257,9 @@ public class ImageGrid {
             lastRowHeight = Math.max(elements.get(i).getHeight() + (padding), lastRowHeight);
         }
         return neededRowHeight + lastRowHeight;
-
+        
     }
-
+    
     private int calculateNeededWidth(List<BufferedImage> elements, int cols) {
         int lastRowWidth = padding; //include the edge padding.
         int neededRowWidth = 0;
@@ -272,6 +272,6 @@ public class ImageGrid {
         }
         return Math.max(neededRowWidth, lastRowWidth);
     }
-
-
+    
+    
 }

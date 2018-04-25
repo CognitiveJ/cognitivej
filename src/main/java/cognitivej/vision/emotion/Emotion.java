@@ -213,7 +213,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Emotion {
-
+    
     private final FaceRectangle faceRectangle;
     private final Scores scores;
     
@@ -237,51 +237,51 @@ public class Emotion {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
     public class Scores {
-    
+        
         private final double anger, contempt, disgust, fear, happiness, neutral, sadness, surprise;
-    
+        
         /**
          * Constructor for GSON.
          */
         private Scores() {
             anger = contempt = disgust = fear = happiness = neutral = sadness = surprise = 0;
         }
-    
-    
+        
+        
         public double getAnger() {
             return anger;
         }
-    
+        
         public double getContempt() {
             return contempt;
         }
-    
+        
         public double getDisgust() {
             return disgust;
         }
-    
+        
         public double getFear() {
             return fear;
         }
-    
+        
         public double getHappiness() {
             return happiness;
         }
-    
+        
         public double getNeutral() {
             return neutral;
         }
-    
+        
         public double getSadness() {
             return sadness;
         }
-    
+        
         public double getSurprise() {
             return surprise;
         }
-
+        
         public Map<EmotionScore, Double> scores() {
             return new HashMap<EmotionScore, Double>() {{
                 put(EmotionScore.ANGER, anger);
@@ -293,17 +293,17 @@ public class Emotion {
                 put(EmotionScore.SADNESS, sadness);
                 put(EmotionScore.SURPRISE, surprise);
             }};
-
+            
         }
-
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
+    
     public enum EmotionScore {
         ANGER, CONTEMPT, DISGUST, FEAR, HAPPINESS, NEUTRAL, SADNESS, SURPRISE;
     }
-
+    
 }

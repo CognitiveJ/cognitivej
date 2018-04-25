@@ -218,14 +218,14 @@ import java.awt.image.BufferedImage;
 
 
 public class ApplyCaptionOutsideImageFilter implements ImageFilter {
-
+    
     private final Location location;
     private final Font font;
     private final CognitiveJColourPalette color;
     private final String text;
     private int magicPadding = 50;
     private Insets imageGrownBy;
-
+    
     public ApplyCaptionOutsideImageFilter(@NotNull Location location, @NotNull Font font,
                                           @NotNull CognitiveJColourPalette color, @NotNull String text) {
         this.location = location;
@@ -233,8 +233,8 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
         this.color = color;
         this.text = text;
     }
-
-
+    
+    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
@@ -248,13 +248,13 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
         graphics2D.dispose();
         return imageCaptionFilter.applyFilter(grownImage);
     }
-
+    
     private Insets calculateGrowth() {
         return new Insets(50, 0, 50, 0);
     }
-
+    
     private int calculateHeight() {
-
+        
         switch (location.location()) {
             case TOP_LEFT:
             case TOP_CENTER:
@@ -268,10 +268,10 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
             case BOTTOM_CENTER:
             case BOTTOM_RIGHT:
                 return imageGrownBy.bottom;
-
+            
         }
         return 0;
-
+        
     }
-
+    
 }

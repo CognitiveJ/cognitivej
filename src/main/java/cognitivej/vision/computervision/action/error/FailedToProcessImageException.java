@@ -207,12 +207,12 @@ package cognitivej.vision.computervision.action.error;
 
 import org.jetbrains.annotations.NotNull;
 
-public class FailedToProcessImageException extends RuntimeException {
-
+public final class FailedToProcessImageException extends RuntimeException {
+    
     public FailedToProcessImageException(@NotNull String message) {
         super(message);
     }
-
+    
 }
 
 

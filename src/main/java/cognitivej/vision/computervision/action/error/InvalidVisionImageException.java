@@ -207,12 +207,12 @@ package cognitivej.vision.computervision.action.error;
 
 import org.jetbrains.annotations.NotNull;
 
-public class InvalidVisionImageException extends RuntimeException {
-
+public final class InvalidVisionImageException extends RuntimeException {
+    
     public InvalidVisionImageException(@NotNull String message) {
         super(message);
     }
-
+    
 }
 
 

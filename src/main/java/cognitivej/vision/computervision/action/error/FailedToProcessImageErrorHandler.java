@@ -209,18 +209,14 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class FailedToProcessImageErrorHandler extends ErrorHandler {
-
-
-    public FailedToProcessImageErrorHandler() {
-
-    }
-
+public final class FailedToProcessImageErrorHandler extends ErrorHandler {
+    
+    public FailedToProcessImageErrorHandler() {}
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new FailedToProcessImageException(extractErrorString(httpResponse));
     }
-
-
+    
+    
 }

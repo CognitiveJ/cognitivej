@@ -226,9 +226,9 @@ public final class PersonGroupBuilder {
     private static final String INVALID_PERSON_GROUP_ID_MSG =
             "Person group ID is invalid. Valid format should be a string composed by numbers, " +
                     "english letters in lower case, '-', '_', and no longer than 64 characters.";
-
+    
     private final CognitiveContext cognitiveContext;
-
+    
     public PersonGroupBuilder(@NotNull CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
@@ -242,7 +242,7 @@ public final class PersonGroupBuilder {
         Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$",
                 new ParameterValidationException("personGroupId", INVALID_PERSON_GROUP_ID_MSG));
     }
-
+    
     /**
      * Create a new person group with specified person group ID, name and user-provided data.
      * <p>
@@ -268,7 +268,7 @@ public final class PersonGroupBuilder {
                 "The size limit is 16KB"));
         return new CreatePersonGroupAction(cognitiveContext, personGroupId, name, userData);
     }
-
+    
     /**
      * Update an existing person group's display name and userData.
      *
@@ -291,7 +291,7 @@ public final class PersonGroupBuilder {
                 "The size limit is 16KB"));
         return new UpdatePersonGroupAction(cognitiveContext, personGroupId, name, userData);
     }
-
+    
     /**
      * Retrieve the information of a person group, including its name and userData.
      * <p> This API returns person group information only, use
@@ -306,7 +306,7 @@ public final class PersonGroupBuilder {
         validatePersonGroupID(personGroupId);
         return new GetPersonGroupAction(cognitiveContext, personGroupId);
     }
-
+    
     /**
      * Queue a person group training task, the training task may not be started immediately.
      * <p>
@@ -322,7 +322,7 @@ public final class PersonGroupBuilder {
         validatePersonGroupID(personGroupId);
         return new TrainPersonGroupAction(cognitiveContext, personGroupId);
     }
-
+    
     /**
      * List all person groups and their information.
      *
@@ -332,8 +332,8 @@ public final class PersonGroupBuilder {
     public ListPersonGroupsAction listGroups() {
         return new ListPersonGroupsAction(cognitiveContext);
     }
-
-
+    
+    
     /**
      * Delete an existing person group. Persisted face images of all people in the person group will
      * also be deleted.
@@ -346,7 +346,7 @@ public final class PersonGroupBuilder {
         validatePersonGroupID(personGroupId);
         return new DeletePersonGroupAction(cognitiveContext, personGroupId);
     }
-
+    
     /**
      * Retrieve the training status of a person group (completed or ongoing).
      * <p>Training can be triggered by the Person Group - Train Person Group API. The training will
@@ -360,6 +360,6 @@ public final class PersonGroupBuilder {
         validatePersonGroupID(personGroupId);
         return new GetPersonGroupTrainingStatusAction(cognitiveContext, personGroupId);
     }
-
-
+    
+    
 }

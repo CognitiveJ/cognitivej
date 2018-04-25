@@ -210,26 +210,26 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public final class ImageAndFace<T> {
-
+    
     private final T image;
     private final Face face;
-
+    
     public ImageAndFace(T image, Face face) {
         this.image = image;
         this.face = face;
     }
-
+    
     public final T getImage() {
         return image;
     }
-
+    
     public final Face getFace() {
         return face;
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }

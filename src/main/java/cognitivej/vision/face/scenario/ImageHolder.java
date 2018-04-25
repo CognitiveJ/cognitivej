@@ -247,5 +247,5 @@ public final class ImageHolder<T> implements Comparable<ImageHolder> {
     public int compareTo(ImageHolder o) {
         return name.compareTo(o.name);
     }
-
+    
 }

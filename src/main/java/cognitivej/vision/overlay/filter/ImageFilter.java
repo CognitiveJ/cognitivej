@@ -211,8 +211,8 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.image.BufferedImage;
 
 public interface ImageFilter {
-
-
+    
+    
     @NotNull
     BufferedImage applyFilter(@NotNull BufferedImage bufferedImage);
 }
