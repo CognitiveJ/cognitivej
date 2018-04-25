@@ -205,7 +205,6 @@
 
 package cognitivej.vision.emotion;
 
-
 import cognitivej.vision.face.task.FaceRectangle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -215,17 +214,73 @@ import java.util.Map;
 
 public class Emotion {
 
-    public FaceRectangle faceRectangle;
-    public Scores scores;
-
-
+    private final FaceRectangle faceRectangle;
+    private final Scores scores;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private Emotion() {
+        faceRectangle = null;
+        scores = null;
+    }
+    
+    public FaceRectangle getFaceRectangle() {
+        return faceRectangle;
+    }
+    
+    public Scores getScores() {
+        return scores;
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
 
     public class Scores {
-        public double anger, contempt, disgust, fear, happiness, neutral, sadness, surprise;
+    
+        private final double anger, contempt, disgust, fear, happiness, neutral, sadness, surprise;
+    
+        /**
+         * Constructor for GSON.
+         */
+        private Scores() {
+            anger = contempt = disgust = fear = happiness = neutral = sadness = surprise = 0;
+        }
+    
+    
+        public double getAnger() {
+            return anger;
+        }
+    
+        public double getContempt() {
+            return contempt;
+        }
+    
+        public double getDisgust() {
+            return disgust;
+        }
+    
+        public double getFear() {
+            return fear;
+        }
+    
+        public double getHappiness() {
+            return happiness;
+        }
+    
+        public double getNeutral() {
+            return neutral;
+        }
+    
+        public double getSadness() {
+            return sadness;
+        }
+    
+        public double getSurprise() {
+            return surprise;
+        }
 
         public Map<EmotionScore, Double> scores() {
             return new HashMap<EmotionScore, Double>() {{
@@ -241,7 +296,6 @@ public class Emotion {
 
         }
 
-
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
@@ -251,6 +305,5 @@ public class Emotion {
     public enum EmotionScore {
         ANGER, CONTEMPT, DISGUST, FEAR, HAPPINESS, NEUTRAL, SADNESS, SURPRISE;
     }
-
 
 }

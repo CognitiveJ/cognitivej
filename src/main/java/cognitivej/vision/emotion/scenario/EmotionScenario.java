@@ -205,7 +205,6 @@
 
 package cognitivej.vision.emotion.scenario;
 
-
 import cognitivej.core.Utils;
 import cognitivej.vision.emotion.Emotion;
 import cognitivej.vision.emotion.EmotionBuilder;
@@ -217,17 +216,18 @@ import java.io.InputStream;
 import java.util.List;
 
 public class EmotionScenario {
-
+    
     private final EmotionBuilder emotionBuilder;
-
+    
     /**
-     * @param subscriptionKey your MS Cognitive key - Signup here -https://www.microsoft.com/cognitive-services/en-us/face-api
+     * @param subscriptionKey your MS Cognitive key - Signup here
+     * -https://www.microsoft.com/cognitive-services/en-us/face-api
      */
     public EmotionScenario(@NotNull String subscriptionKey) {
         CognitiveContext cognitiveContext = CognitiveContext.build(subscriptionKey);
         emotionBuilder = new EmotionBuilder(cognitiveContext);
     }
-
+    
     /**
      * Find a single face with emotion within a given url
      *
@@ -239,10 +239,11 @@ public class EmotionScenario {
     public Emotion findEmotionFromSingleFace(@NotNull String imageUrl) {
         List<Emotion> emotions = emotionBuilder.emotionRecognition(imageUrl).withResult();
         if (Utils.isEmpty(emotions) || emotions.size() > 1)
-            throw new SingleFaceNotFoundException(Utils.isEmpty(emotions) ? 0 : emotions.size(), "a single face was not present");
+            throw new SingleFaceNotFoundException(Utils.isEmpty(emotions)? 0: emotions.size(),
+                    "a single face was not present");
         return emotions.get(0);
     }
-
+    
     /**
      * Find a single face with emotion within a given url
      *
@@ -254,8 +255,9 @@ public class EmotionScenario {
     public Emotion findEmotionFromSingleFace(@NotNull InputStream image) {
         List<Emotion> emotions = emotionBuilder.emotionRecognition(image).withResult();
         if (Utils.isEmpty(emotions) || emotions.size() > 1)
-            throw new SingleFaceNotFoundException(Utils.isEmpty(emotions) ? 0 : emotions.size(), "a single face was not present");
+            throw new SingleFaceNotFoundException(Utils.isEmpty(emotions)? 0: emotions.size(),
+                    "a single face was not present");
         return emotions.get(0);
     }
-
+    
 }

@@ -213,88 +213,117 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 
-
-public class EmotionBuilder {
-
+public final class EmotionBuilder {
+    
     private final CognitiveContext cognitiveContext;
-
+    
     public EmotionBuilder(@NotNull CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
-
+    
     /**
-     * Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral.
-     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB.
-     * <p>• If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles.
-     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected.
-     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned.
-     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
+     * Recognizes the emotions expressed by one or more people in an image, as well as returns a
+     * bounding box for the face. The emotions detected are happiness, sadness, surprise, anger,
+     * fear, contempt, and disgust or neutral.
+     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image
+     * file size should be no larger than 4MB.
+     * <p>• If a user has already called the Face API, they can submit the face rectangles as an
+     * optional input. Otherwise, Emotion API will first compute the rectangles.
+     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range
+     * will not be detected.
+     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by
+     * face rectangle size in descending order. If no face is detected, an empty array will be
+     * returned.
+     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles
+     * (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
      * <p>• The emotions contempt and disgust are experimental.
      *
      * @param faceRectangle Rectangle location of face in the image.
-     * @param imageUrl      URL of input image.
+     * @param imageUrl URL of input image.
      * @return a built {@link EmotionRecognitionAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/56f23eb019845524ec61c4d7">MS Cognitive Docs (Emotion Recognition with Face Rectangles)</a>
      */
     @NotNull
-    public EmotionRecognitionAction emotionRecognitionWithRectangle(@Nullable FaceRectangle faceRectangle, @NotNull String imageUrl) {
+    public EmotionRecognitionAction emotionRecognitionWithRectangle(
+            @Nullable FaceRectangle faceRectangle, @NotNull String imageUrl) {
         return new EmotionRecognitionAction(cognitiveContext, faceRectangle, imageUrl);
     }
-
-
+    
     /**
-     * Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral.
-     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB.
-     * <p>• If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles.
-     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected.
-     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned.
-     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
+     * Recognizes the emotions expressed by one or more people in an image, as well as returns a
+     * bounding box for the face. The emotions detected are happiness, sadness, surprise, anger,
+     * fear, contempt, and disgust or neutral.
+     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image
+     * file size should be no larger than 4MB.
+     * <p>• If a user has already called the Face API, they can submit the face rectangles as an
+     * optional input. Otherwise, Emotion API will first compute the rectangles.
+     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range
+     * will not be detected.
+     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by
+     * face rectangle size in descending order. If no face is detected, an empty array will be
+     * returned.
+     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles
+     * (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
      * <p>• The emotions contempt and disgust are experimental.
      *
      * @param faceRectangle Rectangle location of face in the image.
-     * @param image         image input stream.
+     * @param image image input stream.
      * @return a built {@link EmotionRecognitionAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/56f23eb019845524ec61c4d7">MS Cognitive Docs (Emotion Recognition with Face Rectangles)</a>
      */
     @NotNull
-    public EmotionRecognitionAction emotionRecognitionWithRectangle(@Nullable FaceRectangle faceRectangle, @NotNull InputStream image) {
+    public EmotionRecognitionAction emotionRecognitionWithRectangle(
+            @Nullable FaceRectangle faceRectangle, @NotNull InputStream image) {
         return new EmotionRecognitionAction(cognitiveContext, faceRectangle, image);
     }
-
+    
     /**
-     * Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral.
-     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB.
-     * <p>• If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles.
-     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected.
-     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned.
-     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
+     * Recognizes the emotions expressed by one or more people in an image, as well as returns a
+     * bounding box for the face. The emotions detected are happiness, sadness, surprise, anger,
+     * fear, contempt, and disgust or neutral.
+     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image
+     * file size should be no larger than 4MB.
+     * <p>• If a user has already called the Face API, they can submit the face rectangles as an
+     * optional input. Otherwise, Emotion API will first compute the rectangles.
+     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range
+     * will not be detected.
+     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by
+     * face rectangle size in descending order. If no face is detected, an empty array will be
+     * returned.
+     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles
+     * (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
      * <p>• The emotions contempt and disgust are experimental.
      *
      * @param image image input stream.
      * @return a built {@link EmotionRecognitionAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa">MS Cognitive Docs (Emotion Recognition)</a>
      */
     @NotNull
     public EmotionRecognitionAction emotionRecognition(@NotNull InputStream image) {
         return new EmotionRecognitionAction(cognitiveContext, null, image);
     }
-
-
+    
+    
     /**
-     * Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral.
-     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB.
-     * <p>• If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles.
-     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected.
-     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned.
-     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
+     * Recognizes the emotions expressed by one or more people in an image, as well as returns a
+     * bounding box for the face. The emotions detected are happiness, sadness, surprise, anger,
+     * fear, contempt, and disgust or neutral.
+     * • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image
+     * file size should be no larger than 4MB.
+     * <p>• If a user has already called the Face API, they can submit the face rectangles as an
+     * optional input. Otherwise, Emotion API will first compute the rectangles.
+     * <p>• The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range
+     * will not be detected.
+     * <p>• For each image, the maximum number of faces detected is 64 and the faces are ranked
+     * by face rectangle size in descending order. If no face is detected, an empty array will be
+     * returned.
+     * <p>• Some faces may not be detected due to technical challenges, e.g. very large face angles
+     * (head-pose), large occlusion. Frontal and near-frontal faces have the best results.
      * <p>• The emotions contempt and disgust are experimental.
      *
      * @param imageUrl URL of input image.
      * @return a built {@link EmotionRecognitionAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/5639d931ca73072154c1ce89/operations/563b31ea778daf121cc3a5fa">MS Cognitive Docs (Emotion Recognition)</a>
      */
     @NotNull
     public EmotionRecognitionAction emotionRecognition(@NotNull String imageUrl) {
         return new EmotionRecognitionAction(cognitiveContext, null, imageUrl);
     }
+    
 }

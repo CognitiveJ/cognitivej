@@ -258,7 +258,7 @@ public abstract class RestAction<T> {
             HttpRequest builtRequest = buildUniRest(workingContext)
                     .queryString(workingContext.getQueryParams())
                     .headers(workingContext.getHeaders())
-                    .header("Ocp-Apim-Subscription-Key", cognitiveContext.subscriptionKey);
+                    .header("Ocp-Apim-Subscription-Key", cognitiveContext.getSubscriptionKey());
             if (!workingContext.getHttpMethod().equals(HttpMethod.GET)
                     && !workingContext().getPayload().isEmpty()) {
                 buildBody((HttpRequestWithBody) builtRequest);

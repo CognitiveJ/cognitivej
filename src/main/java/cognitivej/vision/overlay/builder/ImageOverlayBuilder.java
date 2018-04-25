@@ -666,11 +666,11 @@ public final class ImageOverlayBuilder {
     public ImageOverlayBuilder outlineDominantEmotionOnImage(
             @NotNull Emotion emotion, @NotNull RectangleTextPosition textPosition) {
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(
-                emotion.faceRectangle.asAwtRectangle(), RectangleType.CORNERED,
+                emotion.getFaceRectangle().asAwtRectangle(), RectangleType.CORNERED,
                 DEFAULT_BORDER_WEIGHT, CognitiveJColourPalette.STRAWBERRY);
         TextOnRectangleFilter textOnRectangleFilter = new TextOnRectangleFilter(new Rectangle(
                 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()),
-                emotion.faceRectangle.asAwtRectangle(), new Insets(0, 0, 0, 0),
+                emotion.getFaceRectangle().asAwtRectangle(), new Insets(0, 0, 0, 0),
                 DEFAULT_TEXT_FONT, CognitiveJColourPalette.STRAWBERRY, textPosition,
                 EmotionStringBuilder.dominantEmotion(emotion));
         bufferedImage = textOnRectangleFilter.applyFilter(
@@ -727,11 +727,11 @@ public final class ImageOverlayBuilder {
     public ImageOverlayBuilder outlineEmotionOnImage(@NotNull Emotion emotion,
                                                      @NotNull RectangleTextPosition textPosition) {
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(
-                emotion.faceRectangle.asAwtRectangle(), RectangleType.CORNERED,
+                emotion.getFaceRectangle().asAwtRectangle(), RectangleType.CORNERED,
                 DEFAULT_BORDER_WEIGHT, CognitiveJColourPalette.randomColour());
         TextOnRectangleFilter textOnRectangleFilter = new TextOnRectangleFilter(new Rectangle(
                 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()),
-                emotion.faceRectangle.asAwtRectangle(), new Insets(0, 0, 0, 0),
+                emotion.getFaceRectangle().asAwtRectangle(), new Insets(0, 0, 0, 0),
                 new Font("Noto Sans", Font.PLAIN, 40), CognitiveJColourPalette.GRAY,
                 textPosition, EmotionStringBuilder.listAllEmotions(emotion));
         bufferedImage = textOnRectangleFilter.applyFilter(

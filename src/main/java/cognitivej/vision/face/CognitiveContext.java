@@ -210,11 +210,15 @@ import cognitivej.core.ResultChain;
 
 public final class CognitiveContext {
     
-    public final String subscriptionKey;
+    private final String subscriptionKey;
     private ResultChain resultChain = new ResultChain();
     
     public CognitiveContext(String subscriptionKey) {
         this.subscriptionKey = subscriptionKey;
+    }
+    
+    public String getSubscriptionKey() {
+        return subscriptionKey;
     }
     
     public void addToResultChain(CognitiveResult cognitiveResult) {

@@ -205,15 +205,14 @@
 
 package cognitivej.vision.emotion;
 
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class EmotionStringBuilder {
-
+public final class EmotionStringBuilder {
+    
     /**
      * Returns the most dominate emotion
      *
@@ -222,13 +221,15 @@ public class EmotionStringBuilder {
      */
     @NotNull
     public static String dominantEmotion(@NotNull Emotion emotion) {
-        Map<Emotion.EmotionScore, Double> scores = emotion.scores.scores();
+        Map<Emotion.EmotionScore, Double> scores = emotion.getScores().scores();
         Emotion.EmotionScore key = scores.entrySet()
-                .stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
+                .stream()
+                .max((entry1, entry2) -> entry1.getValue() > entry2.getValue()? 1: -1)
+                .get().getKey();
         return StringUtils.capitalize(key.name());
-
+        
     }
-
+    
     /**
      * Returns the most dominate emotion and the score
      *
@@ -237,13 +238,16 @@ public class EmotionStringBuilder {
      */
     @NotNull
     public static String dominantEmotionWithScore(@NotNull Emotion emotion) {
-        Map.Entry<Emotion.EmotionScore, Double> scoreVal = emotion.scores.scores().entrySet()
-                .stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get();
-        return String.format("%s:%.2f", StringUtils.capitalize(scoreVal.getKey().name()), scoreVal.getValue());
-
+        Map.Entry<Emotion.EmotionScore, Double> scoreVal = emotion.getScores().scores().entrySet()
+                .stream()
+                .max((entry1, entry2) -> entry1.getValue() > entry2.getValue()? 1: -1)
+                .get();
+        return String.format("%s:%.2f",
+                StringUtils.capitalize(scoreVal.getKey().name()),
+                scoreVal.getValue());
+        
     }
-
-
+    
     /**
      * Returns the most dominate emotion and the score for that emotion
      *
@@ -252,9 +256,9 @@ public class EmotionStringBuilder {
      */
     @NotNull
     public static String listAllEmotions(@NotNull Emotion emotion) {
-        return emotion.scores.scores().entrySet().stream()
-                .map((entry1) -> String.format("%s:%.2f\n", entry1.getKey(), entry1.getValue())).collect(Collectors.joining());
-
+        return emotion.getScores().scores().entrySet().stream()
+                .map((entry1) -> String.format("%s:%.2f\n", entry1.getKey(), entry1.getValue()))
+                .collect(Collectors.joining());
     }
-
+    
 }
