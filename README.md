@@ -1,11 +1,13 @@
 # CognitiveJ - Image Analysis in Java
- [![Apache-2.0 license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates the interaction 
-between Java applications and Microsofts’ Cognitive (Project Oxford) Machine Learning & Image 
-Processing libraries and allows you to query and analyze images.  
+[![Apache-2.0 license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-11-54-02.png) 
+CognitiveJ is an open-source fluent Java (8) API that manages and orchestrates
+the interaction between Java applications and Microsofts’ Cognitive (Project
+Oxford) Machine Learning & Image Processing libraries and allows you to query
+and analyze images. 
+
+![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-11-54-02.png)
 
 ## Faces
 
@@ -16,7 +18,6 @@ Processing libraries and allows you to query and analyze images. 
 - Find Similar – detect, group and rank similar faces
 - Grouping – group people based on facial characteristics
 - Person Group/Person/Face Lists; Create, manage and train groups, face lists and persons to interact with the identification/grouping/find similar face features.
-
 
 ## Vision
 
@@ -43,151 +44,232 @@ Processing libraries and allows you to query and analyze images. 
 - Subscription keys for the MS Cognitive libraries ([free registration here](https://www.microsoft.com/cognitive-services/))
 - Add the dependency from JCenter
 
-###### Gradle
+### Gradle
+
 ```groovy
 repositories {
         jcenter()
     }
-    
+
     dependencies {
     compile "cognitivej:cognitivej:0.6.2"
     }
-    
+
 ```
 
+### Concepts
 
-**Chained Builders** - The builders are simple lightweight wrappers over the MS Cognitive REST calls that manages the marshalling of parameters/responses, the HTTP communications and retry strategies. The builders are chained to allow for follow up manipulation on resources that have been created or retrieved & where applicable. 
+#### Chained Builders**
 
-**Scenarios** - Scenarios are real world use case classes that greatly simplifies the interaction between the builders and the wrapper classes. _While there is no reason you can’t interact directly with the builders, scenarios have much of the boilerplate logic in place to reduce burden._ 
+The builders are simple lightweight wrappers over the MS
+Cognitive REST calls that manages the marshalling of parameters/responses, the
+HTTP communications and retry strategies. The builders are chained to allow for
+follow up manipulation on resources that have been created or retrieved & where
+applicable.
 
-**Overlay** - Allows for creating and writing new images based on the results from the queries. Note: work is ongoing around collision detection and observing boundaries
+#### Scenarios
 
-**Wrappers** Simple domain wrappers around request/response/parameter objects (e.g. Face, FaceAttributes,Person etc)
- 
-**Face – Detect** can detect faces from within an image and return the results as a collection of ‘face’ results. 
+Scenarios are real world use case classes that greatly simplifies the
+interaction between the builders and the wrapper classes.
+
+_While there is no reason you can’t interact directly with the builders, scenarios have much of the boilerplate logic in place to reduce burden._
+
+#### Overlay
+
+Allows for creating and writing new images based on the results
+from the queries. Note: work is ongoing around collision detection and observing
+boundaries
+
+#### Wrappers
+
+Simple domain wrappers around request/response/parameter objects (e.g. Face,
+FaceAttributes, Person etc)
+
+#### Face – Detect
+
+It can detect faces from within an image and return the results as a collection
+of ‘face’ results.
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-12-22-30.png)
 
- 
 ###### Example
+
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
-    ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE_URL);
-    imageOverlayBuilder.outlineFacesOnImage(faceScenarios.findFaces(IMAGE_URL), RectangleType.FULL,
+    ImageOverlayBuilder imageOverlayBuilder =
+            ImageOverlayBuilder.builder(IMAGE_URL);
+    imageOverlayBuilder.outlineFacesOnImage(faceScenarios.findFaces(IMAGE_URL),
+            RectangleType.FULL,
             CognitiveJColourPalette.STRAWBERRY).launchViewer();
 }
 ```
 
+#### Face – Landmarks
 
-**Face – Landmarks** can detect faces from within an image and apply facial landmarks 
+It can detect faces from within an image and apply facial landmarks
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-12-at-15-18-59.png)
 
 ###### Example
+
 ```java
 public static void main(String[] args) throws IOException {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     Face faces = faceScenarios.findSingleFace(IMAGE_URL);
-    ImageOverlayBuilder.builder(IMAGE_URL).outFaceLandmarksOnImage(faces).launchViewer();
+    ImageOverlayBuilder.builder(IMAGE_URL)
+            .outFaceLandmarksOnImage(faces).launchViewer();
 }
 ```
 
-**Face – Detect with Attributes** displays associated attributes for detected faces 
+#### Face – Detect with Attributes
+
+It displays associated attributes for detected faces
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-12-56-15.png)
 
 ###### Example
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     List<Face> faces = faceScenarios.findFaces(IMAGE_URL);
-    ImageOverlayBuilder.builder(IMAGE_URL).outlineFacesOnImage(faces, RectangleType.CORNERED,
-            CognitiveJColourPalette.MEADOW).writeFaceAttributesToTheSide(faces, CognitiveJColourPalette.MEADOW).launchViewer();
+    ImageOverlayBuilder.builder(IMAGE_URL).outlineFacesOnImage(
+            faces, RectangleType.CORNERED,
+            CognitiveJColourPalette.MEADOW)
+            .writeFaceAttributesToTheSide(
+                    faces, CognitiveJColourPalette.MEADOW).launchViewer();
 }
 ```
 
-**Face – Verify** will validate (with a confidence ratio) if 2 different faces are of the same persons.
- 
- ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-13-04-38.png)
- ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-13-06-31.png)
+#### Face – Verify
+
+It will validate (with a confidence ratio) if 2 different faces are of the same
+persons.
+
+![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-13-04-38.png)
+
+![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-13-06-31.png)
 
 ###### Example
+
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
-    ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(CANDIDATE_1);
-    imageOverlayBuilder.verify(CANDIDATE_2, faceScenarios.verifyFaces(CANDIDATE_1, CANDIDATE_2)).launchViewer();
+    ImageOverlayBuilder imageOverlayBuilder =
+            ImageOverlayBuilder.builder(CANDIDATE_1);
+    imageOverlayBuilder.verify(
+            CANDIDATE_2, faceScenarios.verifyFaces(CANDIDATE_1, CANDIDATE_2)
+        ).launchViewer();
 }
 ```
 
-**Face – Identify** will identify a person (or people) within an image. Before the library can identify, we need to provide the the Cognitive libraries with the samples set of candidates. Currently supports 1000 candidates. 
+#### Face – Identify
+
+It will identify a person (or people) within an image. Before the library can
+identify, we need to provide the the Cognitive libraries with the samples set of
+candidates. Currently supports 1000 candidates.
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-14-00-55.png)
 
 ###### Example
+
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE);
     List<ImageHolder> candidates = candidates();
-    People people = ScenarioHelper.createPeopleFromHoldingImages(candidates, ImageNamingStrategy.DEFAULT);
-    String groupId = faceScenarios.createGroupWithPeople(randomAlphabetic(6).toLowerCase(), people);
+    People people = ScenarioHelper.createPeopleFromHoldingImages(
+            candidates, ImageNamingStrategy.DEFAULT);
+    String groupId = faceScenarios.createGroupWithPeople(
+            randomAlphabetic(6).toLowerCase(), people);
 }
 ```
 
-**Face – Pixelate **will identify all faces within an image and pixelate them. 
+#### Face – Pixelate
+
+It will identify all faces within an image and pixelate them.
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-19-23-23.png)
 
+###### Example
+
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
-    ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE);
-    faceScenarios.findFaces(IMAGE).stream().forEach(imageOverlayBuilder:: pixelateFaceOnImage);
+    ImageOverlayBuilder imageOverlayBuilder =
+            ImageOverlayBuilder.builder(IMAGE);
+    faceScenarios.findFaces(IMAGE).stream()
+            .forEach(imageOverlayBuilder:: pixelateFaceOnImage);
     imageOverlayBuilder.launchViewer();
 }
 ```
 
-**Emotion – Detect** will detect what emotion a face(s) is showing within an image.
+#### Emotion – Detect
+
+It will detect what emotion a face(s) is showing within an image.
+
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-14-36-14.png)
 
-
+###### Example
 
 ```java
 public static void main(String[] args) {
-    FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.face.subscriptionKey"),
+    FaceScenarios faceScenarios = new FaceScenarios(
+            getProperty("azure.cognitive.face.subscriptionKey"),
             getProperty("azure.cognitive.emotion.subscriptionKey"));
-    ImageOverlayBuilder.builder(IMAGE_URL).outlineEmotionsOnImage(faceScenarios.findEmotionFaces(IMAGE_URL)).launchViewer();
+    ImageOverlayBuilder.builder(IMAGE_URL).outlineEmotionsOnImage(
+            faceScenarios.findEmotionFaces(IMAGE_URL)).launchViewer();
 }
 ```
-**Vision – Describe** will analyse and describe the contents of an image in a human readable caption.
+
+#### Vision – Describe
+
+It will analyze and describe the contents of an image in a human readable
+caption.
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-17-12-49.png)
 
+###### Example
+
 ```java
 public static void main(String[] args) {
-    ComputerVisionScenario computerVisionScenario = new ComputerVisionScenario(getProperty("azure.cognitive.vision.subscriptionKey"));
-    ImageDescription imageDescription = computerVisionScenario.describeImage(IMAGE_URL);
-    ImageOverlayBuilder.builder(IMAGE_URL).describeImage(imageDescription).launchViewer();
+    ComputerVisionScenario computerVisionScenario = new ComputerVisionScenario(
+            getProperty("azure.cognitive.vision.subscriptionKey"));
+    ImageDescription imageDescription =
+            computerVisionScenario.describeImage(IMAGE_URL);
+    ImageOverlayBuilder.builder(IMAGE_URL)
+            .describeImage(imageDescription).launchViewer();
 
 }
 ```
 
-**Vision – OCR **will analyse and extract text from within an image into a computer understandable stream.
+#### Vision – OCR 
+
+It will analyse and extract text from within an image into a computer
+understandable stream.
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-12-at-11-41-25.png)
 
+###### Example
+
 ```java
 public static void main(String[] args) {
-    ComputerVisionScenario computerVisionScenario = new ComputerVisionScenario(getProperty("azure.cognitive.vision.subscriptionKey"));
+    ComputerVisionScenario computerVisionScenario = new ComputerVisionScenario(
+            getProperty("azure.cognitive.vision.subscriptionKey"));
     OCRResult ocrResult = computerVisionScenario.ocrImage(IMAGE_URL);
-    ImageOverlayBuilder.builder(IMAGE_URL).ocrImage(ocrResult).launchViewer();
+    ImageOverlayBuilder.builder(IMAGE_URL)
+            .ocrImage(ocrResult).launchViewer();
 }
 ```
