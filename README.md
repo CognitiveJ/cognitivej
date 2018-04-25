@@ -87,6 +87,8 @@ FaceAttributes, Person etc)
 
 ### Concrete Examples
 
+Check `examples.Examples` in test for all those examples listed below.
+
 #### Face – Detect
 
 It can detect faces from within an image and return the results as a collection
@@ -142,10 +144,9 @@ public static void main(String[] args) {
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     List<Face> faces = faceScenarios.findFaces(IMAGE_URL);
     ImageOverlayBuilder.builder(IMAGE_URL).outlineFacesOnImage(
-            faces, RectangleType.CORNERED,
-            CognitiveJColourPalette.MEADOW)
-            .writeFaceAttributesToTheSide(
-                    faces, CognitiveJColourPalette.MEADOW).launchViewer();
+            faces, RectangleType.CORNERED, CognitiveJColourPalette.MEADOW)
+            .writeFaceAttributes(faces, CognitiveJColourPalette.MEADOW)
+            .launchViewer();
 }
 ```
 
@@ -212,8 +213,8 @@ public static void main(String[] args) {
             getProperty("azure.cognitive.emotion.subscriptionKey"));
     ImageOverlayBuilder imageOverlayBuilder =
             ImageOverlayBuilder.builder(IMAGE);
-    faceScenarios.findFaces(IMAGE).stream()
-            .forEach(imageOverlayBuilder:: pixelateFaceOnImage);
+    faceScenarios.findFaces(IMAGE)
+            .forEach(imageOverlayBuilder::pixelateFaceOnImage);
     imageOverlayBuilder.launchViewer();
 }
 ```
