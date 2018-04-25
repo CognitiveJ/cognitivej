@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.persongroup.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -219,33 +218,38 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class GetPersonGroupTrainingStatusAction extends RestAction<PersonGroupTrainingStatus> {
+public final class GetPersonGroupTrainingStatusAction
+        extends RestAction<PersonGroupTrainingStatus> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
-
-    public GetPersonGroupTrainingStatusAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId) {
+    
+    public GetPersonGroupTrainingStatusAction(@NotNull CognitiveContext cognitiveContext,
+                                              @NotNull String personGroupId) {
         super(cognitiveContext);
         this.personGroupId = personGroupId;
         buildContext();
     }
-
+    
     private void buildContext() {
-        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/training").addPathVariable("personGroupId", personGroupId)
+        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/training")
+                .addPathVariable("personGroupId", personGroupId)
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return PersonGroupTrainingStatus.class;
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-        errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonGroupNotFoundErrorHandler(personGroupId));
+        errorHandlers.put(HttpStatus.SC_NOT_FOUND,
+                new PersonGroupNotFoundErrorHandler(personGroupId));
     }
 }

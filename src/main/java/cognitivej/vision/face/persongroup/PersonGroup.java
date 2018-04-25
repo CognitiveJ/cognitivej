@@ -205,18 +205,30 @@
 
 package cognitivej.vision.face.persongroup;
 
-
 import cognitivej.core.CognitiveResult;
 
-public class PersonGroup extends CognitiveResult{
-    public String personGroupId, name, userData;
-
+public final class PersonGroup extends CognitiveResult {
+    
+    private final String personGroupId, name, userData;
+    
     public PersonGroup(String personGroupId, String name, String userData) {
         this.personGroupId = personGroupId;
         this.name = name;
         this.userData = userData;
     }
-
+    
+    public String getPersonGroupId() {
+        return personGroupId;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getUserData() {
+        return userData;
+    }
+    
     @Override
     public String toString() {
         return "PersonGroup{" +
@@ -225,28 +237,33 @@ public class PersonGroup extends CognitiveResult{
                 ", userData='" + userData + '\'' +
                 '}';
     }
-
+    
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PersonGroup that = (PersonGroup) o;
-
-        if (personGroupId != null ? !personGroupId.equals(that.personGroupId) : that.personGroupId != null)
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return userData != null ? userData.equals(that.userData) : that.userData == null;
-
+        }
+        PersonGroup that = (PersonGroup) o;
+        if (personGroupId != null
+                ? !personGroupId.equals(that.personGroupId)
+                : that.personGroupId != null) {
+            return false;
+        }
+        if (name != null? !name.equals(that.name): that.name != null) {
+            return false;
+        }
+        return userData != null? userData.equals(that.userData): that.userData == null;
     }
-
+    
     @Override
     public int hashCode() {
-        int result = personGroupId != null ? personGroupId.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (userData != null ? userData.hashCode() : 0);
+        int result = personGroupId != null? personGroupId.hashCode(): 0;
+        result = 31 * result + (name != null? name.hashCode(): 0);
+        result = 31 * result + (userData != null? userData.hashCode(): 0);
         return result;
     }
-
-
+    
 }

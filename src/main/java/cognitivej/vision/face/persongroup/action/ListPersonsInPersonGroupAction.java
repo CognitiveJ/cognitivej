@@ -203,8 +203,7 @@
  *    limitations under the License.
  */
 
-package cognitivej.vision.face.persongroup.error;
-
+package cognitivej.vision.face.persongroup.action;
 
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
@@ -212,6 +211,7 @@ import cognitivej.core.error.ErrorHandler;
 import cognitivej.vision.face.CognitiveContext;
 import cognitivej.vision.face.person.Person;
 import cognitivej.vision.face.persongroup.PersonGroup;
+import cognitivej.vision.face.persongroup.error.PersonGroupNotFoundErrorHandler;
 import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.HttpMethod;
 import org.apache.http.HttpStatus;
@@ -220,37 +220,38 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-public class ListPersonsInPersonGroupAction extends RestAction<List<PersonGroup>> {
+public final class ListPersonsInPersonGroupAction extends RestAction<List<PersonGroup>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     private final String personGroupId;
-
+    
     public ListPersonsInPersonGroupAction(CognitiveContext cognitiveContext, String personGroupId) {
         super(cognitiveContext);
         this.personGroupId = personGroupId;
         buildContext();
     }
-
+    
     private void buildContext() {
-        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/persons").addPathVariable("personGroupId", personGroupId)
+        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/persons")
+                .addPathVariable("personGroupId", personGroupId)
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
-        return new TypeToken<List<Person>>() {
-        }.getType();
+        return new TypeToken<List<Person>>() {}.getType();
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-        errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonGroupNotFoundErrorHandler(personGroupId));
+        errorHandlers.put(HttpStatus.SC_NOT_FOUND,
+                new PersonGroupNotFoundErrorHandler(personGroupId));
     }
-
-
+    
 }

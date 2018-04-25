@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.persongroup.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
@@ -217,29 +216,28 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ListPersonGroupsAction extends RestAction<List<PersonGroup>> {
+public final class ListPersonGroupsAction extends RestAction<List<PersonGroup>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     public ListPersonGroupsAction(@NotNull CognitiveContext cognitiveContext) {
         super(cognitiveContext);
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/persongroups")
                 .httpMethod(HttpMethod.GET);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
-        return new TypeToken<List<PersonGroup>>() {
-        }.getType();
+        return new TypeToken<List<PersonGroup>>() {}.getType();
     }
-
-
+    
 }

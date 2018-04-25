@@ -550,9 +550,12 @@ public final class FaceScenarios {
         Identification identification = Utils.elementAt(
                 faceTaskBuilder.identifyFaces(Collections.singletonList(singleFace.faceId),
                         personGroupId, 1).withResult(), 0);
-        if (identification != null && Utils.isNotEmpty(identification.candidates))
+        if (identification != null && Utils.isNotEmpty(identification.candidates)) {
             return new IdentificationSet(singleFace, identification, personBuilder.getPerson(
                     personGroupId, identification.candidates.get(0).personId).withResult());
+        } else if (identification == null) {
+            throw new Error("Unexpected!");
+        }
         return new IdentificationSet(singleFace, identification);
     }
     
@@ -598,7 +601,7 @@ public final class FaceScenarios {
     public void deleteAllGroups() {
         List<PersonGroup> personGroups = personGroupBuilder.listGroups().withResult();
         for (PersonGroup personGroup : personGroups) {
-            personGroupBuilder.deleteGroup(personGroup.personGroupId);
+            personGroupBuilder.deleteGroup(personGroup.getPersonGroupId());
         }
     }
     

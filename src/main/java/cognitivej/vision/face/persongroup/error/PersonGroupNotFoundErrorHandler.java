@@ -209,14 +209,14 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class PersonGroupNotFoundErrorHandler extends ErrorHandler {
+public final class PersonGroupNotFoundErrorHandler extends ErrorHandler {
+    
     private final String personGroupId;
-
+    
     public PersonGroupNotFoundErrorHandler(String personGroupId) {
         this.personGroupId = personGroupId;
     }
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new PersonGroupNotFoundException(personGroupId, extractErrorString(httpResponse));

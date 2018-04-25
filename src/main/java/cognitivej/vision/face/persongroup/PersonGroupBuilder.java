@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.persongroup;
 
-
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
 import cognitivej.vision.face.CognitiveContext;
@@ -213,76 +212,108 @@ import cognitivej.vision.face.persongroup.action.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PersonGroupBuilder {
+public final class PersonGroupBuilder {
+    
+    /**
+     * Message for invalid personal group ID.
+     */
+    private static final String INVALID_PERSON_GROUP_ID_MSG =
+            "Person group ID is invalid. Valid format should be a string composed by numbers, " +
+                    "english letters in lower case, '-', '_', and no longer than 64 characters.";
 
     private final CognitiveContext cognitiveContext;
 
     public PersonGroupBuilder(@NotNull CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
+    
+    /**
+     * A helper method to validate person group ID.
+     *
+     * @param personGroupId the person group ID to validate.
+     */
+    private static void validatePersonGroupID(@NotNull String personGroupId) {
+        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$",
+                new ParameterValidationException("personGroupId", INVALID_PERSON_GROUP_ID_MSG));
+    }
 
     /**
      * Create a new person group with specified person group ID, name and user-provided data.
      * <p>
-     * A person group is one of the most important parameters for the Face - Identify API. The Identify searches person faces in a specified person group.
+     * A person group is one of the most important parameters for the Face - Identify API.
+     * The Identify searches person faces in a specified person group.
      *
-     * @param personGroupId - User-provided person group ID as a string. The valid characters include numbers, english letters in lower case, '-' and '_'. The maximum length of the personGroupId is 64
-     * @param name          - Person group display name. The maximum length is 128.
-     * @param userData      - User-provided data attached to the person group. The size limit is 16KB (UTF-16 encoded).
+     * @param personGroupId - User-provided person group ID as a string. The valid characters
+     * include numbers, english letters in lower case, '-' and '_'. The maximum length of the
+     * personGroupId is 64
+     * @param name Person group display name. The maximum length is 128.
+     * @param userData User-provided data attached to the person group. The size limit is 16KB
+     * (UTF-16 encoded).
      * @return a built {@link CreatePersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395244">MS Cognitive Docs (Person Group - CREATE)</a>
      */
     @NotNull
-    public CreatePersonGroupAction createGroup(@NotNull String personGroupId, @NotNull String name, @Nullable String userData) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name", "The maximum length is 128"));
-        Validation.validate(userData, 16, new ParameterValidationException("userData", "The size limit is 16KB"));
+    public CreatePersonGroupAction createGroup(@NotNull String personGroupId,
+                                               @NotNull String name,
+                                               @Nullable String userData) {
+        validatePersonGroupID(personGroupId);
+        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name",
+                "The maximum length is 128"));
+        Validation.validate(userData, 16, new ParameterValidationException("userData",
+                "The size limit is 16KB"));
         return new CreatePersonGroupAction(cognitiveContext, personGroupId, name, userData);
     }
 
     /**
      * Update an existing person group's display name and userData.
      *
-     * @param personGroupId - User-provided person group ID as a string. The valid characters include numbers, english letters in lower case, '-' and '_'. The maximum length of the personGroupId is 64
-     * @param name          - Person group display name. The maximum length is 128.
-     * @param userData      - User-provided data attached to the person group. The size limit is 16KB (UTF-16 encoded).
+     * @param personGroupId User-provided person group ID as a string. The valid characters include
+     * numbers, english letters in lower case, '-' and '_'. The maximum length of the personGroupId
+     * is 64
+     * @param name Person group display name. The maximum length is 128.
+     * @param userData User-provided data attached to the person group.
+     * The size limit is 16KB (UTF-16 encoded).
      * @return a built {@link UpdatePersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524a">MS Cognitive Docs (Person Group - UPDATE)</a>
      */
     @NotNull
-    public UpdatePersonGroupAction updateGroup(@NotNull String personGroupId, @NotNull String name, @Nullable String userData) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name", "The maximum length is 128"));
-        Validation.validate(userData, 16, new ParameterValidationException("userData", "The size limit is 16KB"));
+    public UpdatePersonGroupAction updateGroup(@NotNull String personGroupId,
+                                               @NotNull String name,
+                                               @Nullable String userData) {
+        validatePersonGroupID(personGroupId);
+        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name",
+                "The maximum length is 128"));
+        Validation.validate(userData, 16, new ParameterValidationException("userData",
+                "The size limit is 16KB"));
         return new UpdatePersonGroupAction(cognitiveContext, personGroupId, name, userData);
     }
 
     /**
      * Retrieve the information of a person group, including its name and userData.
-     * <p> This API returns person group information only, use {@link cognitivej.vision.face.person.PersonBuilder#listPersonsInPersonGroup(String)} in a Person Group instead to retrieve person information under the person group.
+     * <p> This API returns person group information only, use
+     * {@link cognitivej.vision.face.person.PersonBuilder#listPersonsInPersonGroup(String)} in a
+     * Person Group instead to retrieve person information under the person group.
      *
      * @param personGroupId - ID of the target person group.
      * @return a built {@link GetPersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395246">MS Cognitive Docs (Person Group - GET)</a>
      */
     @NotNull
     public GetPersonGroupAction getGroup(@NotNull String personGroupId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validatePersonGroupID(personGroupId);
         return new GetPersonGroupAction(cognitiveContext, personGroupId);
     }
 
     /**
      * Queue a person group training task, the training task may not be started immediately.
      * <p>
-     * Any updates to person group will not take effect in Face - Identify until person group is successfully trained. You can query the training status by calling Person Group - Get Person Group Training Status API.
+     * Any updates to person group will not take effect in Face - Identify until person group is
+     * successfully trained. You can query the training status by calling Person Group - Get Person
+     * Group Training Status API.
      *
      * @param personGroupId - ID of the target person group.
      * @return a built {@link TrainPersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395249">MS Cognitive Docs (Person Group - TRAIN)</a>
      */
     @NotNull
     public TrainPersonGroupAction trainGroup(@NotNull String personGroupId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validatePersonGroupID(personGroupId);
         return new TrainPersonGroupAction(cognitiveContext, personGroupId);
     }
 
@@ -290,7 +321,6 @@ public class PersonGroupBuilder {
      * List all person groups and their information.
      *
      * @return a built {@link ListPersonGroupsAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395248">MS Cognitive Docs (Person Group - LIST)</a>
      */
     @NotNull
     public ListPersonGroupsAction listGroups() {
@@ -299,29 +329,29 @@ public class PersonGroupBuilder {
 
 
     /**
-     * Delete an existing person group. Persisted face images of all people in the person group will also be deleted.
+     * Delete an existing person group. Persisted face images of all people in the person group will
+     * also be deleted.
      *
      * @param personGroupId - ID of the target person group.
      * @return a built {@link DeletePersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395245">MS Cognitive Docs (Person Group - DELETE)</a>
      */
     @NotNull
     public DeletePersonGroupAction deleteGroup(@NotNull String personGroupId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validatePersonGroupID(personGroupId);
         return new DeletePersonGroupAction(cognitiveContext, personGroupId);
     }
 
     /**
      * Retrieve the training status of a person group (completed or ongoing).
-     * <p>Training can be triggered by the Person Group - Train Person Group API. The training will process for a while on the server side.
+     * <p>Training can be triggered by the Person Group - Train Person Group API. The training will
+     * process for a while on the server side.
      *
      * @param personGroupId - ID of the target person group.
      * @return a built {@link GetPersonGroupTrainingStatusAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395247">MS Cognitive Docs (Person Group - TRAINING STATUS)</a>
      */
     @NotNull
     GetPersonGroupTrainingStatusAction personGroupTrainingStatus(@NotNull String personGroupId) {
-        Validation.validate(personGroupId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("personGroupId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validatePersonGroupID(personGroupId);
         return new GetPersonGroupTrainingStatusAction(cognitiveContext, personGroupId);
     }
 

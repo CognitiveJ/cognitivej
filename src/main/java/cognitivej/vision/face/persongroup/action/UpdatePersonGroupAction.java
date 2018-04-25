@@ -219,49 +219,53 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class UpdatePersonGroupAction extends ChainedRestAction<PersonGroup, ChainedPersonGroupBuilder> {
-
+public final class UpdatePersonGroupAction
+        extends ChainedRestAction<PersonGroup, ChainedPersonGroupBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final CognitiveContext cognitiveContext;
     private final String personGroupId;
     private final String name;
     private final String userData;
-
-    public UpdatePersonGroupAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String name, @Nullable String userData) {
+    
+    public UpdatePersonGroupAction(@NotNull CognitiveContext cognitiveContext,
+                                   @NotNull String personGroupId,
+                                   @NotNull String name,
+                                   @Nullable String userData) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.personGroupId = personGroupId;
         this.name = name;
         this.userData = userData;
         buildContext();
-
     }
-
+    
     private void buildContext() {
         workingContext.addPayload("name", name).addPayload("userData", userData)
-                .setPath("face/v1.0/persongroups/${personGroupId}").addPathVariable("personGroupId", personGroupId)
+                .setPath("face/v1.0/persongroups/${personGroupId}")
+                .addPathVariable("personGroupId", personGroupId)
                 .httpMethod(HttpMethod.PATCH);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected PersonGroup postProcess(Object response) {
         return new PersonGroup(personGroupId, name, userData);
     }
-
+    
     @NotNull
     @Override
     protected ChainedPersonGroupBuilder groupBuilder(PersonGroup personGroup) {
         return new ChainedPersonGroupBuilder(cognitiveContext, personGroup);
     }
-
+    
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
         errorHandlers.put(HttpStatus.SC_CONFLICT, new PersonGroupAlreadyExistsError(personGroupId));
     }
-
+    
 }

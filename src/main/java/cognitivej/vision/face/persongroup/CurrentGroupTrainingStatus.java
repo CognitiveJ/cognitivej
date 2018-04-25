@@ -209,5 +209,5 @@ package cognitivej.vision.face.persongroup;
  * Created by Ian on 29/04/2016.
  */
 enum CurrentGroupTrainingStatus {
-    notstarted, running, succeeded, failed;
+    NOT_STARTED, RUNNING, SUCCEEDED, FAILED;
 }

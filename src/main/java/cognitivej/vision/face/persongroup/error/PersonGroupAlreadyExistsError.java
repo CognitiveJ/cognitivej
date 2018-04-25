@@ -210,19 +210,19 @@ import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Person Group exists error handler
- *
- * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395246">MS Cognitive Docs (Person Group)</a>
+ * Person Group exists error handler.
  */
-public class PersonGroupAlreadyExistsError extends ErrorHandler {
+public final class PersonGroupAlreadyExistsError extends ErrorHandler {
+    
     private final String personGroupId;
-
+    
     public PersonGroupAlreadyExistsError(String personGroupId) {
         this.personGroupId = personGroupId;
     }
-
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new PersonGroupAlreadyExistsException(personGroupId, extractErrorString(httpResponse));
     }
+    
 }

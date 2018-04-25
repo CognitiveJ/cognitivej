@@ -212,18 +212,22 @@ import cognitivej.vision.face.person.action.AddFaceToPersonAction;
 
 import java.io.InputStream;
 
-public class ChainedPersistedFaceBuilder extends ChainedBuilder<PersistedFace> {
+public final class ChainedPersistedFaceBuilder extends ChainedBuilder<PersistedFace> {
+    
     private final String personGroupId;
     private final String personId;
-    private PersonBuilder personBuilder;
-
-    public ChainedPersistedFaceBuilder(CognitiveContext cognitiveContext, String personGroupId, String personId, PersistedFace persistedFace) {
+    private final PersonBuilder personBuilder;
+    
+    public ChainedPersistedFaceBuilder(CognitiveContext cognitiveContext,
+                                       String personGroupId, String personId,
+                                       PersistedFace persistedFace) {
         this.personGroupId = personGroupId;
         this.personId = personId;
-        personBuilder = new PersonBuilder(cognitiveContext);
+        this.personBuilder = new PersonBuilder(cognitiveContext);
     }
-
+    
     public AddFaceToPersonAction addFaceToPerson(String userData, InputStream imageInputStream) {
         return personBuilder.addFaceToPerson(personGroupId, personId, userData, imageInputStream);
     }
+    
 }

@@ -205,14 +205,37 @@
 
 package cognitivej.vision.face.persongroup;
 
-
-public class PersonGroupTrainingStatus {
-    String createdDateTime;
-    String lastActionDateTime;
-    String message;
-    CurrentGroupTrainingStatus status;
-
-
+public final class PersonGroupTrainingStatus {
+    
+    private String createdDateTime;
+    private String lastActionDateTime;
+    private String message;
+    private CurrentGroupTrainingStatus status;
+    
+    public PersonGroupTrainingStatus(String createdDateTime, String lastActionDateTime,
+                                     String message, CurrentGroupTrainingStatus status) {
+        this.createdDateTime = createdDateTime;
+        this.lastActionDateTime = lastActionDateTime;
+        this.message = message;
+        this.status = status;
+    }
+    
+    public String getCreatedDateTime() {
+        return createdDateTime;
+    }
+    
+    public String getLastActionDateTime() {
+        return lastActionDateTime;
+    }
+    
+    public String getMessage() {
+        return message;
+    }
+    
+    public CurrentGroupTrainingStatus getStatus() {
+        return status;
+    }
+    
     @Override
     public String toString() {
         return "PersonGroupTrainingStatus{" +
@@ -222,5 +245,6 @@ public class PersonGroupTrainingStatus {
                 ", status=" + status +
                 '}';
     }
+    
 }
 

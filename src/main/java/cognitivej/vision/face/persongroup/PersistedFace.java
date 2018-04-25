@@ -207,15 +207,23 @@ package cognitivej.vision.face.persongroup;
 
 import cognitivej.core.CognitiveResult;
 
-public class PersistedFace extends CognitiveResult{
+public final class PersistedFace extends CognitiveResult {
     
-    public final String persistedFaceId, userData;
-
+    private final String persistedFaceId, userData;
+    
     public PersistedFace(String persistedFaceId, String userData) {
         this.persistedFaceId = persistedFaceId;
         this.userData = userData;
     }
-
+    
+    public String getPersistedFaceId() {
+        return persistedFaceId;
+    }
+    
+    public String getUserData() {
+        return userData;
+    }
+    
     @Override
     public String toString() {
         return "PersistedFace{" +
@@ -223,25 +231,29 @@ public class PersistedFace extends CognitiveResult{
                 ", userData='" + userData + '\'' +
                 '}';
     }
-
-
+    
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PersistedFace that = (PersistedFace) o;
-
-        if (persistedFaceId != null ? !persistedFaceId.equals(that.persistedFaceId) : that.persistedFaceId != null)
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
-        return userData != null ? userData.equals(that.userData) : that.userData == null;
-
+        }
+        PersistedFace that = (PersistedFace) o;
+        if (persistedFaceId != null
+                ? !persistedFaceId.equals(that.persistedFaceId)
+                : that.persistedFaceId != null) {
+            return false;
+        }
+        return userData != null? userData.equals(that.userData): that.userData == null;
     }
-
+    
     @Override
     public int hashCode() {
-        int result = persistedFaceId != null ? persistedFaceId.hashCode() : 0;
-        result = 31 * result + (userData != null ? userData.hashCode() : 0);
+        int result = persistedFaceId != null? persistedFaceId.hashCode(): 0;
+        result = 31 * result + (userData != null? userData.hashCode(): 0);
         return result;
     }
+    
 }

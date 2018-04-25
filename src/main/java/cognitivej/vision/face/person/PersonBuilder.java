@@ -210,7 +210,7 @@ import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
 import cognitivej.vision.face.CognitiveContext;
 import cognitivej.vision.face.person.action.*;
-import cognitivej.vision.face.persongroup.error.ListPersonsInPersonGroupAction;
+import cognitivej.vision.face.persongroup.action.ListPersonsInPersonGroupAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -273,7 +273,7 @@ public final class AddFaceToFaceListAction
     @Override
     protected PersistedFace postProcess(Object response) {
         PersistedFace f = (PersistedFace) response;
-        return new PersistedFace(f.persistedFaceId, userData);
+        return new PersistedFace(f.getPersistedFaceId(), userData);
     }
     
     @Override

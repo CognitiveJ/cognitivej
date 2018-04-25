@@ -211,18 +211,20 @@ import cognitivej.vision.face.person.PersonBuilder;
 import cognitivej.vision.face.person.action.CreatePersonAction;
 import org.jetbrains.annotations.NotNull;
 
-public class ChainedPersonGroupBuilder extends ChainedBuilder<PersonGroup> {
+public final class ChainedPersonGroupBuilder extends ChainedBuilder<PersonGroup> {
+    
     private final PersonBuilder personBuilder;
     private PersonGroup personGroup;
-
-    public ChainedPersonGroupBuilder(@NotNull CognitiveContext cognitiveContext, @NotNull PersonGroup personGroup) {
+    
+    public ChainedPersonGroupBuilder(@NotNull CognitiveContext cognitiveContext,
+                                     @NotNull PersonGroup personGroup) {
         personBuilder = new PersonBuilder(cognitiveContext);
         this.personGroup = personGroup;
-
+        
     }
-
+    
     public CreatePersonAction createPerson(String name, String userData) {
-        return personBuilder.createPerson(personGroup.personGroupId, name, userData);
+        return personBuilder.createPerson(personGroup.getPersonGroupId(), name, userData);
     }
-
+    
 }

@@ -211,7 +211,7 @@ import cognitivej.vision.face.person.action.AddFaceToPersonAction;
 import cognitivej.vision.face.person.action.CreatePersonAction;
 import cognitivej.vision.face.person.action.DeletePersonAction;
 import cognitivej.vision.face.person.action.UpdatePersonAction;
-import cognitivej.vision.face.persongroup.error.ListPersonsInPersonGroupAction;
+import cognitivej.vision.face.persongroup.action.ListPersonsInPersonGroupAction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

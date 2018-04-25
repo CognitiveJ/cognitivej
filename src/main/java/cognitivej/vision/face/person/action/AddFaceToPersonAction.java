@@ -271,7 +271,7 @@ public final class AddFaceToPersonAction
     @Override
     protected PersistedFace postProcess(Object response) {
         PersistedFace persistedFace = (PersistedFace) response;
-        return new PersistedFace(persistedFace.persistedFaceId, userData);
+        return new PersistedFace(persistedFace.getPersistedFaceId(), userData);
     }
     
     @Override

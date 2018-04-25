@@ -205,27 +205,13 @@
 
 package cognitivej.vision.face.persongroup.error;
 
-
 /**
  * Thrown when Person Group does not exist (not found).
- *
- * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395246">MS Cognitive Docs (Person Group)</a>
  */
 public class PersonGroupNotFoundException extends RuntimeException {
-    private String personGroupId;
-
+    
     public PersonGroupNotFoundException(String personGroupId, String message) {
         super(String.format("personGroupId:%s;%s", personGroupId, message));
-        this.personGroupId = personGroupId;
     }
-
-    /**
-     * @return the group id that was not found
-     */
-    public String getPersonGroupId() {
-        return personGroupId;
-    }
+    
 }
-
-
-
