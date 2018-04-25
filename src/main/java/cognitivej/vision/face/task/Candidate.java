@@ -208,12 +208,30 @@ package cognitivej.vision.face.task;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Candidate {
-    public String personId;
-    public double confidence;
-
+public final class Candidate {
+    
+    private final String personId;
+    private final double confidence;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private Candidate() {
+        personId = null;
+        confidence = 0;
+    }
+    
+    public String getPersonId() {
+        return personId;
+    }
+    
+    public double getConfidence() {
+        return confidence;
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

@@ -212,23 +212,23 @@ public final class CognitiveContext {
     
     public final String subscriptionKey;
     private ResultChain resultChain = new ResultChain();
-
+    
     public CognitiveContext(String subscriptionKey) {
         this.subscriptionKey = subscriptionKey;
     }
-
+    
     public void addToResultChain(CognitiveResult cognitiveResult) {
         resultChain.addToChain(cognitiveResult);
     }
-
+    
     public static CognitiveContext build(String subscriptionKey) {
         return new CognitiveContext(subscriptionKey);
     }
-
+    
     public ResultChain getResultChain() {
         return resultChain;
     }
-
+    
     public void resetResultChain() {
         resultChain = new ResultChain(); //done this way to leave previous instance readable.
     }

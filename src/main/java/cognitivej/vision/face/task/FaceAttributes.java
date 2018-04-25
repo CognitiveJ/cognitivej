@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task;
 
-
 import java.util.EnumSet;
 
 /**
@@ -214,10 +213,13 @@ import java.util.EnumSet;
  * smile: smile intensity, a number between [0,1]
  * facialHair: consists of lengths of three facial hair areas: moustache, beard and sideburns.
  * headPose: 3-D roll/yew/pitch angles for face direction. Pitch value is reserved to 0.
- * glasses: glasses type. Possible formattedValues are 'noGlasses', 'readingGlasses', 'sunglasses', 'swimmingGoggles'.
+ * glasses: glasses type. Possible formattedValues are 'noGlasses', 'readingGlasses', 'sunglasses',
+ * 'swimmingGoggles'.
  */
 public enum FaceAttributes {
-    GENDER, SMILE, AGE, FACIALHAIR, HEADPOSE, GLASSES;
-
+    
+    GENDER, SMILE, AGE, FACIAL_HAIR, HEAD_POSE, GLASSES;
+    
     public static final EnumSet<FaceAttributes> ALL = EnumSet.allOf(FaceAttributes.class);
+    
 }

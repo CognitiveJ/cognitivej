@@ -483,7 +483,8 @@ public final class FaceScenarios {
         Face firstFace = findSingleFace(face1Url);
         Face secondFace = findSingleFace(face2Url);
         Verification verification =
-                faceTaskBuilder.verifyFace(firstFace.faceId, secondFace.faceId).withResult();
+                faceTaskBuilder.verifyFace(
+                        firstFace.getFaceId(), secondFace.getFaceId()).withResult();
         return new VerificationSet(firstFace, secondFace, verification);
     }
     
@@ -514,7 +515,7 @@ public final class FaceScenarios {
     public FindSimilarSet findSimilar(@NotNull String faceListId, @NotNull String imageUrl) {
         Face singleFace = findSingleFace(imageUrl);
         List<FindSimilar> result = faceTaskBuilder.findSimilarFace(
-                singleFace.faceId, Collections.emptyList(), faceListId, 20)
+                singleFace.getFaceId(), Collections.emptyList(), faceListId, 20)
                 .withResult();
         FaceList faceList = faceListBuilder.getFaceList(faceListId).withResult();
         return new FindSimilarSet(singleFace, faceList, result);
@@ -533,7 +534,7 @@ public final class FaceScenarios {
             imageAndFaces.add(new ImageAndFace<>(image, findSingleFace(image)));
         }
         List<String> faceIds = imageAndFaces.parallelStream()
-                .map(it -> it.getFace().faceId).collect(Collectors.toList());
+                .map(it -> it.getFace().getFaceId()).collect(Collectors.toList());
         FaceGrouping groupings = faceTaskBuilder.groupFaces(faceIds).withResult();
         return new FaceGroupingSet(imageAndFaces, groupings);
     }
@@ -549,11 +550,11 @@ public final class FaceScenarios {
     private IdentificationSet identifyPersonInGroup(@NotNull String personGroupId,
                                                     @NotNull Face singleFace) {
         Identification identification = Utils.elementAt(
-                faceTaskBuilder.identifyFaces(Collections.singletonList(singleFace.faceId),
+                faceTaskBuilder.identifyFaces(Collections.singletonList(singleFace.getFaceId()),
                         personGroupId, 1).withResult(), 0);
         if (identification != null && Utils.isNotEmpty(identification.candidates)) {
             return new IdentificationSet(singleFace, identification, personBuilder.getPerson(
-                    personGroupId, identification.candidates.get(0).personId).withResult());
+                    personGroupId, identification.candidates.get(0).getPersonId()).withResult());
         } else if (identification == null) {
             throw new Error("Unexpected!");
         }
@@ -583,12 +584,12 @@ public final class FaceScenarios {
         List<IdentificationSet> identificationSetList = new ArrayList<>();
         for (Identification identification : identificationList) {
             Optional<Face> first = faces.stream()
-                    .filter(x -> x.faceId.equals(identification.faceId)).findFirst();
+                    .filter(x -> x.getFaceId().equals(identification.faceId)).findFirst();
             identificationSetList.add(new IdentificationSet(
                     first.get(), identification,
                     Utils.isNotEmpty(identification.candidates)
                             ? personBuilder.getPerson(
-                            personGroupId, identification.candidates.get(0).personId)
+                            personGroupId, identification.candidates.get(0).getPersonId())
                             .withResult()
                             : null));
             System.out.println(identification);

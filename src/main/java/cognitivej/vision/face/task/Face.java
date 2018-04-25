@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task;
 
-
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -215,74 +214,102 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Face {
-    public String faceId;
+public final class Face {
+    
+    private final String faceId;
     @SerializedName("faceAttributes")
-    public FaceAttributesResp faceAttributesResp;
-    public FaceRectangle faceRectangle;
-    public FaceLandmarks faceLandmarks;
-
+    private final FaceAttributesResp faceAttributesResp;
+    private final FaceRectangle faceRectangle;
+    private final FaceLandmarks faceLandmarks;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private Face() {
+        faceId = null;
+        faceAttributesResp = null;
+        faceRectangle = null;
+        faceLandmarks = null;
+    }
+    
+    public String getFaceId() {
+        return faceId;
+    }
+    
+    public FaceAttributesResp getFaceAttributesResp() {
+        return faceAttributesResp;
+    }
+    
+    public FaceRectangle getFaceRectangle() {
+        return faceRectangle;
+    }
+    
+    public FaceLandmarks getFaceLandmarks() {
+        return faceLandmarks;
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
-    public class FaceAttributesResp {
+    
+    public final class FaceAttributesResp {
         public Gender gender;
         public double age;
         public double smile;
         public FacialHair facialHair;
         public HeadPose headPose;
         public Glasses glasses;
-
+        
         public Map<FaceAttributes, String> formattedValues() {
             return new HashMap<FaceAttributes, String>() {{
                 put(FaceAttributes.GENDER, WordUtils.capitalize(gender.name()));
                 put(FaceAttributes.AGE, String.format("Age: %.2f", age));
                 put(FaceAttributes.SMILE, String.format("Smile: %.2f", smile));
-                put(FaceAttributes.FACIALHAIR, String.format("Beard:%.2f", facialHair.beard));
-                put(FaceAttributes.HEADPOSE, String.format("Pitch:%.2f", headPose.pitch));
+                put(FaceAttributes.FACIAL_HAIR, String.format("Beard:%.2f", facialHair.beard));
+                put(FaceAttributes.HEAD_POSE, String.format("Pitch:%.2f", headPose.pitch));
                 put(FaceAttributes.GLASSES, WordUtils.capitalize(StringUtils.join(
                         StringUtils.splitByCharacterTypeCamelCase(glasses.name()),
                         ' '
                 )));
             }};
         }
-
-
+        
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
-
+    
+    
     public enum Gender {
-        female, male
+        FEMALE, MALE
     }
-
+    
     public enum Glasses {
-        NoGlasses, ReadingGlasses, Sunglasses, SwimmingGoggles;
+        NO_GLASSES, READING_GLASSES, SUNGLASSES, SWIMMING_GOGGLES;
     }
-
-    public class FacialHair {
+    
+    public final class FacialHair {
         public double mustache, beard, sideburns;
-
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
-
+        
     }
-
-
-    public class HeadPose {
+    
+    public final class HeadPose {
+        
         public double roll, yaw, pitch;
-
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
+        
     }
 }
 

@@ -218,7 +218,7 @@ public final class FaceStringBuilder {
      * Forbidden outside instantiation.
      */
     private FaceStringBuilder() {}
-
+    
     /**
      * Retrieves and formats the age.
      *
@@ -227,23 +227,24 @@ public final class FaceStringBuilder {
      */
     @NotNull
     public static String age(@NotNull Face face) {
-        return String.format("Age: %.1f", face.faceAttributesResp.age);
+        return String.format("Age: %.1f", face.getFaceAttributesResp().age);
     }
-
+    
     /**
      * Retrieves and formats the age.
+     *
      * @param face the face to extract the age and gender from.
      * @return the string of the age and gender
      */
     @NotNull
     public static String genderAndAge(@NotNull Face face) {
         return String.format("%s, %.1f",
-                face.faceAttributesResp.gender, face.faceAttributesResp.age);
+                face.getFaceAttributesResp().gender, face.getFaceAttributesResp().age);
     }
-
+    
     public static String buildStringFor(Face face, EnumSet<FaceAttributes> faceAttributes) {
         StringBuilder builder = new StringBuilder();
-        Map<FaceAttributes, String> values = face.faceAttributesResp.formattedValues();
+        Map<FaceAttributes, String> values = face.getFaceAttributesResp().formattedValues();
         for (FaceAttributes next : faceAttributes) {
             if (builder.length() != 0) {
                 builder.append("\n");

@@ -224,7 +224,7 @@ class DetectFaceSpecification extends Specification {
         face.faceRectangle.left > 0
         face.faceRectangle.top > 0
         face.faceRectangle.width > 0
-        face.faceAttributesResp.gender == Face.Gender.male || face.faceAttributesResp.gender == Face.Gender.female
+        face.faceAttributesResp.gender == Face.Gender.MALE || face.faceAttributesResp.gender == Face.Gender.FEMALE
         where:
         imageUrl                                                                                                                      | _
         "https://s-media-cache-ak0.pinimg.com/736x/fe/84/42/fe8442f028e535bb8c71cb371888df9c.jpg"                                     | _
@@ -246,7 +246,7 @@ class DetectFaceSpecification extends Specification {
         face.faceRectangle.left > 0
         face.faceRectangle.top > 0
         face.faceRectangle.width > 0
-        face.faceAttributesResp.gender == Face.Gender.male || face.faceAttributesResp.gender == Face.Gender.female
+        face.faceAttributesResp.gender == Face.Gender.MALE || face.faceAttributesResp.gender == Face.Gender.FEMALE
         where:
         inputStream                                                                                        | _
         TestUtil.fromUrl('https://upload.wikimedia.org/wikipedia/commons/2/21/David_Cameron_official.jpg') | _

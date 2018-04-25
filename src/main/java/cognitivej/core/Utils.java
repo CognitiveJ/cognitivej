@@ -277,6 +277,6 @@ public class Utils {
     }
 
     public static List<String> extractFaceIds(List<Face> faces) {
-        return faces.stream().map(it->it.faceId).collect(Collectors.toList());
+        return faces.stream().map(Face::getFaceId).collect(Collectors.toList());
     }
 }
