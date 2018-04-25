@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -214,29 +213,37 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class ScenarioHelper {
-
-    public static List<ImageHolder> holdingImageFromDirectory(String directoryLocation, ImageNamingStrategy imageNamingStrategy) {
-        Collection imageFiles = FileUtils.listFiles(new File(directoryLocation), new String[]{"png", "jpg", "jpeg"}, true);
+public final class ScenarioHelper {
+    
+    /**
+     * Forbidden outside instantiation.
+     */
+    private ScenarioHelper() {}
+    
+    public static List<ImageHolder> holdingImageFromDirectory(
+            String directoryLocation, ImageNamingStrategy imageNamingStrategy) {
+        Collection imageFiles = FileUtils.listFiles(new File(directoryLocation),
+                new String[]{"png", "jpg", "jpeg"}, true);
         List<ImageHolder> holdingImages = new ArrayList<>();
         for (Object imageFile : imageFiles) {
             File next = (File) imageFile;
             holdingImages.add(new ImageHolder<>(imageNamingStrategy.name(next.getName()),
                     imageNamingStrategy.name(next.getName()),
-                    Collections.singletonList(new VisionImage<>(imageNamingStrategy.name(next.getName()), "", next, File.class))));
+                    Collections.singletonList(new VisionImage<>(
+                            imageNamingStrategy.name(next.getName()),
+                            "", next, File.class))));
         }
         return holdingImages;
-
     }
-
-    public static People createPeopleFromHoldingImages(List<ImageHolder> namedImageUrls, ImageNamingStrategy imageNamingStrategy) {
+    
+    public static People createPeopleFromHoldingImages(List<ImageHolder> namedImageUrls,
+                                                       ImageNamingStrategy imageNamingStrategy) {
         People people = new People();
-
         for (ImageHolder imageHolder : namedImageUrls) {
-            people.addPerson(imageNamingStrategy.name(imageHolder.getName()), imageNamingStrategy.name(imageHolder.getName()),
+            people.addPerson(imageNamingStrategy.name(imageHolder.getName()),
+                    imageNamingStrategy.name(imageHolder.getName()),
                     Collections.singletonList(imageHolder));
         }
         return people;
-
     }
 }

@@ -205,34 +205,51 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class People {
-    private List<SimplePerson> simplePersons = new ArrayList<>();
-
-    public void addPerson(String personName, String personUserData, List<ImageHolder> personImages) {
+public final class People {
+    
+    private final List<SimplePerson> simplePersons = new ArrayList<>();
+    
+    public void addPerson(String personName, String personUserData,
+                          List<ImageHolder> personImages) {
         simplePersons.add(new SimplePerson(personName, personUserData, personImages));
     }
-
+    
     public List<SimplePerson> simplePersons() {
-        return simplePersons;
+        return Collections.unmodifiableList(simplePersons);
     }
-
-
-    public class SimplePerson {
-
-        public final String personName;
-        public final String personUserData;
-        public final List<ImageHolder> personImages = new ArrayList<>();
-
-        public SimplePerson(@NotNull String personName, @NotNull String personUserData, @NotNull List<ImageHolder> personImages) {
+    
+    public final class SimplePerson {
+        
+        private final String personName, personUserData;
+        private final List<ImageHolder> personImages;
+        
+        public SimplePerson(@NotNull String personName, @NotNull String personUserData,
+                            @NotNull List<ImageHolder> personImages) {
             this.personName = personName;
             this.personUserData = personUserData;
-            this.personImages.addAll(personImages);
+            List<ImageHolder> temp = new ArrayList<>(personImages.size());
+            temp.addAll(personImages);
+            this.personImages = Collections.unmodifiableList(temp);
         }
+        
+        public String getPersonName() {
+            return personName;
+        }
+        
+        public String getPersonUserData() {
+            return personUserData;
+        }
+        
+        public List<ImageHolder> getPersonImages() {
+            return personImages;
+        }
+        
     }
+    
 }

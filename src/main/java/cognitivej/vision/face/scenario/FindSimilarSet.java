@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import cognitivej.vision.face.facelist.FaceList;
 import cognitivej.vision.face.task.Face;
 import cognitivej.vision.face.task.FindSimilar;
@@ -215,35 +214,38 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class FindSimilarSet {
+public final class FindSimilarSet {
+    
     private final Face candidateFace;
     private final FaceList faceList;
     private final List<FindSimilar> findSimilar;
-
-    public FindSimilarSet(@NotNull Face candidateFace, @NotNull FaceList faceList, @NotNull List<FindSimilar> findSimilar) {
+    
+    public FindSimilarSet(@NotNull Face candidateFace,
+                          @NotNull FaceList faceList,
+                          @NotNull List<FindSimilar> findSimilar) {
         this.candidateFace = candidateFace;
         this.faceList = faceList;
         this.findSimilar = findSimilar;
     }
-
-
+    
     @NotNull
     public Face getCandidateFace() {
         return candidateFace;
     }
-
+    
     @NotNull
     public List<FindSimilar> getFindSimilar() {
         return findSimilar;
     }
-
+    
     @NotNull
     public FaceList getFaceList() {
         return faceList;
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

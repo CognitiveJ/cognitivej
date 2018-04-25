@@ -213,39 +213,43 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class IdentificationSet {
+public final class IdentificationSet {
+    
     private final Face candidateFace;
     private final Person identifiedPerson;
     private final Identification identification;
-
+    
     public IdentificationSet(@NotNull Face candidateFace, @NotNull Identification identification) {
         this(candidateFace, identification, null);
     }
-
-    public IdentificationSet(@NotNull Face candidateFace, @NotNull Identification identification, @Nullable Person identifiedPerson) {
+    
+    public IdentificationSet(@NotNull Face candidateFace,
+                             @NotNull Identification identification,
+                             @Nullable Person identifiedPerson) {
         this.candidateFace = candidateFace;
         this.identification = identification;
         this.identifiedPerson = identifiedPerson;
     }
-
+    
     public boolean isIdentified() {
         return identifiedPerson != null;
     }
-
+    
     public Face getCandidateFace() {
         return candidateFace;
     }
-
+    
     public Person getIdentifiedPerson() {
         return identifiedPerson;
     }
-
+    
     public Identification getIdentification() {
         return identification;
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

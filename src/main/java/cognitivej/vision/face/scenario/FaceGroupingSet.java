@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import cognitivej.vision.face.task.FaceGrouping;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -213,28 +212,30 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class FaceGroupingSet {
+public final class FaceGroupingSet {
+    
     private final List<ImageAndFace> imageAndFaces;
     private final FaceGrouping groupings;
-
-    public FaceGroupingSet(@NotNull List<ImageAndFace> imageAndFaces, @NotNull FaceGrouping groupings) {
+    
+    public FaceGroupingSet(@NotNull List<ImageAndFace> imageAndFaces,
+                           @NotNull FaceGrouping groupings) {
         this.imageAndFaces = imageAndFaces;
         this.groupings = groupings;
     }
-
+    
     @NotNull
     public List<ImageAndFace> getImageAndFaces() {
         return imageAndFaces;
     }
-
+    
     @NotNull
     public FaceGrouping getGroupings() {
         return groupings;
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }

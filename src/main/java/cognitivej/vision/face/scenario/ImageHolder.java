@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import cognitivej.core.Utils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -219,35 +218,34 @@ public final class ImageHolder<T> implements Comparable<ImageHolder> {
     private final String name;
     private final String userData;
     private final List<VisionImage<T>> images = new ArrayList<>();
-
+    
     public ImageHolder(@NotNull String name,
                        @NotNull String userData, @NotNull List<VisionImage<T>> images) {
         this.name = name;
         this.userData = userData;
         this.images.addAll(images);
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getUserData() {
         return userData;
     }
-
+    
     public VisionImage<T> firstImage() {
         return Utils.elementAt(images, 0);
     }
-
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
-
+    
     @Override
     public int compareTo(ImageHolder o) {
         return name.compareTo(o.name);
     }
+
 }

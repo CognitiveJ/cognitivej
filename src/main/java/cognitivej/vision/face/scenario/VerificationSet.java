@@ -209,28 +209,30 @@ import cognitivej.vision.face.task.Face;
 import cognitivej.vision.face.task.Verification;
 
 /**
- * Collection of verificationResults
+ * Collection of verification Results
  */
-public class VerificationSet {
+public final class VerificationSet {
+    
     private final Face firstFace;
     private final Face secondFace;
     private final Verification verification;
-
+    
     public VerificationSet(Face firstFace, Face secondFace, Verification verification) {
         this.firstFace = firstFace;
         this.secondFace = secondFace;
         this.verification = verification;
     }
-
+    
     public Face getFirstFace() {
         return firstFace;
     }
-
+    
     public Face getSecondFace() {
         return secondFace;
     }
-
+    
     public Verification getVerification() {
         return verification;
     }
+    
 }

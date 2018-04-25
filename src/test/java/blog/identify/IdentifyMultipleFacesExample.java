@@ -232,13 +232,13 @@ import java.util.stream.Collectors;
 import static java.lang.System.getProperty;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
-
-public class IdentifyMultipleFacesExample {
-
-    public static final String IMAGE = "https://i.ytimg.com/vi/IipMYjcStwg/maxresdefault.jpg";
-
+public final class IdentifyMultipleFacesExample {
+    
+    private static final String IMAGE = "https://i.ytimg.com/vi/IipMYjcStwg/maxresdefault.jpg";
+    
     public static void main(String[] args) throws IOException {
-        FaceScenarios faceScenarios = new FaceScenarios(getProperty("azure.cognitive.subscriptionKey"),
+        FaceScenarios faceScenarios = new FaceScenarios(
+                getProperty("azure.cognitive.subscriptionKey"),
                 getProperty("azure.cognitive.emotion.subscriptionKey"));
         ImageOverlayBuilder imageOverlayBuilder = ImageOverlayBuilder.builder(IMAGE);
         List<ImageHolder> candidates = candidates();
@@ -246,38 +246,43 @@ public class IdentifyMultipleFacesExample {
                 createPeopleFromHoldingImages(candidates, ImageNamingStrategy.DEFAULT);
         String groupId = faceScenarios.
                 createGroupWithPeople(randomAlphabetic(6).toLowerCase(), people);
-
+        
         Utils.waitFor(10, TimeUnit.SECONDS); //let the training be completed
-        java.util.List<IdentificationSet> identificationSets = faceScenarios.identifyPersonsInGroup(groupId, IMAGE);
+        java.util.List<IdentificationSet> identificationSets =
+                faceScenarios.identifyPersonsInGroup(groupId, IMAGE);
         imageOverlayBuilder.identify(identificationSets);
         buildGrid(imageOverlayBuilder, people);
         imageOverlayBuilder.launchViewer().toClipboard();
         faceScenarios.deleteGroup(groupId);
     }
-
+    
     private static List<ImageHolder> candidates() throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
         gsonBuilder.registerTypeAdapter(Class.class, new ClassTypeAdapter());
         Gson gson = gsonBuilder.create();
-        return gson.fromJson(FileUtils.readFileToString(new File("src/test/resources/blog/sets/love_hate_candidates.json"), Charset.defaultCharset()), new TypeToken<List<ImageHolder>>() {
-        }.getType());
+        return gson.fromJson(FileUtils.readFileToString(new File(
+                        "src/test/resources/blog/sets/love_hate_candidates.json"),
+                Charset.defaultCharset()), new TypeToken<List<ImageHolder>>() {}.getType());
     }
-
+    
     private static void buildGrid(ImageOverlayBuilder imageOverlayBuilder, People people) {
         ImageGrid candidates = new ImageGrid(extractImagesFromPeople(people), 4);
-        ApplyCaptionOutsideImageFilter applyCaptionOutsideImageFilter = new ApplyCaptionOutsideImageFilter(PointLocations.TOP_CENTER, ImageOverlayBuilder.DEFAULT_TEXT_FONT, CognitiveJColourPalette.WHITE, "Candidate Dataset");
+        ApplyCaptionOutsideImageFilter applyCaptionOutsideImageFilter =
+                new ApplyCaptionOutsideImageFilter(PointLocations.TOP_CENTER,
+                        ImageOverlayBuilder.DEFAULT_TEXT_FONT, CognitiveJColourPalette.WHITE,
+                        "Candidate Dataset");
         BufferedImage mergeImage = applyCaptionOutsideImageFilter.applyFilter(candidates.build());
         imageOverlayBuilder.mergeImage(mergeImage);
     }
-
-    private static java.util.List<BufferedImage> extractImagesFromPeople(People people) {
-        java.util.List<BufferedImage> images = new ArrayList<>();
-        java.util.List<People.SimplePerson> simplePersons = people.simplePersons();
-        images.addAll(simplePersons.parallelStream().map(simplePerson -> BlogHelper.loadAndNameCandidateImages(simplePerson.personImages.get(0))).collect(Collectors.toList()));
-        return images;
+    
+    private static List<BufferedImage> extractImagesFromPeople(People people) {
+        List<People.SimplePerson> simplePersons = people.simplePersons();
+        return simplePersons.parallelStream().map(simplePerson ->
+                BlogHelper.loadAndNameCandidateImages(
+                        simplePerson.getPersonImages().get(0))).collect(Collectors.toList());
     }
-
+    
 }
 
 

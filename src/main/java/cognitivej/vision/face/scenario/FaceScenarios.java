@@ -315,15 +315,16 @@ public final class FaceScenarios {
                 new ParameterValidationException("people",
                         "People list is invalid. min 1, max 1000"));
         boolean exists = !Utils.throwsException(() ->
-                personGroupBuilder.getGroup(personGroupId).withResult(),
+                        personGroupBuilder.getGroup(personGroupId).withResult(),
                 PersonGroupNotFoundException.class);
         if (!exists) {
             personGroupBuilder.createGroup(personGroupId, personGroupId, "").withNoResult();
         }
         people.simplePersons().forEach(simplePerson -> {
-            Person person = personBuilder.createPerson(personGroupId, simplePerson.personName,
-                    simplePerson.personUserData).withResult();
-            List<ImageHolder> personImages = simplePerson.personImages;
+            Person person = personBuilder.createPerson(
+                    personGroupId, simplePerson.getPersonName(), simplePerson.getPersonUserData())
+                    .withResult();
+            List<ImageHolder> personImages = simplePerson.getPersonImages();
             for (ImageHolder imageHolder : personImages) {
                 if (imageHolder.firstImage().isLocalFile()) {
                     personBuilder.addFaceToPerson(personGroupId, person.getPersonId(), "",
@@ -344,7 +345,7 @@ public final class FaceScenarios {
                 new ParameterValidationException("visionImages",
                         "Face list is invalid. min 1, max 1000"));
         boolean exists = !Utils.throwsException(() ->
-                faceListBuilder.getFaceList(faceListId).withResult(),
+                        faceListBuilder.getFaceList(faceListId).withResult(),
                 FaceListNotFoundException.class);
         if (!exists) {
             faceListBuilder.createFaceList(faceListId, faceListId, "").withNoResult();
@@ -587,7 +588,7 @@ public final class FaceScenarios {
                     first.get(), identification,
                     Utils.isNotEmpty(identification.candidates)
                             ? personBuilder.getPerson(
-                                    personGroupId, identification.candidates.get(0).personId)
+                            personGroupId, identification.candidates.get(0).personId)
                             .withResult()
                             : null));
             System.out.println(identification);

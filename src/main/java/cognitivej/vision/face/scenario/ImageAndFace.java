@@ -205,26 +205,25 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import cognitivej.vision.face.task.Face;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ImageAndFace<T> {
+public final class ImageAndFace<T> {
 
-    private T image;
-    private Face face;
+    private final T image;
+    private final Face face;
 
     public ImageAndFace(T image, Face face) {
         this.image = image;
         this.face = face;
     }
 
-    public T getImage() {
+    public final T getImage() {
         return image;
     }
 
-    public Face getFace() {
+    public final Face getFace() {
         return face;
     }
 

@@ -205,44 +205,44 @@
 
 package cognitivej.vision.face.scenario;
 
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.File;
 
-public class VisionImage<T> {
+public final class VisionImage<T> {
+    
     private final String name;
     private final String userData;
     private final T image;
     private final String dataSetType;
-
+    
     public VisionImage(String name, String userData, T image, Class<T> dataSetType) {
         this.name = name;
         this.userData = userData;
         this.image = image;
         this.dataSetType = dataSetType.getName();
     }
-
+    
     public boolean isLocalFile() {
         return dataSetType.equals(File.class.getName());
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getUserData() {
         return userData;
     }
-
+    
     public T getImage() {
         return image;
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }

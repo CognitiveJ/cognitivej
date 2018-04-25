@@ -213,6 +213,11 @@ import java.util.EnumSet;
 import java.util.Map;
 
 public final class FaceStringBuilder {
+    
+    /**
+     * Forbidden outside instantiation.
+     */
+    private FaceStringBuilder() {}
 
     /**
      * Retrieves and formats the age.

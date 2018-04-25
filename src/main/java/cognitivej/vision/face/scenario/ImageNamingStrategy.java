@@ -208,19 +208,28 @@ package cognitivej.vision.face.scenario;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Defines a set of image naming strategy.
+ */
 public class ImageNamingStrategy {
+    
     public static final ImageNamingStrategy DEFAULT = new ImageNamingStrategy();
-
+    
     public static final ImageNamingStrategy FIRST_NAME = new ImageNamingStrategy() {
         @Override
         public String name(@NotNull String toBeNamed) {
             return StringUtils.substringBefore(toBeNamed, ".");
         }
     };
-
-
+    
+    /**
+     * Forbidden outside instantiation.
+     */
+    private ImageNamingStrategy() {}
+    
     public String name(String toBeNamed) {
         return toBeNamed;
     }
+    
 }
 
