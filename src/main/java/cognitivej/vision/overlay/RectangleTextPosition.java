@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay;
 
-
 public enum RectangleTextPosition {
     LEFT_OF, RIGHT_OF, TOP_OF, BOTTOM_OF
 }

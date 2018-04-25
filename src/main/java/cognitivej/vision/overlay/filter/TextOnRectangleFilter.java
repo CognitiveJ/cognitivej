@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import cognitivej.vision.overlay.PointLocations;
 import cognitivej.vision.overlay.RectangleTextPosition;
@@ -223,22 +222,25 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-public class TextOnRectangleFilter implements ImageFilter {
+public final class TextOnRectangleFilter implements ImageFilter {
+    
     private final Insets insets;
     private final Rectangle fullImageDimension;
-    private Rectangle baseRectangle;
+    private final Rectangle baseRectangle;
     private Font requestedFont;
-    private CognitiveJColourPalette cognitiveJColourPalette;
-    private RectangleTextPosition rectangleTextPosition;
-    private String text;
+    private final CognitiveJColourPalette cognitiveJColourPalette;
+    private final RectangleTextPosition rectangleTextPosition;
+    private final String text;
     
     public TextOnRectangleFilter(Rectangle fullImageDimension, Rectangle associatedRectangle,
-                                 Insets enclosingInsets, Font requestedFont, CognitiveJColourPalette cognitiveJColourPalette,
+                                 Insets enclosingInsets, Font requestedFont,
+                                 CognitiveJColourPalette cognitiveJColourPalette,
                                  RectangleTextPosition rectangleTextPosition, String text) {
         this.fullImageDimension = fullImageDimension;
         this.baseRectangle = new Rectangle(associatedRectangle.x -
                 (enclosingInsets.left), associatedRectangle.y - (enclosingInsets.top),
-                associatedRectangle.width + (enclosingInsets.left + enclosingInsets.right), associatedRectangle.height + (enclosingInsets.top + enclosingInsets.bottom));
+                associatedRectangle.width + (enclosingInsets.left + enclosingInsets.right),
+                associatedRectangle.height + (enclosingInsets.top + enclosingInsets.bottom));
         this.cognitiveJColourPalette = cognitiveJColourPalette;
         this.rectangleTextPosition = rectangleTextPosition;
         this.insets = new Insets(10, 10, 10, 10);
@@ -259,21 +261,27 @@ public class TextOnRectangleFilter implements ImageFilter {
     
     private void applyText(Graphics2D graphics2D) {
         graphics2D.setFont(requestedFont);
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         int availableWidthForTextContainer = boundedTextContainerWidth(graphics2D);
         setupFontWidth(graphics2D, availableWidthForTextContainer);
         int availableHeightForTextContainer = boundedTextContainerHeight(graphics2D);
-        setupFontHeight(graphics2D, availableWidthForTextContainer, availableHeightForTextContainer);
+        setupFontHeight(
+                graphics2D, availableWidthForTextContainer, availableHeightForTextContainer);
         int startingX = calculateTextContainerStartingPointX(availableWidthForTextContainer);
-        int startingY = calculateTextContainerStartingPointY(baseRectangle, availableHeightForTextContainer, rectangleTextPosition);
-        Rectangle textContainer = new Rectangle(startingX, startingY, availableWidthForTextContainer, availableHeightForTextContainer);
+        int startingY = calculateTextContainerStartingPointY(
+                baseRectangle, availableHeightForTextContainer, rectangleTextPosition);
+        Rectangle textContainer = new Rectangle(startingX, startingY,
+                availableWidthForTextContainer, availableHeightForTextContainer);
         drawOutliningRectangle(graphics2D, textContainer, cognitiveJColourPalette.getBackground());
         applyTextOver(graphics2D, textContainer);
     }
     
     
-    private void drawOutliningRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color) {
+    private void drawOutliningRectangle(Graphics2D workingGraphics, Rectangle rectangle,
+                                        Color color) {
         workingGraphics.setColor(color);
         workingGraphics.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
@@ -298,7 +306,9 @@ public class TextOnRectangleFilter implements ImageFilter {
         
         for (int i = 0; i < stringRows.size(); i++) {
             String s = stringRows.get(i);
-            graphics2D.drawString(s, insideContainerPoint.x + boundedTextContainer.x, insideContainerPoint.y + (rowPadding / 2) + yOffset + boundedTextContainer.y + ((textHeight + rowPadding) * i));
+            graphics2D.drawString(s, insideContainerPoint.x + boundedTextContainer.x,
+                    insideContainerPoint.y + (rowPadding / 2) + yOffset + boundedTextContainer.y
+                            + ((textHeight + rowPadding) * i));
         }
     }
     
@@ -307,15 +317,16 @@ public class TextOnRectangleFilter implements ImageFilter {
         
         switch (rectangleTextPosition) {
             case LEFT_OF:
-                return Math.max(baseRectangle.width, graphics2D.getFontMetrics().stringWidth(maxSingleLineStringWidth(text)));
+                return Math.max(baseRectangle.width, graphics2D.getFontMetrics().stringWidth(
+                        maxSingleLineStringWidth(text)));
             case RIGHT_OF:
-                return Math.min(fullImageDimension.width - (baseRectangle.x + baseRectangle.width + insets.right + insets.left),
+                return Math.min(fullImageDimension.width - (baseRectangle.x + baseRectangle.width
+                                + insets.right + insets.left),
                         baseRectangle.width);
             case TOP_OF:
-                /**fall through to RIGHT_OF"&**/
+                /* fall through to RIGHT_OF"& */
             case BOTTOM_OF:
                 return baseRectangle.width;
-            
         }
         return 0;
     }
@@ -323,9 +334,11 @@ public class TextOnRectangleFilter implements ImageFilter {
     private int boundedTextContainerHeight(Graphics2D graphics2D) {
         switch (rectangleTextPosition) {
             case LEFT_OF:
-                /**fall through to RIGHT_OF**/
+                /* fall through to RIGHT_OF */
             case RIGHT_OF:
-                return Math.min(Math.max(graphics2D.getFontMetrics().getHeight() + (insets.top / 2), baseRectangle.height) * rowsInString(), baseRectangle.height);
+                return Math.min(Math.max(graphics2D.getFontMetrics().getHeight() +
+                                (insets.top / 2), baseRectangle.height) * rowsInString(),
+                        baseRectangle.height);
             case TOP_OF:
                 return (graphics2D.getFontMetrics().getHeight() + insets.top / 2) * rowsInString();
             case BOTTOM_OF:
@@ -342,7 +355,8 @@ public class TextOnRectangleFilter implements ImageFilter {
     private int calculateTextContainerStartingPointX(int textContainerWidth) {
         switch (rectangleTextPosition) {
             case LEFT_OF:
-                return Math.max(insets.right, baseRectangle.x - (textContainerWidth + insets.right));
+                return Math.max(insets.right, baseRectangle.x
+                        - (textContainerWidth + insets.right));
             case RIGHT_OF:
                 return baseRectangle.x + baseRectangle.width + insets.left;
             case TOP_OF:
@@ -356,32 +370,38 @@ public class TextOnRectangleFilter implements ImageFilter {
     private void setupFontWidth(Graphics2D graphics2D, int textContainerWidth) {
         float fontSize = requestedFont.getSize();
         FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
-        Rectangle2D bounds = requestedFont.getStringBounds(maxSingleLineStringWidth(text), fontRenderContext);
+        Rectangle2D bounds = requestedFont.getStringBounds(
+                maxSingleLineStringWidth(text), fontRenderContext);
         while (bounds.getWidth() > textContainerWidth - (insets.left + insets.right)) {
             requestedFont = requestedFont.deriveFont((fontSize -= 2));
-            bounds = requestedFont.getStringBounds(maxSingleLineStringWidth(text), fontRenderContext);
+            bounds = requestedFont.getStringBounds
+                    (maxSingleLineStringWidth(text), fontRenderContext);
         }
         graphics2D.setFont(requestedFont);
     }
     
-    private void setupFontHeight(Graphics2D graphics2D, int textContainerWidth, int maxHeightOfText) {
+    private void setupFontHeight(Graphics2D graphics2D,
+                                 int textContainerWidth, int maxHeightOfText) {
         float fontSize = requestedFont.getSize();
         FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
-        Rectangle2D bounds = requestedFont.getStringBounds(maxSingleLineStringWidth(text), fontRenderContext);
+        Rectangle2D bounds = requestedFont.getStringBounds(
+                maxSingleLineStringWidth(text), fontRenderContext);
         while (bounds.getWidth() > textContainerWidth || bounds.getHeight() > maxHeightOfText) {
             requestedFont = requestedFont.deriveFont((fontSize -= 2));
-            bounds = requestedFont.getStringBounds(maxSingleLineStringWidth(text), fontRenderContext);
+            bounds = requestedFont.getStringBounds(
+                    maxSingleLineStringWidth(text), fontRenderContext);
         }
         graphics2D.setFont(requestedFont);
     }
     
     private String maxSingleLineStringWidth(String text) {
-        return Arrays.asList(text.split("\\n")).stream()
+        // noinspection ConstantConditions
+        return Arrays.stream(text.split("\\n"))
                 .max((o1, o2) -> o1.length() < o2.length()? -1: 1).get();
     }
     
-    
-    private int calculateTextContainerStartingPointY(Rectangle rectangle, int textHeight, RectangleTextPosition rectangleTextPosition) {
+    private int calculateTextContainerStartingPointY(Rectangle rectangle, int textHeight,
+                                                     RectangleTextPosition rectangleTextPosition) {
         switch (rectangleTextPosition) {
             case LEFT_OF:
                 return rectangle.y;
@@ -398,6 +418,5 @@ public class TextOnRectangleFilter implements ImageFilter {
     private BufferedImage createNewBufferedImage(int newWidth, int newHeight, int imageType) {
         return new BufferedImage(newWidth, newHeight, imageType);
     }
-    
     
 }

@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import cognitivej.vision.overlay.BorderWeight;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import cognitivej.vision.overlay.RectangleType;
@@ -217,8 +216,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class OverlayRectangleFilter implements ImageFilter {
-    
+public final class OverlayRectangleFilter implements ImageFilter {
     
     private final Rectangle rectangle;
     private final RectangleType rectangleType;
@@ -246,7 +244,8 @@ public class OverlayRectangleFilter implements ImageFilter {
         return bufferedImage;
     }
     
-    private void drawRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color, BorderWeight borderWeight, boolean fillRect) {
+    private void drawRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color,
+                               BorderWeight borderWeight, boolean fillRect) {
         workingGraphics.setColor(color);
         workingGraphics.setStroke(new BasicStroke(borderWeight.thickness()));
         if (fillRect)
@@ -256,7 +255,8 @@ public class OverlayRectangleFilter implements ImageFilter {
         
     }
     
-    public void drawCornerRectangle(Graphics2D workingGraphics, Color color, BorderWeight borderWeight, Rectangle rectangle) {
+    public void drawCornerRectangle(Graphics2D workingGraphics, Color color,
+                                    BorderWeight borderWeight, Rectangle rectangle) {
         workingGraphics.setColor(color);
         workingGraphics.setStroke(new BasicStroke(borderWeight.thickness()));
         int cornerLength = rectangle.width / 6;
@@ -268,16 +268,24 @@ public class OverlayRectangleFilter implements ImageFilter {
         workingGraphics.drawLine(rectangle.x, rectangle.y, rectangle.x, rectangle.y + cornerLength);
         
         //right up corner
-        workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y, (rectangle.x + rectangle.width) - cornerLength, rectangle.y);
-        workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y, rectangle.x + rectangle.width, rectangle.y + cornerLength);
+        workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y,
+                (rectangle.x + rectangle.width) - cornerLength, rectangle.y);
+        workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y,
+                rectangle.x + rectangle.width, rectangle.y + cornerLength);
         
         //left down corner
-        workingGraphics.drawLine(rectangle.x, rectangle.y + rectangle.height, rectangle.x + cornerLength, rectangle.y + rectangle.height);
-        workingGraphics.drawLine(rectangle.x, rectangle.y + rectangle.height, rectangle.x, (rectangle.y + rectangle.height) - cornerLength);
+        workingGraphics.drawLine(rectangle.x, rectangle.y + rectangle.height,
+                rectangle.x + cornerLength, rectangle.y + rectangle.height);
+        workingGraphics.drawLine(rectangle.x, rectangle.y + rectangle.height,
+                rectangle.x, (rectangle.y + rectangle.height) - cornerLength);
         
         //right down corner
-        workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y + rectangle.height, (rectangle.x + rectangle.width) - cornerLength, rectangle.y + rectangle.height);
-        workingGraphics.drawLine(rectangle.x + rectangle.width, rectangle.y + rectangle.height, rectangle.x + rectangle.width, (rectangle.y + rectangle.height) - cornerLength);
+        workingGraphics.drawLine(rectangle.x + rectangle.width,
+                rectangle.y + rectangle.height,
+                (rectangle.x + rectangle.width) - cornerLength, rectangle.y + rectangle.height);
+        workingGraphics.drawLine(rectangle.x + rectangle.width,
+                rectangle.y + rectangle.height,
+                rectangle.x + rectangle.width, (rectangle.y + rectangle.height) - cornerLength);
     }
     
     

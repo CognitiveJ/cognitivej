@@ -205,14 +205,13 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
-public class GrowImageFilter implements ImageFilter {
+public final class GrowImageFilter implements ImageFilter {
     
     private final Insets insets;
     
@@ -220,11 +219,12 @@ public class GrowImageFilter implements ImageFilter {
         this.insets = insets;
     }
     
-    
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
-        BufferedImage newImage = createNewBufferedImage(bufferedImage.getWidth() + insets.left + insets.right, bufferedImage.getHeight() + insets.top + insets.bottom, bufferedImage.getType());
+        BufferedImage newImage = createNewBufferedImage(bufferedImage.getWidth() +
+                insets.left + insets.right, bufferedImage.getHeight() + insets.top +
+                insets.bottom, bufferedImage.getType());
         Graphics2D graphics2D = newImage.createGraphics();
         graphics2D.drawImage(bufferedImage, insets.left, insets.top, null);
         graphics2D.dispose();
@@ -234,4 +234,5 @@ public class GrowImageFilter implements ImageFilter {
     private BufferedImage createNewBufferedImage(int newWidth, int newHeight, int imageType) {
         return new BufferedImage(newWidth, newHeight, imageType);
     }
+    
 }

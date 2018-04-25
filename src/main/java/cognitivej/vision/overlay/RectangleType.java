@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay;
 
-
 public enum RectangleType {
     FULL, CORNERED;
 }

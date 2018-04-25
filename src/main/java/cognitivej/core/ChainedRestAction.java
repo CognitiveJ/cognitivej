@@ -213,12 +213,12 @@ public abstract class ChainedRestAction<T extends CognitiveResult, CB extends Ch
         extends RestAction<T> {
     
     private final CognitiveContext cognitiveContext;
-
+    
     public ChainedRestAction(@NotNull CognitiveContext cognitiveContext) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
     }
-
+    
     @SuppressWarnings("unchecked")
     @NotNull
     public CB then() {
@@ -227,7 +227,7 @@ public abstract class ChainedRestAction<T extends CognitiveResult, CB extends Ch
         CB cb = groupBuilder(result);
         return cb;
     }
-
+    
     @NotNull
     public ResultChain withAllResults() {
         T result = withResult();
@@ -236,9 +236,9 @@ public abstract class ChainedRestAction<T extends CognitiveResult, CB extends Ch
         cognitiveContext.resetResultChain();
         return resultChain;
     }
-
+    
     @NotNull
     protected abstract CB groupBuilder(T result);
-
-
+    
+    
 }

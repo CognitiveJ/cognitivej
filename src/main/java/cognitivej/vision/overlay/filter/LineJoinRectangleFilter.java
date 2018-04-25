@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import cognitivej.vision.overlay.BorderWeight;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import org.jetbrains.annotations.NotNull;
@@ -217,18 +216,20 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Comparator;
 
-public class LineJoinRectangleFilter implements ImageFilter {
+public final class LineJoinRectangleFilter implements ImageFilter {
     
-    private Rectangle rectangle1;
-    private Rectangle rectangle2;
-    private BorderWeight lineThickness;
-    private CognitiveJColourPalette color;
-    private int xOffset;
+    private final Rectangle rectangle1;
+    private final Rectangle rectangle2;
+    private final BorderWeight lineThickness;
+    private final CognitiveJColourPalette color;
+    private final int xOffset;
     private final Insets insets;
     
-    public LineJoinRectangleFilter(Rectangle rectangle1, Rectangle rectangle2, BorderWeight lineThickness, CognitiveJColourPalette color, int xOffset, Insets insets) {
+    public LineJoinRectangleFilter(Rectangle rectangle1, Rectangle rectangle2,
+                                   BorderWeight lineThickness, CognitiveJColourPalette color,
+                                   int xOffset, Insets insets) {
         this.rectangle1 = rectangle1;
         this.rectangle2 = rectangle2;
         this.lineThickness = lineThickness;
@@ -243,30 +244,37 @@ public class LineJoinRectangleFilter implements ImageFilter {
         Graphics2D graphics2D = bufferedImage.createGraphics();
         graphics2D.setColor(color.getBackground());
         graphics2D.setStroke(new BasicStroke(lineThickness.thickness()));
-        Point leftRectangleBottom = new Point(rectangle1.x + rectangle1.width, rectangle1.y + rectangle1.height);
+        Point leftRectangleBottom = new Point(
+                rectangle1.x + rectangle1.width, rectangle1.y + rectangle1.height);
         Point leftRectangleTop = new Point(rectangle1.x + rectangle1.width, rectangle1.y);
         Point rightRectangleTop = new Point(rectangle2.x + xOffset, rectangle2.y + insets.top);
-        Point rightRectangleBottom = new Point(rectangle2.x + xOffset, rectangle2.y + insets.top + rectangle2.height);
+        Point rightRectangleBottom = new Point(
+                rectangle2.x + xOffset, rectangle2.y + insets.top + rectangle2.height);
         
-        PointDistance pointDistance = calculatePoints(leftRectangleTop, leftRectangleBottom, rightRectangleTop, rightRectangleBottom);
-        graphics2D.drawLine(pointDistance.getLeftPoint().x, pointDistance.getLeftPoint().y, pointDistance.getRightPoint().x, pointDistance.getRightPoint().y);
+        PointDistance pointDistance = calculatePoints(leftRectangleTop, leftRectangleBottom,
+                rightRectangleTop, rightRectangleBottom);
+        graphics2D.drawLine(pointDistance.getLeftPoint().x, pointDistance.getLeftPoint().y,
+                pointDistance.getRightPoint().x, pointDistance.getRightPoint().y);
         graphics2D.dispose();
         return bufferedImage;
     }
     
-    private PointDistance calculatePoints(Point leftRectangleTop, Point leftRectangleBottom, Point rightRectangleTop, Point rightRectangleBottom) {
+    private PointDistance calculatePoints(Point leftRectangleTop, Point leftRectangleBottom,
+                                          Point rightRectangleTop, Point rightRectangleBottom) {
         PointDistance distance1 = new PointDistance(leftRectangleTop, rightRectangleTop);
         PointDistance distance2 = new PointDistance(leftRectangleBottom, rightRectangleTop);
         PointDistance distance3 = new PointDistance(leftRectangleTop, rightRectangleBottom);
         PointDistance distance4 = new PointDistance(leftRectangleTop, rightRectangleBottom);
-        java.util.List<PointDistance> pointDistances = Arrays.asList(distance1, distance2, distance3, distance4);
-        Collections.sort(pointDistances, (o1, o2) -> Double.compare(o1.getDistance(), o2.getDistance()));
+        java.util.List<PointDistance> pointDistances = Arrays.asList(
+                distance1, distance2, distance3, distance4);
+        pointDistances.sort(Comparator.comparingDouble(PointDistance::getDistance));
         return pointDistances.get(0);
     }
     
     private class PointDistance {
-        Point leftPoint;
-        Point rightPoint;
+        
+        private final Point leftPoint;
+        private final Point rightPoint;
         
         public PointDistance(Point leftPoint, Point rightPoint) {
             this.leftPoint = leftPoint;
@@ -285,6 +293,5 @@ public class LineJoinRectangleFilter implements ImageFilter {
             return rightPoint;
         }
     }
-    
     
 }

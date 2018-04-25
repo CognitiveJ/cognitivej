@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import cognitivej.vision.overlay.BorderWeight;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import org.jetbrains.annotations.NotNull;
@@ -217,9 +216,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Objects;
 
-public class OverlayPointsFilter implements ImageFilter {
-    
+public final class OverlayPointsFilter implements ImageFilter {
     
     private final List<Point> rectangle;
     private final CognitiveJColourPalette color;
@@ -236,16 +235,18 @@ public class OverlayPointsFilter implements ImageFilter {
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
         Graphics2D graphics2D = bufferedImage.createGraphics();
-        rectangle.stream().filter(point -> point != null).forEach(point -> drawRectangle(graphics2D, new Rectangle(point.x, point.y, borderWeight.thickness(), borderWeight.thickness()), color.getBackground(), borderWeight));
+        rectangle.stream().filter(Objects::nonNull).forEach(point ->
+                drawRectangle(graphics2D, new Rectangle(point.x, point.y, borderWeight.thickness(),
+                        borderWeight.thickness()), color.getBackground(), borderWeight));
         graphics2D.dispose();
         return bufferedImage;
     }
     
-    private void drawRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color, BorderWeight borderWeight) {
+    private void drawRectangle(Graphics2D workingGraphics, Rectangle rectangle, Color color,
+                               BorderWeight borderWeight) {
         workingGraphics.setColor(color);
         workingGraphics.setStroke(new BasicStroke(borderWeight.thickness()));
         workingGraphics.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
-    
     
 }

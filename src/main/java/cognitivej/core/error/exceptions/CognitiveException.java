@@ -211,11 +211,11 @@ public class CognitiveException extends RuntimeException {
     public CognitiveException(@NotNull String message) {
         super(message);
     }
-
+    
     public CognitiveException(@NotNull Exception e) {
         super(e);
     }
-
+    
     public CognitiveException(@NotNull String message, @NotNull Exception reason) {
         super(message, reason);
     }

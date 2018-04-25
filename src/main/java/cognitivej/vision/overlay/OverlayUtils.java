@@ -205,14 +205,16 @@
 
 package cognitivej.vision.overlay;
 
-
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 
-public class OverlayUtils {
-    public static Font calculateMaxFontForString(Graphics2D graphics2D, Font font, int maxWidth, double maxHeight, String text) {
+public final class OverlayUtils {
+    
+    public static Font calculateMaxFontForString(Graphics2D graphics2D, Font font,
+                                                 int maxWidth, double maxHeight,
+                                                 String text) {
         float fontSize = font.getSize();
         FontRenderContext fontRenderContext = graphics2D.getFontRenderContext();
         Rectangle2D bounds = font.getStringBounds(text, fontRenderContext);
@@ -223,4 +225,5 @@ public class OverlayUtils {
         }
         return font;
     }
+    
 }

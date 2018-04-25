@@ -220,74 +220,74 @@ public class WorkingContext {
     private Map<String, Object> payload = new HashMap<>();
     private String path;
     private HttpMethod httpMethod;
-
-
+    
+    
     @NotNull
     public WorkingContext addHeader(@NotNull String key, @NotNull String value) {
         headers.put(key, value);
         return this;
     }
-
+    
     @NotNull
     public WorkingContext addQueryParameter(@NotNull String key, @NotNull String value) {
         queryParams.put(key, value);
         return this;
     }
-
+    
     @NotNull
     public WorkingContext addPayload(@NotNull String key, @NotNull Object value) {
         payload.put(key, value);
         return this;
     }
-
+    
     @NotNull
     public WorkingContext addPathVariable(@NotNull String key, @NotNull String value) {
         pathVaribles.put(key, value);
         return this;
     }
-
+    
     @NotNull
     public WorkingContext setPath(@NotNull String path) {
         this.path = path;
         return this;
     }
-
+    
     @NotNull
     public Map<String, String> getHeaders() {
         return headers;
     }
-
+    
     @NotNull
     public Map<String, Object> getQueryParams() {
         return queryParams;
     }
-
+    
     public Map<String, Object> getPayload() {
         return payload;
     }
-
+    
     public Map<String, String> getPathVaribles() {
         return pathVaribles;
     }
-
+    
     public WorkingContext httpMethod(HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
         return this;
     }
-
-
+    
+    
     public String getPath() {
         return path;
     }
-
+    
     @NotNull
     public String getPathBuilt() {
         return new StrSubstitutor(pathVaribles).replace(path);
     }
-
+    
     @NotNull
     public HttpMethod getHttpMethod() {
         return httpMethod;
     }
-
+    
 }

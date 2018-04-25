@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay;
 
-
 import java.awt.Insets;
 
 public enum BorderWeight {
@@ -224,4 +223,5 @@ public enum BorderWeight {
     public Insets insets() {
         return new Insets(thickness / 2, thickness / 2, thickness / 2, thickness / 2);
     }
+    
 }

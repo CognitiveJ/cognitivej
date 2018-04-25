@@ -214,13 +214,13 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-public class ImageCaptionFilter implements ImageFilter {
+public final class ImageCaptionFilter implements ImageFilter {
+    
     private Location location;
     private final Font font;
     private final Color color;
     private String text;
     private int insets;
-    
     
     public ImageCaptionFilter(Location location, Font font, Color color, String text, int insets) {
         this.location = location;
@@ -253,4 +253,5 @@ public class ImageCaptionFilter implements ImageFilter {
         g.dispose();
         return baseImage;
     }
+    
 }

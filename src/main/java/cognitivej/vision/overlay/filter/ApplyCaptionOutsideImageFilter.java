@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import cognitivej.vision.overlay.CognitiveJColourPalette;
 import cognitivej.vision.overlay.Location;
 import cognitivej.vision.overlay.OverlayUtils;
@@ -216,24 +215,23 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
-
-public class ApplyCaptionOutsideImageFilter implements ImageFilter {
+public final class ApplyCaptionOutsideImageFilter implements ImageFilter {
     
     private final Location location;
     private final Font font;
     private final CognitiveJColourPalette color;
     private final String text;
-    private int magicPadding = 50;
+    private static final int MAGIC_PADDING = 50;
     private Insets imageGrownBy;
     
     public ApplyCaptionOutsideImageFilter(@NotNull Location location, @NotNull Font font,
-                                          @NotNull CognitiveJColourPalette color, @NotNull String text) {
+                                          @NotNull CognitiveJColourPalette color,
+                                          @NotNull String text) {
         this.location = location;
         this.font = font;
         this.color = color;
         this.text = text;
     }
-    
     
     @NotNull
     @Override
@@ -243,7 +241,9 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
         GrowImageFilter growImageFilter = new GrowImageFilter(imageGrownBy);
         BufferedImage grownImage = growImageFilter.applyFilter(bufferedImage);
         int height = calculateHeight();
-        ImageCaptionFilter imageCaptionFilter = new ImageCaptionFilter(location, OverlayUtils.calculateMaxFontForString(graphics2D, font, grownImage.getWidth() - magicPadding, height, text),
+        ImageCaptionFilter imageCaptionFilter = new ImageCaptionFilter(location,
+                OverlayUtils.calculateMaxFontForString(
+                        graphics2D, font, grownImage.getWidth() - MAGIC_PADDING, height, text),
                 color.getBackground(), text, 10);
         graphics2D.dispose();
         return imageCaptionFilter.applyFilter(grownImage);
@@ -268,10 +268,8 @@ public class ApplyCaptionOutsideImageFilter implements ImageFilter {
             case BOTTOM_CENTER:
             case BOTTOM_RIGHT:
                 return imageGrownBy.bottom;
-            
         }
         return 0;
-        
     }
     
 }

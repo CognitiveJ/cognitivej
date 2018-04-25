@@ -220,9 +220,9 @@ public class Validation {
         if (str == null || !pattern.matcher(str).matches()) {
             throw toThrow;
         }
-
+        
     }
-
+    
     public static void validate(@Nullable String str, int sizeInKB, @NotNull ParameterValidationException toThrow) {
         if (str == null) throw toThrow;
         final byte[] utf16Bytes;
@@ -232,22 +232,22 @@ public class Validation {
                 throw toThrow;
         } catch (UnsupportedEncodingException ignored) {
         }
-
-
+        
+        
     }
-
+    
     public static void validateArray(@NotNull List elements, int min, int max, @NotNull ParameterValidationException toThrow) {
         if (min == 0 && Utils.isEmpty(elements))
             return;
         if (Utils.isEmpty(elements) || elements.size() < min || elements.size() > max)
             throw toThrow;
     }
-
+    
     public static void validateInt(int num, int max, ParameterValidationException toThrow) {
         if (num > max)
             throw toThrow;
     }
-
+    
     public static void validateExclusive(List collection, String str, ParameterValidationException toThrow) {
         if ((Utils.isEmpty(collection) && Utils.isBlank(str))
                 || (Utils.isNotEmpty(collection) && Utils.isNotBlank(str)))

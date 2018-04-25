@@ -205,14 +205,14 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
 
+@FunctionalInterface
 public interface ImageFilter {
-    
     
     @NotNull
     BufferedImage applyFilter(@NotNull BufferedImage bufferedImage);
+    
 }

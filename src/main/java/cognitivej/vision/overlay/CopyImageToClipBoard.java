@@ -205,6 +205,8 @@
 
 package cognitivej.vision.overlay;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -215,8 +217,8 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-
-public class CopyImagetoClipBoard implements ClipboardOwner {
+public final class CopyImageToClipBoard implements ClipboardOwner {
+    
     public void copyImage(BufferedImage bi) {
         try {
             TransferableImage trans = new TransferableImage(bi);
@@ -230,7 +232,7 @@ public class CopyImagetoClipBoard implements ClipboardOwner {
     
     @Override
     public void lostOwnership(Clipboard clipboard, Transferable contents) {
-        //can't do much here.
+        // can't do much here.
     }
     
     private class TransferableImage implements Transferable {
@@ -241,6 +243,7 @@ public class CopyImagetoClipBoard implements ClipboardOwner {
             this.i = i;
         }
         
+        @NotNull
         public Object getTransferData(DataFlavor flavor)
                 throws UnsupportedFlavorException, IOException {
             if (flavor.equals(DataFlavor.imageFlavor) && i != null) {
@@ -263,7 +266,6 @@ public class CopyImagetoClipBoard implements ClipboardOwner {
                     return true;
                 }
             }
-            
             return false;
         }
     }

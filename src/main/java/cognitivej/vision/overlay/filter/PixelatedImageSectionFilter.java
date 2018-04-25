@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.filter;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Rectangle;
@@ -213,7 +212,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
-public class PixelatedImageSectionFilter implements ImageFilter {
+public final class PixelatedImageSectionFilter implements ImageFilter {
+    
     private Rectangle pixelateSection;
     private static final int PIX_SIZE = 20;
     
@@ -227,8 +227,10 @@ public class PixelatedImageSectionFilter implements ImageFilter {
         Raster src = bufferedImage.getData();
         WritableRaster dest = src.createCompatibleWritableRaster();
         bufferedImage.copyData(dest);
-        for (int y = pixelateSection.y; y < pixelateSection.y + pixelateSection.getHeight(); y += PIX_SIZE) {
-            for (int x = pixelateSection.x; x < pixelateSection.x + pixelateSection.getWidth(); x += PIX_SIZE) {
+        for (int y = pixelateSection.y;
+             y < pixelateSection.y + pixelateSection.getHeight(); y += PIX_SIZE) {
+            for (int x = pixelateSection.x;
+                 x < pixelateSection.x + pixelateSection.getWidth(); x += PIX_SIZE) {
                 double[] pixel = new double[3];
                 pixel = src.getPixel(x, y, pixel);
                 for (int yd = y; (yd < y + PIX_SIZE) && (yd < dest.getHeight()); yd++) {
@@ -241,6 +243,5 @@ public class PixelatedImageSectionFilter implements ImageFilter {
         bufferedImage.setData(dest);
         return bufferedImage;
     }
-    
     
 }

@@ -206,7 +206,6 @@
 package cognitivej.core;
 
 
-
 public abstract class ChainedBuilder<T> {
 
 

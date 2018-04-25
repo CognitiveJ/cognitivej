@@ -211,11 +211,11 @@ import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
 public class ErrorHandler {
-
+    
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new CognitiveException(extractErrorString(httpResponse));
     }
-
+    
     protected String extractErrorString(@NotNull HttpResponse httpResponse) {
         return String.format("Status:%d; Body: %s", httpResponse.getStatus(), httpResponse.getBody());
     }

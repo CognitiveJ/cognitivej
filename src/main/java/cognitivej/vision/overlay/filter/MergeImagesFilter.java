@@ -212,7 +212,8 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
-public class MergeImagesFilter implements ImageFilter {
+public final class MergeImagesFilter implements ImageFilter {
+    
     private BufferedImage mergeImage;
     private final Insets insets;
     private final Position position;
@@ -226,9 +227,11 @@ public class MergeImagesFilter implements ImageFilter {
     @NotNull
     @Override
     public BufferedImage applyFilter(@NotNull BufferedImage bufferedImage) {
-        BufferedImage newImage = createNewBufferedImage(calculateNewWidth(bufferedImage), calculateNewHeight(bufferedImage), bufferedImage.getType());
+        BufferedImage newImage = createNewBufferedImage(calculateNewWidth(bufferedImage),
+                calculateNewHeight(bufferedImage), bufferedImage.getType());
         Graphics2D graphics2D = newImage.createGraphics();
-        graphics2D.drawImage(bufferedImage, existingImageX(bufferedImage), existingImageY(bufferedImage), null);
+        graphics2D.drawImage(bufferedImage, existingImageX(bufferedImage),
+                existingImageY(bufferedImage), null);
         graphics2D.drawImage(mergeImage, newImageX(bufferedImage), newImageY(bufferedImage), null);
         graphics2D.dispose();
         return newImage;
@@ -288,7 +291,6 @@ public class MergeImagesFilter implements ImageFilter {
                 return bufferedImage.getHeight() + insets.bottom;
         }
         return 0;
-        
     }
     
     protected int calculateNewHeight(@NotNull BufferedImage bufferedImage) {
@@ -322,4 +324,5 @@ public class MergeImagesFilter implements ImageFilter {
     public enum Position {
         LEFT, RIGHT, TOP, BOTTOM
     }
+    
 }

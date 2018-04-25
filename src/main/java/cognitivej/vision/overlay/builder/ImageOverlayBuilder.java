@@ -220,7 +220,7 @@ import cognitivej.vision.face.task.FaceAttributes;
 import cognitivej.vision.face.task.Verification;
 import cognitivej.vision.overlay.BorderWeight;
 import cognitivej.vision.overlay.CognitiveJColourPalette;
-import cognitivej.vision.overlay.CopyImagetoClipBoard;
+import cognitivej.vision.overlay.CopyImageToClipBoard;
 import cognitivej.vision.overlay.PointLocations;
 import cognitivej.vision.overlay.RectangleTextPosition;
 import cognitivej.vision.overlay.RectangleType;
@@ -820,7 +820,7 @@ public final class ImageOverlayBuilder {
      */
     @NotNull
     public ImageOverlayBuilder toClipboard() {
-        new CopyImagetoClipBoard().copyImage(bufferedImage);
+        new CopyImageToClipBoard().copyImage(bufferedImage);
         return this;
     }
     

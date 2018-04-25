@@ -237,15 +237,15 @@ public abstract class RestAction<T> {
     private static final String PROJECTOXFORD_AI = "https://api.projectoxford.ai/";
     public static final String IMAGE_INPUT_STREAM_KEY = "imageInputStream";
     private final CognitiveContext cognitiveContext;
-
+    
     private Map<Integer, ErrorHandler> errorHandlers = new HashMap<>();
     private Gson gson;
-
+    
     public RestAction(@NotNull CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
         gson = new GsonBuilder().create();
     }
-
+    
     /**
      * Invoke the HTTP REST call.
      *
@@ -254,7 +254,7 @@ public abstract class RestAction<T> {
     public T withResult() {
         return ExponentialBackOff.execute(this::doWork);
     }
-
+    
     private T doWork() {
         try {
             setupErrorHandlers();
@@ -270,8 +270,7 @@ public abstract class RestAction<T> {
             HttpResponse response;
             if (typedResponse() == InputStream.class) {
                 response = builtRequest.asBinary();
-            }
-            else {
+            } else {
                 response = builtRequest.asString();
             }
             checkForError(response);
@@ -280,14 +279,14 @@ public abstract class RestAction<T> {
             throw new CognitiveException(e);
         }
     }
-
+    
     /**
      * Invoke the HTTP REST call. will not return a response
      */
     public void withNoResult() {
         withResult();
     }
-
+    
     private void setupErrorHandlers() {
         errorHandlers.put(HttpStatus.SC_UNAUTHORIZED, new UnAuthorizedErrorHandler());
         errorHandlers.put(HttpStatus.SC_FORBIDDEN, new ForbiddenErrorHandler());
@@ -295,7 +294,7 @@ public abstract class RestAction<T> {
         errorHandlers.put(409, new ConcurrentOperationConflictErrorHandler());
         customErrorHandlers(errorHandlers);
     }
-
+    
     private void buildBody(HttpRequestWithBody builtRequest) throws IOException {
         if (workingContext().getPayload().containsKey(IMAGE_INPUT_STREAM_KEY)) {
             builtRequest.header("content-type", "application/octet-stream")
@@ -307,14 +306,14 @@ public abstract class RestAction<T> {
                     new JSONObject(workingContext().getPayload()));
         }
     }
-
+    
     private Object typeResponse(Object responseBody) {
         if (typedResponse() == null || responseBody instanceof InputStream)
             return responseBody;
         return gson.fromJson((String) responseBody, typedResponse());
     }
-
-
+    
+    
     private void checkForError(HttpResponse response) {
         if (response.getStatus() == HttpStatus.SC_ACCEPTED
                 || response.getStatus() == HttpStatus.SC_OK) {
@@ -324,7 +323,7 @@ public abstract class RestAction<T> {
                 errorHandlers.getOrDefault(response.getStatus(), new ErrorHandler());
         errorHandler.publishError(response);
     }
-
+    
     private HttpRequest buildUniRest(WorkingContext workingContext) {
         String url = String.format("%s%s", PROJECTOXFORD_AI, workingContext.getPathBuilt());
         switch (workingContext.getHttpMethod()) {
@@ -339,18 +338,18 @@ public abstract class RestAction<T> {
         }
         return Unirest.post(url);
     }
-
+    
     protected abstract WorkingContext workingContext();
-
+    
     protected Type typedResponse() {
         return null;
     }
     
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {}
-
+    
     @SuppressWarnings("unchecked")
     protected T postProcess(Object response) {
         return (T) response;
     }
-
+    
 }

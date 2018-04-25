@@ -221,11 +221,11 @@ public final class ExponentialBackOff {
     private static final int[] FIBONACCI = new int[]{1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
     private static final List<Class<? extends Exception>> EXPECTED_COMMUNICATION_ERRORS = asList(
             RateLimitExceededException.class);
-
+    
     private ExponentialBackOff() {
-
+    
     }
-
+    
     @NotNull
     public static <T> T execute(@NotNull ExponentialBackOffFunction<T> fn) {
         for (int attempt = 0; attempt < FIBONACCI.length; attempt++) {
@@ -233,18 +233,18 @@ public final class ExponentialBackOff {
                 return fn.execute();
             } catch (Exception e) {
                 handleFailure(attempt, (RuntimeException) e);
-
+                
             }
         }
         throw new CognitiveException("Failed to communicate.");
     }
-
+    
     private static void handleFailure(int attempt, @NotNull RuntimeException e) {
         if (!EXPECTED_COMMUNICATION_ERRORS.contains(e.getClass()))
             throw e;
         doWait(attempt, e);
     }
-
+    
     private static void doWait(int attempt, @NotNull Exception exc) {
         try {
             //System.out.printf("FAILED - WAITING FOR %d%n, exception caught was: %s", FIBONACCI[attempt] * 1000, exc.getMessage());

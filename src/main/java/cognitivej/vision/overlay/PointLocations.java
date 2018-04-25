@@ -207,104 +207,95 @@ package cognitivej.vision.overlay;
 
 import java.awt.Point;
 
-
 public enum PointLocations implements Location {
     
     TOP_LEFT() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = insetLeft;
-            int y = insetTop;
-            return new Point(x, y);
+            return new Point(insetLeft, insetTop);
         }
     },
     
-    
     TOP_CENTER() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = (enclosingWidth / 2) - (width / 2);
-            int y = insetTop;
-            return new Point(x, y);
+            return new Point((enclosingWidth / 2) - (width / 2), insetTop);
         }
     },
     
     
     TOP_RIGHT() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = enclosingWidth - width - insetRight;
-            int y = insetTop;
-            return new Point(x, y);
+            return new Point(enclosingWidth - width - insetRight, insetTop);
         }
     },
     
     
     CENTER_LEFT() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = insetLeft;
-            int y = (enclosingHeight / 2) - (height / 2);
-            return new Point(x, y);
+            return new Point(insetLeft, (enclosingHeight / 2) - (height / 2));
         }
     },
     
     
     CENTER() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = (enclosingWidth / 2) - (width / 2);
-            int y = (enclosingHeight / 2) - (height / 2);
-            return new Point(x, y);
+            return new Point(
+                    (enclosingWidth / 2) - (width / 2), (enclosingHeight / 2) - (height / 2));
         }
     },
     
     
     CENTER_RIGHT() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = enclosingWidth - width - insetRight;
-            int y = (enclosingHeight / 2) - (height / 2);
-            return new Point(x, y);
+            return new Point(
+                    enclosingWidth - width - insetRight, (enclosingHeight / 2) - (height / 2));
         }
     },
-    
     
     BOTTOM_LEFT() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = insetLeft;
-            int y = enclosingHeight - height - insetBottom;
-            return new Point(x, y);
+            return new Point(insetLeft, enclosingHeight - height - insetBottom);
         }
     },
     
-    
     BOTTOM_CENTER() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = (enclosingWidth / 2) - (width / 2);
-            int y = enclosingHeight - height - insetBottom;
-            return new Point(x, y);
+            return new Point(
+                    (enclosingWidth / 2) - (width / 2), enclosingHeight - height - insetBottom);
         }
     },
     
     
     BOTTOM_RIGHT() {
+        @Override
         public Point calculate(int enclosingWidth, int enclosingHeight,
                                int width, int height, int insetLeft, int insetRight,
                                int insetTop, int insetBottom) {
-            int x = enclosingWidth - width - insetRight;
-            int y = enclosingHeight - height - insetBottom;
-            return new Point(x, y);
+            return new Point(
+                    enclosingWidth - width - insetRight, enclosingHeight - height - insetBottom);
         }
     },;
     
@@ -312,4 +303,5 @@ public enum PointLocations implements Location {
     public PointLocations location() {
         return this;
     }
+    
 }

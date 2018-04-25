@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.builder;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -213,7 +212,7 @@ import java.io.File;
 /**
  * The requested image was not found at location;
  */
-public class ImageNotFoundException extends RuntimeException {
+public final class ImageNotFoundException extends RuntimeException {
     
     public ImageNotFoundException(@NotNull File file) {
         super(String.format("File not found at location: %s", file.getAbsolutePath()));

@@ -213,22 +213,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ResultChain {
-
+    
     private List<CognitiveResult> chainedResult = new ArrayList<>();
-
+    
     public void addToChain(@NotNull CognitiveResult result) {
         chainedResult.add(result);
     }
-
+    
     @NotNull
     public List<CognitiveResult> resultChain() {
         return chainedResult;
     }
-
+    
     public void clear() {
         chainedResult.clear();
     }
-
+    
     @NotNull
     @SuppressWarnings("unchecked")
     public <T extends CognitiveResult> List<T> byType(@NotNull Class<T> type) {

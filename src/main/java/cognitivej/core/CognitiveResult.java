@@ -209,7 +209,7 @@ package cognitivej.core;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class CognitiveResult {
-
+    
     @NotNull
     public final Class resultType() {
         return getClass();

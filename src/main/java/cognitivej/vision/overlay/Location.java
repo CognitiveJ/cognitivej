@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay;
 
-
 import java.awt.Point;
 
 public interface Location {

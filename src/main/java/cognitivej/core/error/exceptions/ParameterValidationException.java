@@ -209,12 +209,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class ParameterValidationException extends RuntimeException {
     private final String field;
-
+    
     public ParameterValidationException(@NotNull String field, @NotNull String message) {
         super(message);
         this.field = field;
     }
-
+    
     public String getField() {
         return field;
     }

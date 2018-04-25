@@ -220,27 +220,27 @@ import java.util.stream.Collectors;
 
 
 public class Utils {
-
+    
     public static boolean isNotEmpty(Collection collection) {
         return collection != null && collection.size() > 0;
     }
-
+    
     public static boolean isEmpty(Collection collection) {
         return !isNotEmpty(collection);
     }
-
+    
     public static boolean isBlank(String str) {
         return str == null || str.trim().length() == 0;
     }
-
+    
     public static boolean isNotBlank(String str) {
         return !isBlank(str);
     }
-
+    
     public static String blankIfNull(String s) {
-        return s == null ? "" : s;
+        return s == null? "": s;
     }
-
+    
     public static boolean throwsException(Runnable toInvoke, Class<? extends Throwable> toBeThrown) {
         try {
             toInvoke.run();
@@ -248,11 +248,11 @@ public class Utils {
             if (e.getClass().equals(toBeThrown))
                 return true;
             throw e;
-
+            
         }
         return false;
     }
-
+    
     public static InputStream fileToFileInputStream(File file) {
         FileInputStream fileInputStream;
         try {
@@ -260,22 +260,22 @@ public class Utils {
         } catch (FileNotFoundException e) {
             throw new CognitiveException(String.format("Could not open file:%s", file.toString()), e);
         }
-
+        
         return fileInputStream;
-
+        
     }
-
+    
     public static void waitFor(int duration, TimeUnit timeUnit) {
         try {
             Thread.sleep(timeUnit.toMillis(duration));
         } catch (InterruptedException ignored) {
         }
     }
-
+    
     public static <T> T elementAt(List<T> collection, int element) {
-        return collection != null && collection.size() > element ? collection.get(0) : null;
+        return collection != null && collection.size() > element? collection.get(0): null;
     }
-
+    
     public static List<String> extractFaceIds(List<Face> faces) {
         return faces.stream().map(Face::getFaceId).collect(Collectors.toList());
     }

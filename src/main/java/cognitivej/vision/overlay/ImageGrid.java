@@ -209,7 +209,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public class ImageGrid {
+public final class ImageGrid {
     
     private final List<BufferedImage> elements;
     private final int cols;
@@ -221,7 +221,10 @@ public class ImageGrid {
     }
     
     public BufferedImage build() {
-        BufferedImage newImage = new BufferedImage(calculateNeededWidth(elements, cols), calculateNeededHeight(elements, cols), BufferedImage.TYPE_INT_RGB);
+        BufferedImage newImage = new BufferedImage(
+                calculateNeededWidth(elements, cols),
+                calculateNeededHeight(elements, cols),
+                BufferedImage.TYPE_INT_RGB);
         Graphics g = newImage.getGraphics();
         int startX = 0;
         int startY = 0;
@@ -261,7 +264,7 @@ public class ImageGrid {
     }
     
     private int calculateNeededWidth(List<BufferedImage> elements, int cols) {
-        int lastRowWidth = padding; //include the edge padding.
+        int lastRowWidth = padding; // include the edge padding.
         int neededRowWidth = 0;
         for (int i = 0; i < elements.size(); i++) {
             if (i > 0 && i % cols == 0) {
