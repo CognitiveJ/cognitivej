@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist;
 
-
 import cognitivej.core.ChainedBuilder;
 import cognitivej.vision.face.CognitiveContext;
 import cognitivej.vision.face.facelist.action.AddFaceToFaceListAction;
@@ -213,13 +212,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 
-public class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
+public final class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
+    
     private final String faceListId;
-    private FaceListBuilder faceListBuilder;
+    private final FaceListBuilder faceListBuilder;
 
-    public ChainedFaceListBuilder(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId) {
+    public ChainedFaceListBuilder(@NotNull CognitiveContext cognitiveContext,
+                                  @NotNull String faceListId) {
         this.faceListId = faceListId;
-        faceListBuilder = new FaceListBuilder(cognitiveContext);
+        this.faceListBuilder = new FaceListBuilder(cognitiveContext);
     }
 
     /**
@@ -229,7 +230,8 @@ public class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
      * @see FaceListBuilder#addFaceToFaceList(String, String, String, String)
      */
     @NotNull
-    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String userData, @NotNull String imageUrl) {
+    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String userData,
+                                                     @NotNull String imageUrl) {
         return faceListBuilder.addFaceToFaceList(faceListId, userData, "", imageUrl);
     }
 
@@ -240,9 +242,9 @@ public class ChainedFaceListBuilder extends ChainedBuilder<FaceList> {
      * @see FaceListBuilder#addFaceToFaceList(String, String, String, String)
      */
     @NotNull
-    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String userData, @NotNull InputStream image) {
+    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String userData,
+                                                     @NotNull InputStream image) {
         return faceListBuilder.addFaceToFaceList(faceListId, userData, "", image);
     }
-
 
 }

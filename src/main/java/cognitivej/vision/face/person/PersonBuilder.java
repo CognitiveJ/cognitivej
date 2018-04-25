@@ -217,7 +217,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.InputStream;
 
-public class PersonBuilder {
+public final class PersonBuilder {
     
     /**
      * Message for bad person group ID.
@@ -255,7 +255,6 @@ public class PersonBuilder {
      * @param userData Optional fields for user-provided data attached to a person.
      * Size limit is 16KB.
      * @return a built {@link CreatePersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523c">MS Cognitive Docs (Person  - CREATE)</a>
      */
     @NotNull
     public CreatePersonAction createPerson(@NotNull String personGroupId,
@@ -301,7 +300,6 @@ public class PersonBuilder {
      * @param url Face image URL. Valid image size is from 1KB to 4MB.
      * Only one face is allowed per image.
      * @return a built {@link AddFaceToPersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b">MS Cognitive Docs (Person - Add a Person Face)</a>
      */
     @NotNull
     public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId,
@@ -345,7 +343,6 @@ public class PersonBuilder {
      * @param imageInputStream Face image image.
      * Valid image size is from 1KB to 4MB. Only one face is allowed per image.
      * @return a built {@link AddFaceToPersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b">MS Cognitive Docs (Person - Add a Person Face)</a>
      */
     @NotNull
     public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId,
@@ -387,7 +384,6 @@ public class PersonBuilder {
      * @param image Face image image (as a file). Valid image size is from 1KB to 4MB.
      * Only one face is allowed per image.
      * @return a built {@link AddFaceToPersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b">MS Cognitive Docs (Person - Add a Person Face)</a>
      */
     @NotNull
     public AddFaceToPersonAction addFaceToPerson(@NotNull String personGroupId,
@@ -404,7 +400,6 @@ public class PersonBuilder {
      * @param personGroupId The target person's belonging person group's ID.
      * @param personId The target person ID.
      * @return a built {@link GetPersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523f">MS Cognitive Docs (Person - Get a Person)</a>
      */
     @NotNull
     public GetPersonAction getPerson(@NotNull String personGroupId, @NotNull String personId) {
@@ -420,7 +415,6 @@ public class PersonBuilder {
      * @param personGroupId - The target person's belonging person group's ID.
      * @param personId      - The target person ID.
      * @return a built {@link GetPersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523d">MS Cognitive Docs (Person - Delete a Person)</a>
      */
     @NotNull
     public DeletePersonAction deletePerson(@NotNull String personGroupId,
@@ -438,7 +432,6 @@ public class PersonBuilder {
      * @param userData      - 	Optional fields for user-provided data attached to a person.
      * Size limit is 16KB.
      * @return a built {@link UpdatePersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395242">MS Cognitive Docs (Person - Update a Person)</a>
      */
     @NotNull
     public UpdatePersonAction updatePerson(@NotNull String personGroupId,
@@ -460,7 +453,6 @@ public class PersonBuilder {
      * @param personId        - The target person ID.
      * @param persistedFaceId - The target face ID.
      * @return a built {@link GetPersonFaceAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395240">MS Cognitive Docs (Person - Get a Person Face)</a>
      */
     @NotNull
     public GetPersonFaceAction getPersonFace(@NotNull String personGroupId,
@@ -477,7 +469,6 @@ public class PersonBuilder {
      * @param personId        - The target person ID.
      * @param persistedFaceId - The target face ID.
      * @return a built {@link DeletePersonFaceAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523e">MS Cognitive Docs (Person - Delete a Person Face)</a>
      */
     @NotNull
     public DeletePersonFaceAction deletePersonFace(@NotNull String personGroupId,
@@ -497,7 +488,6 @@ public class PersonBuilder {
      * @param persistedFaceId - The target face ID.
      * @param userData        - Attach user data to person's face. The size limit is 1KB.
      * @return a built {@link UpdateFaceToPersonAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395243">MS Cognitive Docs (Person - Update a Person Face)</a>
      */
     @NotNull
     public UpdateFaceToPersonAction updatePersonFace(@NotNull String personGroupId,
@@ -517,11 +507,11 @@ public class PersonBuilder {
      *
      * @param personGroupId - The target person's belonging person group's ID.
      * @return a built {@link ListPersonsInPersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395241">MS Cognitive Docs (Person - List Persons in a Person Group)</a>
      */
     @NotNull
     public ListPersonsInPersonGroupAction listPersonsInPersonGroup(@NotNull String personGroupId) {
         validatePersonGroupID(personGroupId);
         return new ListPersonsInPersonGroupAction(cognitiveContext, personGroupId);
     }
+    
 }

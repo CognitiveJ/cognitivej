@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.person.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -218,12 +217,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class GetPersonAction extends RestAction<Person> {
+public final class GetPersonAction extends RestAction<Person> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
 
-    public GetPersonAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId) {
+    public GetPersonAction(@NotNull CognitiveContext cognitiveContext,
+                           @NotNull String personGroupId, @NotNull String personId) {
         super(cognitiveContext);
         this.personGroupId = personGroupId;
         this.personId = personId;
@@ -248,6 +249,8 @@ public class GetPersonAction extends RestAction<Person> {
 
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-        errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonNotFoundErrorHandler(personGroupId, personId));
+        errorHandlers.put(HttpStatus.SC_NOT_FOUND,
+                new PersonNotFoundErrorHandler(personGroupId, personId));
     }
+    
 }

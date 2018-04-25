@@ -205,39 +205,20 @@
 
 package cognitivej.vision.face.person.error;
 
-
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Thrown when Person Group does not exist (not found).
- *
- *
- * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395246">MS Cognitive Docs (Person Group)</a>
  */
-public class PersonFaceNotFoundException extends RuntimeException {
-    private final String personId;
-    private final String persistedFaceId;
-    private String personGroupId;
+public final class PersonFaceNotFoundException extends RuntimeException {
 
-    public PersonFaceNotFoundException(@NotNull String groupId, @NotNull String personId, @NotNull String persistedFaceId, String message) {
+    public PersonFaceNotFoundException(@NotNull String groupId,
+                                       @NotNull String personId,
+                                       @NotNull String persistedFaceId,
+                                       String message) {
         super(String.format("personGroupId:%s;%s:-%s", groupId, personId, message));
-        this.personGroupId = groupId;
-        this.personId = personId;
-        this.persistedFaceId = persistedFaceId;
     }
-
-    public String getPersonGroupId() {
-        return personGroupId;
-    }
-
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public String getPersistedFaceId() {
-        return persistedFaceId;
-    }
+    
 }
 
 

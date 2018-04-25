@@ -205,7 +205,6 @@
 
 package cognitivej.vision.overlay.builder;
 
-
 import cognitivej.core.Utils;
 import cognitivej.core.error.exceptions.CognitiveException;
 import cognitivej.vision.computervision.ComputerVisionString;
@@ -242,7 +241,7 @@ public class ImageOverlayBuilder {
     public static final Font DEFAULT_TEXT_FONT = new Font("Noto Sans", Font.PLAIN, 40);
     public static final Insets SMALL_PADDING = new Insets(10, 10, 10, 10);
     private BufferedImage bufferedImage;
-
+    
     private ImageOverlayBuilder(@NotNull BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
         try {
@@ -251,10 +250,10 @@ public class ImageOverlayBuilder {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/font/notosans/NotoSans-Bold.ttf")));
         } catch (IOException | FontFormatException ignored) {
         }
-
+        
     }
-
-
+    
+    
     /**
      * Outlines a face on the base image with defaults;
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
@@ -266,8 +265,8 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder outlineFaceOnImage(@NotNull Face face) {
         return outlineFaceOnImage(face, RectangleType.CORNERED);
     }
-
-
+    
+    
     /**
      * Draws outlines on any OCR text.
      *
@@ -279,7 +278,7 @@ public class ImageOverlayBuilder {
         ocrResult.regions.forEach(this::outlineOCRRegion);
         return this;
     }
-
+    
     /**
      * outlines a region with text.
      *
@@ -291,16 +290,16 @@ public class ImageOverlayBuilder {
         region.lines.forEach(this::outlineOCRLine);
         return this;
     }
-
+    
     @NotNull
     private ImageOverlayBuilder outlineOCRLine(OCRResult.Line line) {
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(line.boundingBoxAsAwtRectangle(), RectangleType.FULL, BorderWeight.THINNER, CognitiveJColourPalette.randomColour());
         bufferedImage = overlayRectangleFilter.applyFilter(bufferedImage);
         line.words.forEach(this::outlineOCRWord);
         return this;
-
+        
     }
-
+    
     @NotNull
     private ImageOverlayBuilder outlineOCRWord(@NotNull OCRResult.Word word) {
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(word.boundingBoxAsAwtRectangle(), RectangleType.FULL, BorderWeight.THINNER, CognitiveJColourPalette.randomColour());
@@ -308,10 +307,10 @@ public class ImageOverlayBuilder {
                 new Insets(0, 0, 0, 0), new Font("Noto Sans", Font.PLAIN, 12), CognitiveJColourPalette.TRANS_GRAY, RectangleTextPosition.BOTTOM_OF, word.text);
         bufferedImage = textOnRectangleFilter.applyFilter(overlayRectangleFilter.applyFilter(bufferedImage));
         return this;
-
+        
     }
-
-
+    
+    
     /**
      * Outlines a face on the base image with defaults;
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
@@ -325,8 +324,8 @@ public class ImageOverlayBuilder {
         bufferedImage = pixelatedImageSectionFilter.applyFilter(bufferedImage);
         return this;
     }
-
-
+    
+    
     /**
      * Outlines face(s) on the base image with defaults;
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
@@ -339,12 +338,12 @@ public class ImageOverlayBuilder {
         faces.forEach(face -> outlineFaceOnImage(face, RectangleType.FULL, DEFAULT_BORDER_WEIGHT, CognitiveJColourPalette.randomColour()));
         return this;
     }
-
+    
     /**
      * Outlines face(s) on the base image with defaults;
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param faces         the faces.
+     * @param faces the faces.
      * @param rectangleType the type of border
      * @param colourPalette the colour of the border
      * @return this
@@ -354,12 +353,12 @@ public class ImageOverlayBuilder {
         faces.forEach(face -> outlineFaceOnImage(face, rectangleType, DEFAULT_BORDER_WEIGHT, colourPalette));
         return this;
     }
-
+    
     /**
      * Outlines face on the base image with defaults;
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          - the faces.
+     * @param face - the faces.
      * @param rectangleType - the rectangle type.
      * @return this
      */
@@ -367,28 +366,28 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder outlineFaceOnImage(@NotNull Face face, @NotNull RectangleType rectangleType) {
         return outlineFaceOnImage(face, rectangleType, DEFAULT_BORDER_WEIGHT);
     }
-
+    
     /**
      * Outlines face on the base image with defaults;
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          - the faces.
+     * @param face - the faces.
      * @param rectangleType - the rectangle type.
-     * @param borderWeight  - the weight of the border
+     * @param borderWeight - the weight of the border
      * @return this
      */
     @NotNull
     public ImageOverlayBuilder outlineFaceOnImage(@NotNull Face face, @NotNull RectangleType rectangleType, @NotNull BorderWeight borderWeight) {
         return outlineFaceOnImage(face, rectangleType, borderWeight, CognitiveJColourPalette.randomColour());
     }
-
+    
     @NotNull
     public ImageOverlayBuilder outlineFaceOnImage(@NotNull Face face, @NotNull RectangleType rectangleType, @NotNull BorderWeight borderWeight, @NotNull CognitiveJColourPalette colourPalette) {
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(face.faceRectangle.asAwtRectangle(), rectangleType, borderWeight, colourPalette);
         bufferedImage = overlayRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
-
+    
     /**
      * write out the faces age (formatted 'Age %.1f') to the top of the face rectangle.
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
@@ -400,12 +399,12 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder writeAge(@NotNull Face face) {
         return writeAge(face, RectangleTextPosition.TOP_OF);
     }
-
+    
     /**
      * write out the faces age (formatted 'Age %.1f') to the top of the face rectangle.
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face         the face.
+     * @param face the face.
      * @param textPosition location of the text boundary
      * @return this
      */
@@ -413,14 +412,14 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder writeAge(@NotNull Face face, @NotNull RectangleTextPosition textPosition) {
         return writeAge(face, CognitiveJColourPalette.randomColour(), textPosition);
     }
-
+    
     /**
      * write out the faces age (formatted 'Age %.1f') to the top of the face rectangle.
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the colour to use
-     * @param textPosition  location of the text boundary
+     * @param textPosition location of the text boundary
      * @return this
      */
     @NotNull
@@ -430,8 +429,8 @@ public class ImageOverlayBuilder {
         bufferedImage = textOnRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
-
-
+    
+    
     /**
      * write out the faces gender and age (formatted '%Gender, Age %.1f') to the top of the face rectangle.
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
@@ -443,12 +442,12 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder writeGenderAndAge(@NotNull Face face) {
         return writeGenderAndAge(face, CognitiveJColourPalette.randomColour());
     }
-
+    
     /**
      * write out the faces gender and age (formatted '%Gender, Age %.1f') to the top of the face rectangle.
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the color to paint the text
      * @return this
      */
@@ -456,42 +455,42 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder writeGenderAndAge(@NotNull Face face, @NotNull CognitiveJColourPalette colourPalette) {
         return writeGenderAndAge(face, colourPalette, DEFAULT_BORDER_WEIGHT);
     }
-
+    
     /**
      * write out the faces gender and age (formatted '%Gender, Age %.1f') to the top of the face rectangle.
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the color to paint the text
-     * @param borderWeight  borderWeight to use
+     * @param borderWeight borderWeight to use
      * @return this
      */
     @NotNull
     public ImageOverlayBuilder writeGenderAndAge(@NotNull Face face, @NotNull CognitiveJColourPalette colourPalette, @NotNull BorderWeight borderWeight) {
         return writeGenderAndAge(face, colourPalette, borderWeight.insets());
     }
-
+    
     /**
      * write out the faces gender and age (formatted '%Gender, Age %.1f')
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the colors to use
-     * @param insets        any Insets to take into consideration(e.g. border thickness).
+     * @param insets any Insets to take into consideration(e.g. border thickness).
      * @return this
      */
     public ImageOverlayBuilder writeGenderAndAge(Face face, CognitiveJColourPalette colourPalette, @NotNull Insets insets) {
         return writeGenderAndAge(face, colourPalette, insets, RectangleTextPosition.TOP_OF);
     }
-
+    
     /**
      * write out the faces gender and age (formatted '%Gender, Age %.1f')
      * ({@link ImageOverlayBuilder#outlineFaceOnImage(Face, RectangleType, BorderWeight, CognitiveJColourPalette)}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the colors to use
-     * @param insets        any Insets to take into consideration(e.g. border thickness).
-     * @param textPosition  where to position the text container
+     * @param insets any Insets to take into consideration(e.g. border thickness).
+     * @param textPosition where to position the text container
      * @return this
      */
     public ImageOverlayBuilder writeGenderAndAge(Face face, CognitiveJColourPalette colourPalette, @NotNull Insets insets, RectangleTextPosition textPosition) {
@@ -500,32 +499,32 @@ public class ImageOverlayBuilder {
         bufferedImage = textOnRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
-
-
+    
+    
     /**
      * write out the faces' {@link FaceAttributes}
      *
      * @param colourPalette the colour options for the text
-     * @param faces         - the faces to write attributes for.
+     * @param faces - the faces to write attributes for.
      * @return this
      */
     public ImageOverlayBuilder writeFaceAttributes(@NotNull List<Face> faces, @NotNull CognitiveJColourPalette colourPalette) {
         return writeFaceAttributes(faces, colourPalette, RectangleTextPosition.RIGHT_OF);
     }
-
+    
     /**
      * write out the faces' {@link FaceAttributes}
      *
      * @param colourPalette the colour options for the text
-     * @param textPosition  Where to position text
-     * @param faces         the faces to write attributes for.
+     * @param textPosition Where to position text
+     * @param faces the faces to write attributes for.
      * @return this
      */
     public ImageOverlayBuilder writeFaceAttributes(@NotNull List<Face> faces, @NotNull CognitiveJColourPalette colourPalette, @NotNull RectangleTextPosition textPosition) {
         faces.forEach(face -> writeFaceAttributes(face, colourPalette, textPosition));
         return this;
     }
-
+    
     /**
      * write out the faces' {@link FaceAttributes}
      *
@@ -536,11 +535,11 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder writeFaceAttributes(@NotNull Face face) {
         return writeFaceAttributes(face, CognitiveJColourPalette.GRAY);
     }
-
+    
     /**
      * write out the faces' {@link FaceAttributes}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the colour to use
      * @return this
      */
@@ -548,13 +547,13 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder writeFaceAttributes(@NotNull Face face, @NotNull CognitiveJColourPalette colourPalette) {
         return writeFaceAttributes(face, colourPalette, RectangleTextPosition.RIGHT_OF);
     }
-
+    
     /**
      * write out the faces' {@link FaceAttributes}
      *
-     * @param face          the face.
+     * @param face the face.
      * @param colourPalette the colour to use
-     * @param textPosition  position to locate the text
+     * @param textPosition position to locate the text
      * @return this
      */
     @NotNull
@@ -564,41 +563,41 @@ public class ImageOverlayBuilder {
         bufferedImage = textOnRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
-
+    
     @NotNull
     public ImageOverlayBuilder outFaceLandmarksOnImage(@NotNull Face face) {
         return outFaceLandmarksOnImage(face, BorderWeight.THICK);
     }
-
+    
     @NotNull
     public ImageOverlayBuilder outFaceLandmarksOnImage(@NotNull Face face, @NotNull BorderWeight landmarkWeight) {
-        java.util.List<java.awt.Point> values = face.faceLandmarks.landmarks().values().stream().map(point -> point != null ? point.asAwtPoint() : null).collect(Collectors.toList());
+        java.util.List<java.awt.Point> values = face.faceLandmarks.landmarks().values().stream().map(point -> point != null? point.asAwtPoint(): null).collect(Collectors.toList());
         OverlayPointsFilter overlayPointsFilter = new OverlayPointsFilter(values, landmarkWeight, CognitiveJColourPalette.STRAWBERRY);
         bufferedImage = overlayPointsFilter.applyFilter(bufferedImage);
         return this;
     }
-
-
+    
+    
     /**
      * Draw the rectangle and outline the dominant @{@link Emotion}
      *
      * @param emotion the emotion
      * @return this
      */
-
+    
     @NotNull
     public ImageOverlayBuilder outlineDominantEmotionOnImage(@NotNull Emotion emotion) {
         return outlineDominantEmotionOnImage(emotion, RectangleTextPosition.TOP_OF);
     }
-
+    
     /**
      * Draw the rectangle and outline the dominant @{@link Emotion}
      *
-     * @param emotion      the emotion
+     * @param emotion the emotion
      * @param textPosition where the text is to be positioned
      * @return this
      */
-
+    
     @NotNull
     public ImageOverlayBuilder outlineDominantEmotionOnImage(@NotNull Emotion emotion, @NotNull RectangleTextPosition textPosition) {
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(emotion.faceRectangle.asAwtRectangle(), RectangleType.CORNERED, DEFAULT_BORDER_WEIGHT, CognitiveJColourPalette.STRAWBERRY);
@@ -607,22 +606,22 @@ public class ImageOverlayBuilder {
         bufferedImage = textOnRectangleFilter.applyFilter(overlayRectangleFilter.applyFilter(bufferedImage));
         return this;
     }
-
-
+    
+    
     /**
      * Draw the rectangle and outline the dominant @{@link Emotion} for all faces.
      *
-     * @param emotion      the emotion
+     * @param emotion the emotion
      * @param textPosition the location of the text relative to the face location
      * @return this
      */
-
+    
     @NotNull
     public ImageOverlayBuilder outlineDominantEmotionsOnImage(@NotNull List<Emotion> emotion, @NotNull RectangleTextPosition textPosition) {
         emotion.forEach((emotion1) -> outlineDominantEmotionOnImage(emotion1, textPosition));
         return this;
     }
-
+    
     /**
      * Draw the rectangle and displays all @{@link Emotion} for all faces.
      *
@@ -634,8 +633,8 @@ public class ImageOverlayBuilder {
         emotionFaces.forEach(this::outlineEmotionOnImage);
         return this;
     }
-
-
+    
+    
     /**
      * Draw the rectangle and displays all @{@link Emotion} for the face.
      *
@@ -646,11 +645,11 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder outlineEmotionOnImage(@NotNull Emotion emotion) {
         return outlineEmotionOnImage(emotion, RectangleTextPosition.RIGHT_OF);
     }
-
+    
     /**
      * Draw the rectangle and displays all @{@link Emotion} for the face.
      *
-     * @param emotion      all found emotions.
+     * @param emotion all found emotions.
      * @param textPosition where to position the emotion
      * @return this
      */
@@ -662,8 +661,8 @@ public class ImageOverlayBuilder {
         bufferedImage = textOnRectangleFilter.applyFilter(overlayRectangleFilter.applyFilter(bufferedImage));
         return this;
     }
-
-
+    
+    
     /**
      * Saves the base image to the disk.
      *
@@ -679,8 +678,8 @@ public class ImageOverlayBuilder {
         }
         return this;
     }
-
-
+    
+    
     /**
      * Saves the image to the disk and launches the default viewer for images.
      *
@@ -698,7 +697,7 @@ public class ImageOverlayBuilder {
         }
         return this;
     }
-
+    
     /**
      * creates a temp file and launches the default image viewer (if available) - {@link Desktop#open(File)}
      * Note: the temp file is deleted on the exit of the JVM see: ({@link File#deleteOnExit()}.
@@ -716,7 +715,7 @@ public class ImageOverlayBuilder {
         }
         return this;
     }
-
+    
     /**
      * Writes the base image to the systems clipboard.
      *
@@ -727,8 +726,8 @@ public class ImageOverlayBuilder {
         new CopyImagetoClipBoard().copyImage(bufferedImage);
         return this;
     }
-
-
+    
+    
     /**
      * write the image description. see {@link cognitivej.vision.computervision.ComputerVisionScenario#describeImage(String)}
      * to the bottom of the image.
@@ -740,13 +739,13 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder describeImage(@NotNull ImageDescription imageDescription) {
         return titleImage(PointLocations.BOTTOM_CENTER, DEFAULT_TEXT_FONT.deriveFont(80f), CognitiveJColourPalette.WHITE, ComputerVisionString.describe(imageDescription));
     }
-
-
+    
+    
     /**
      * Draws a  verification graphic for the base image and the passed image.
      *
      * @param candidateImageAsUrl - the passed image as an URL.
-     * @param verificationSet     - a verification set to be drawn.
+     * @param verificationSet - a verification set to be drawn.
      * @return this
      * @throws ImageNotFoundException if the image can't be downloaded
      */
@@ -759,31 +758,31 @@ public class ImageOverlayBuilder {
         }
         return this;
     }
-
+    
     /**
      * Draws a  verification graphic for the base image and the passed image.
      *
-     * @param candidateImage  - the passed image.
+     * @param candidateImage - the passed image.
      * @param verificationSet - a verification set to be drawn.
      * @return this
      */
     @NotNull
     public ImageOverlayBuilder verify(@NotNull BufferedImage candidateImage, @NotNull VerificationSet verificationSet) {
-        CognitiveJColourPalette verificationColor = verificationSet.getVerification().isIdentical ? CognitiveJColourPalette.GREEN : CognitiveJColourPalette.RED;
+        CognitiveJColourPalette verificationColor = verificationSet.getVerification().isIdentical? CognitiveJColourPalette.GREEN: CognitiveJColourPalette.RED;
         outlineFaceOnImage(verificationSet.getFirstFace(), RectangleType.CORNERED, BorderWeight.THICK, verificationColor);
         OverlayRectangleFilter overlayRectangleFilter = new OverlayRectangleFilter(verificationSet.getSecondFace().faceRectangle.asAwtRectangle(), RectangleType.CORNERED, BorderWeight.THICK, verificationColor);
         MergeImagesFilter mergeImagesFilter = new MergeImagesFilter(overlayRectangleFilter.applyFilter(candidateImage), SMALL_PADDING, MergeImagesFilter.Position.RIGHT);
         LineJoinRectangleFilter lineJoinRectangleFilter = new LineJoinRectangleFilter(verificationSet.getFirstFace().faceRectangle.asAwtRectangle(),
                 verificationSet.getSecondFace().faceRectangle.asAwtRectangle(), BorderWeight.THICK, verificationColor, bufferedImage.getWidth(), SMALL_PADDING);
-
+        
         Verification verification = verificationSet.getVerification();
         ApplyCaptionOutsideImageFilter applyCaptionOutsideImageFilter = new ApplyCaptionOutsideImageFilter(PointLocations.BOTTOM_CENTER, DEFAULT_TEXT_FONT.deriveFont(80f).deriveFont(80f), verificationColor,
-                verification.isIdentical ? String.format("Match (confidence %.3f)", verification.confidence) : String.format("No Match (confidence %.3f)", verification.confidence));
+                verification.isIdentical? String.format("Match (confidence %.3f)", verification.confidence): String.format("No Match (confidence %.3f)", verification.confidence));
         bufferedImage = applyCaptionOutsideImageFilter.applyFilter(lineJoinRectangleFilter.applyFilter(mergeImagesFilter.applyFilter(bufferedImage)));
         return this;
     }
-
-
+    
+    
     /**
      * tags  identified faces.
      *
@@ -794,27 +793,37 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder identify(@NotNull IdentificationSet identificationSet) {
         return identify(identificationSet, RectangleTextPosition.TOP_OF);
     }
-
+    
     /**
-     * tags  identified faces.
+     * Tags identified faces.
      *
      * @param identificationSet a set of identifications.
-     * @param textPosition
-     * @return this
+     * @param textPosition position of the text.
+     * @return this.
      */
     @NotNull
-    public ImageOverlayBuilder identify(@NotNull IdentificationSet identificationSet, @NotNull RectangleTextPosition textPosition) {
-        CognitiveJColourPalette identificationColor = identificationSet.isIdentified() ? CognitiveJColourPalette.GREEN : CognitiveJColourPalette.RED;
+    public ImageOverlayBuilder identify(@NotNull IdentificationSet identificationSet,
+                                        @NotNull RectangleTextPosition textPosition) {
+        CognitiveJColourPalette identificationColor = identificationSet.isIdentified()
+                ? CognitiveJColourPalette.GREEN
+                : CognitiveJColourPalette.RED;
         Face candidateFace = identificationSet.getCandidateFace();
-        outlineFaceOnImage(candidateFace, RectangleType.CORNERED, DEFAULT_BORDER_WEIGHT, identificationColor);
-
-        TextOnRectangleFilter textOnRectangleFilter = new TextOnRectangleFilter(new Rectangle(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()), candidateFace.faceRectangle.asAwtRectangle(), new Insets(DEFAULT_BORDER_WEIGHT.thickness(), DEFAULT_BORDER_WEIGHT.thickness(), DEFAULT_BORDER_WEIGHT.thickness(), DEFAULT_BORDER_WEIGHT.thickness()),
-                DEFAULT_TEXT_FONT, identificationColor, textPosition, identificationSet.isIdentified() ? identificationSet.getIdentifiedPerson().name : "Unknown");
+        outlineFaceOnImage(candidateFace, RectangleType.CORNERED,
+                DEFAULT_BORDER_WEIGHT, identificationColor);
+        
+        int borderWeightThickness = DEFAULT_BORDER_WEIGHT.thickness();
+        Insets borderInset = new Insets(borderWeightThickness, borderWeightThickness,
+                borderWeightThickness, borderWeightThickness);
+        String identifiedName = identificationSet.isIdentified()?
+                identificationSet.getIdentifiedPerson().getName(): "Unknown";
+        TextOnRectangleFilter textOnRectangleFilter = new TextOnRectangleFilter(
+                new Rectangle(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()),
+                candidateFace.faceRectangle.asAwtRectangle(), borderInset,
+                DEFAULT_TEXT_FONT, identificationColor, textPosition, identifiedName);
         bufferedImage = textOnRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
-
-
+    
     /**
      * tags all isIdentified faces.
      *
@@ -823,8 +832,8 @@ public class ImageOverlayBuilder {
     public void identify(@NotNull List<IdentificationSet> identificationSets) {
         identificationSets.forEach(this::identify);
     }
-
-
+    
+    
     /**
      * Merges another image onto the base image (to the right)
      *
@@ -835,13 +844,13 @@ public class ImageOverlayBuilder {
     public ImageOverlayBuilder mergeImage(@NotNull BufferedImage mergeImage) {
         return mergeImage(mergeImage, MergeImagesFilter.Position.RIGHT);
     }
-
-
+    
+    
     /**
      * Merges another image onto the base image (to the right)
      *
      * @param mergeImage the image to be merged
-     * @param position   where to locate the newly merged image
+     * @param position where to locate the newly merged image
      * @return this
      */
     @NotNull
@@ -850,14 +859,14 @@ public class ImageOverlayBuilder {
         bufferedImage = mergeImagesFilter.applyFilter(bufferedImage);
         return this;
     }
-
+    
     /**
      * Apply a title to the base image.
      *
      * @param location where to locate the title.
-     * @param font     the font to use.
-     * @param color    the color
-     * @param text     the title
+     * @param font the font to use.
+     * @param color the color
+     * @param text the title
      * @return this
      */
     @NotNull
@@ -866,8 +875,8 @@ public class ImageOverlayBuilder {
         bufferedImage = applyCaptionOutsideImageFilter.applyFilter(bufferedImage);
         return this;
     }
-
-
+    
+    
     /**
      * @param image - the image (as a {@link BufferedImage})
      * @return ImageOverlayBuilder
@@ -877,8 +886,7 @@ public class ImageOverlayBuilder {
     public static ImageOverlayBuilder builder(@NotNull BufferedImage image) {
         return new ImageOverlayBuilder(image);
     }
-
-
+    
     /**
      * @param image - the image (as a {@link File})
      * @return ImageOverlayBuilder
@@ -894,7 +902,7 @@ public class ImageOverlayBuilder {
         }
         return imageOverlayBuilder;
     }
-
+    
     /**
      * Create a new {@link ImageOverlayBuilder} from the base Image attached.
      *
@@ -910,18 +918,18 @@ public class ImageOverlayBuilder {
             throw new ImageNotFoundException(image);
         }
     }
-
+    
     @NotNull
     private static BufferedImage copy(@NotNull BufferedImage img, int imageType) {
         int width = img.getWidth();
         int height = img.getHeight();
-
+        
         BufferedImage newImage = new BufferedImage(width, height, imageType);
         Graphics g = newImage.createGraphics();
         g.drawImage(img, 0, 0, null);
         g.dispose();
-
+        
         return newImage;
     }
-
+    
 }

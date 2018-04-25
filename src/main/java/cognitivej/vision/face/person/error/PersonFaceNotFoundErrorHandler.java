@@ -209,13 +209,13 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
+public final class PersonFaceNotFoundErrorHandler extends ErrorHandler {
+    
+    private final String personGroupId, personId, persistedFaceId;
 
-public class PersonFaceNotFoundErrorHandler extends ErrorHandler {
-    private final String personGroupId;
-    private final String personId;
-    private final String persistedFaceId;
-
-    public PersonFaceNotFoundErrorHandler(@NotNull String personGroupId, @NotNull String personId, @NotNull String persistedFaceId) {
+    public PersonFaceNotFoundErrorHandler(@NotNull String personGroupId,
+                                          @NotNull String personId,
+                                          @NotNull String persistedFaceId) {
         this.personGroupId = personGroupId;
         this.personId = personId;
         this.persistedFaceId = persistedFaceId;
@@ -223,18 +223,8 @@ public class PersonFaceNotFoundErrorHandler extends ErrorHandler {
 
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
-        throw new PersonFaceNotFoundException(personGroupId, personId, persistedFaceId, extractErrorString(httpResponse));
+        throw new PersonFaceNotFoundException(
+                personGroupId, personId, persistedFaceId, extractErrorString(httpResponse));
     }
-
-    public String getPersonGroupId() {
-        return personGroupId;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public String getPersistedFaceId() {
-        return persistedFaceId;
-    }
+    
 }

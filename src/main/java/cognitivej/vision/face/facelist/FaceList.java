@@ -212,8 +212,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.List;
 
-
-public class FaceList extends CognitiveResult {
+public final class FaceList extends CognitiveResult {
 
     public String faceListId, name, userData;
     private List<PersistedFace> persistedFaces;
@@ -223,20 +222,31 @@ public class FaceList extends CognitiveResult {
         this.name = name;
         this.userData = userData;
     }
-
-
+    
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o) {
+            return true;
+        } else if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         FaceList faceList = (FaceList) o;
-
-        if (faceListId != null ? !faceListId.equals(faceList.faceListId) : faceList.faceListId != null) return false;
-        if (name != null ? !name.equals(faceList.name) : faceList.name != null) return false;
-        if (userData != null ? !userData.equals(faceList.userData) : faceList.userData != null) return false;
-        return persistedFaces != null ? persistedFaces.equals(faceList.persistedFaces) : faceList.persistedFaces == null;
-
+        if (faceListId != null
+                ? !faceListId.equals(faceList.faceListId)
+                : faceList.faceListId != null) {
+            return false;
+        } else if (name != null ?
+                !name.equals(faceList.name)
+                : faceList.name != null) {
+            return false;
+        } else if (userData != null
+                ? !userData.equals(faceList.userData)
+                : faceList.userData != null) {
+            return false;
+        }
+        return persistedFaces != null
+                ? persistedFaces.equals(faceList.persistedFaces)
+                : faceList.persistedFaces == null;
     }
 
     @Override
@@ -256,4 +266,5 @@ public class FaceList extends CognitiveResult {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

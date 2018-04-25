@@ -207,7 +207,7 @@ package cognitivej.vision.face.person.error;
 
 import org.jetbrains.annotations.NotNull;
 
-public class InvalidImageException extends RuntimeException {
+public final class InvalidImageException extends RuntimeException {
 
     public InvalidImageException(@NotNull String message) {
         super(message);

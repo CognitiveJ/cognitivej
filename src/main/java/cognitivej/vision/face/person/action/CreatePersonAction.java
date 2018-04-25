@@ -216,14 +216,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
-public class CreatePersonAction extends ChainedRestAction<Person, ChainedPersonBuilder> {
+public final class CreatePersonAction extends ChainedRestAction<Person, ChainedPersonBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String name;
     private final String userData;
     private final CognitiveContext cognitiveContext;
 
-    public CreatePersonAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String name, @Nullable String userData) {
+    public CreatePersonAction(@NotNull CognitiveContext cognitiveContext,
+                              @NotNull String personGroupId,
+                              @NotNull String name,
+                              @Nullable String userData) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.personGroupId = personGroupId;
@@ -234,7 +238,8 @@ public class CreatePersonAction extends ChainedRestAction<Person, ChainedPersonB
 
     private void buildContext(String personGroupId, String name, String userData) {
         workingContext.addPayload("name", name).addPayload("userData", userData)
-                .setPath("face/v1.0/persongroups/${personGroupId}/persons").addPathVariable("personGroupId", personGroupId)
+                .setPath("face/v1.0/persongroups/${personGroupId}/persons")
+                .addPathVariable("personGroupId", personGroupId)
                 .httpMethod(HttpMethod.POST);
     }
 
@@ -246,9 +251,7 @@ public class CreatePersonAction extends ChainedRestAction<Person, ChainedPersonB
     @Override
     protected Person postProcess(Object response) {
         Person p = (Person) response;
-        p.name = name;
-        p.userData = userData;
-        return p;
+        return new Person(p.getPersonId(), name, userData);
     }
 
     @NotNull
@@ -261,4 +264,5 @@ public class CreatePersonAction extends ChainedRestAction<Person, ChainedPersonB
     protected Type typedResponse() {
         return Person.class;
     }
+    
 }

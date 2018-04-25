@@ -229,6 +229,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class RestAction<T> {
+    
     private static final String PROJECTOXFORD_AI = "https://api.projectoxford.ai/";
     public static final String IMAGE_INPUT_STREAM_KEY = "imageInputStream";
     private final CognitiveContext cognitiveContext;
@@ -254,18 +255,21 @@ public abstract class RestAction<T> {
         try {
             setupErrorHandlers();
             WorkingContext workingContext = workingContext();
-            HttpRequest builtRequest = buildUnirest(workingContext)
+            HttpRequest builtRequest = buildUniRest(workingContext)
                     .queryString(workingContext.getQueryParams())
-                    .headers(workingContext.getHeaders()).header("Ocp-Apim-Subscription-Key", cognitiveContext.subscriptionKey);
-            if (!workingContext.getHttpMethod().equals(HttpMethod.GET) && workingContext().getPayload().size() > 0) {
+                    .headers(workingContext.getHeaders())
+                    .header("Ocp-Apim-Subscription-Key", cognitiveContext.subscriptionKey);
+            if (!workingContext.getHttpMethod().equals(HttpMethod.GET)
+                    && !workingContext().getPayload().isEmpty()) {
                 buildBody((HttpRequestWithBody) builtRequest);
             }
             HttpResponse response;
-            if (typedResponse() == InputStream.class)
+            if (typedResponse() == InputStream.class) {
                 response = builtRequest.asBinary();
-            else
+            }
+            else {
                 response = builtRequest.asString();
-
+            }
             checkForError(response);
             return postProcess(typeResponse(response.getBody()));
         } catch (UnirestException | IOException e) {
@@ -280,7 +284,6 @@ public abstract class RestAction<T> {
         withResult();
     }
 
-
     private void setupErrorHandlers() {
         errorHandlers.put(HttpStatus.SC_UNAUTHORIZED, new UnAuthorizedErrorHandler());
         errorHandlers.put(HttpStatus.SC_FORBIDDEN, new ForbiddenErrorHandler());
@@ -291,9 +294,13 @@ public abstract class RestAction<T> {
 
     private void buildBody(HttpRequestWithBody builtRequest) throws IOException {
         if (workingContext().getPayload().containsKey(IMAGE_INPUT_STREAM_KEY)) {
-            builtRequest.header("content-type", "application/octet-stream").body(IOUtils.toByteArray((InputStream) workingContext().getPayload().get(IMAGE_INPUT_STREAM_KEY)));
+            builtRequest.header("content-type", "application/octet-stream")
+                    .body(IOUtils.toByteArray((InputStream) workingContext()
+                            .getPayload()
+                            .get(IMAGE_INPUT_STREAM_KEY)));
         } else {
-            builtRequest.header("content-type", "application/json").body(new JSONObject(workingContext().getPayload()));
+            builtRequest.header("content-type", "application/json").body(
+                    new JSONObject(workingContext().getPayload()));
         }
     }
 
@@ -305,14 +312,16 @@ public abstract class RestAction<T> {
 
 
     private void checkForError(HttpResponse response) {
-        if (response.getStatus() == HttpStatus.SC_ACCEPTED || response.getStatus() == HttpStatus.SC_OK)
+        if (response.getStatus() == HttpStatus.SC_ACCEPTED
+                || response.getStatus() == HttpStatus.SC_OK) {
             return;
-        ErrorHandler errorHandler = errorHandlers.getOrDefault(response.getStatus(), new ErrorHandler());
+        }
+        ErrorHandler errorHandler =
+                errorHandlers.getOrDefault(response.getStatus(), new ErrorHandler());
         errorHandler.publishError(response);
     }
 
-
-    private HttpRequest buildUnirest(WorkingContext workingContext) {
+    private HttpRequest buildUniRest(WorkingContext workingContext) {
         String url = String.format("%s%s", PROJECTOXFORD_AI, workingContext.getPathBuilt());
         switch (workingContext.getHttpMethod()) {
             case GET:
@@ -332,15 +341,12 @@ public abstract class RestAction<T> {
     protected Type typedResponse() {
         return null;
     }
-
-
-    protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-    }
+    
+    protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {}
 
     @SuppressWarnings("unchecked")
     protected T postProcess(Object response) {
         return (T) response;
     }
-
 
 }

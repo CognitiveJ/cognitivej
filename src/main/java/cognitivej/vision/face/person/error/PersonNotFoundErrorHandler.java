@@ -209,8 +209,8 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class PersonNotFoundErrorHandler extends ErrorHandler {
+public final class PersonNotFoundErrorHandler extends ErrorHandler {
+    
     private final String personGroupId;
     private final String personId;
 
@@ -223,4 +223,5 @@ public class PersonNotFoundErrorHandler extends ErrorHandler {
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new PersonNotFoundException(personGroupId, personId,extractErrorString(httpResponse));
     }
+    
 }

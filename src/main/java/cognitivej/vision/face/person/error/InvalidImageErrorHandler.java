@@ -209,8 +209,7 @@ import cognitivej.core.error.ErrorHandler;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class InvalidImageErrorHandler extends ErrorHandler {
+public final class InvalidImageErrorHandler extends ErrorHandler {
 
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {

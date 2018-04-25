@@ -209,7 +209,9 @@ package cognitivej.core;
 import cognitivej.vision.face.CognitiveContext;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ChainedRestAction<T extends CognitiveResult, CB extends ChainedBuilder> extends RestAction<T> {
+public abstract class ChainedRestAction<T extends CognitiveResult, CB extends ChainedBuilder>
+        extends RestAction<T> {
+    
     private final CognitiveContext cognitiveContext;
 
     public ChainedRestAction(@NotNull CognitiveContext cognitiveContext) {

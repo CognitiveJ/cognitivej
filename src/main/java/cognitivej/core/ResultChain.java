@@ -230,6 +230,7 @@ public class ResultChain {
     }
 
     @NotNull
+    @SuppressWarnings("unchecked")
     public <T extends CognitiveResult> List<T> byType(@NotNull Class<T> type) {
         return chainedResult
                 .stream().filter(cognitiveResult -> cognitiveResult.getClass().equals(type))

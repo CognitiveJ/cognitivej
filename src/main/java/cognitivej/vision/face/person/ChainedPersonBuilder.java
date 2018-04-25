@@ -220,15 +220,15 @@ import java.io.InputStream;
 public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     
     private final String personGroupId;
-    private Person person;
-    private PersonBuilder personBuilder;
+    private final Person person;
+    private final PersonBuilder personBuilder;
 
     public ChainedPersonBuilder(@NotNull CognitiveContext cognitiveContext,
                                 @NotNull String personGroupId,
                                 @NotNull Person person) {
         this.personGroupId = personGroupId;
         this.person = person;
-        personBuilder = new PersonBuilder(cognitiveContext);
+        this.personBuilder = new PersonBuilder(cognitiveContext);
     }
 
     /**
@@ -255,7 +255,8 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     @NotNull
     public AddFaceToPersonAction addFaceToPerson(@Nullable String userData,
                                                  @NotNull String imageUrl) {
-        return personBuilder.addFaceToPerson(personGroupId, person.personId, userData, imageUrl);
+        return personBuilder.addFaceToPerson(
+                personGroupId, person.getPersonId(), userData, imageUrl);
     }
 
     /**
@@ -270,7 +271,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
     public AddFaceToPersonAction addFaceToPerson(@Nullable String userData,
                                                  @NotNull InputStream imageInputStream) {
         return personBuilder.addFaceToPerson(
-                personGroupId, person.personId, userData, imageInputStream);
+                personGroupId, person.getPersonId(), userData, imageInputStream);
     }
 
     /**
@@ -281,7 +282,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
      */
     @NotNull
     public DeletePersonAction deletePerson() {
-        return personBuilder.deletePerson(personGroupId, person.personId);
+        return personBuilder.deletePerson(personGroupId, person.getPersonId());
     }
 
     /**
@@ -290,7 +291,7 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
      */
     @NotNull
     public DeletePersonAction getPerson() {
-        return personBuilder.deletePerson(personGroupId, person.personId);
+        return personBuilder.deletePerson(personGroupId, person.getPersonId());
     }
 
     /**
@@ -303,7 +304,8 @@ public class ChainedPersonBuilder extends ChainedBuilder<Person> {
      */
     @NotNull
     public UpdatePersonAction updatePerson(@NotNull String personName, @Nullable String userData) {
-        return personBuilder.updatePerson(personGroupId, person.personId, personName, userData);
+        return personBuilder.updatePerson(
+                personGroupId, person.getPersonId(), personName, userData);
     }
 
     /**

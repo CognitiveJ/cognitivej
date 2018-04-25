@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.facelist;
 
-
 import cognitivej.core.Utils;
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
@@ -218,107 +217,171 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 
 public class FaceListBuilder {
+    
+    /**
+     * Message for bad person group ID.
+     */
+    private static final String INVALID_FACE_LIST_ID_MSG =
+            "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.";
 
     private final CognitiveContext cognitiveContext;
 
     public FaceListBuilder(CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
+    
+    /**
+     * A helper method to validate face list ID.
+     *
+     * @param faceListId the face list ID to validate.
+     */
+    private static void validateFaceListID(@NotNull String faceListId) {
+        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$",
+                new ParameterValidationException("faceListId", INVALID_FACE_LIST_ID_MSG));
+    }
 
     /**
-     * Create an empty face list with user-specified face list ID, name and an optional user-data. 64 face lists are allowed to exist in one subscription.
+     * Create an empty face list with user-specified face list ID, name and an optional user-data.
+     * 64 face lists are allowed to exist in one subscription.
      * <p>
-     * Face list is a group of faces, and these faces will not expire. Face list is used as a parameter of source faces in Face - Find Similar. Face List is useful when to find similar faces in a fixed face set very often, e.g. to find a similar face in a face list of celebrities, friends, or family members.
+     * Face list is a group of faces, and these faces will not expire. Face list is used as a
+     * parameter of source faces in Face - Find Similar. Face List is useful when to find similar
+     * faces in a fixed face set very often, e.g. to find a similar face in a face list of
+     * celebrities, friends, or family members.
      * <p>
      * A face list can have a maximum of 1000 faces
      *
-     * @param faceListId Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
-     * @param name       Name of the created face list, maximum length is 128.
-     * @param userData   User-specified data for any purpose. The maximum length is 16KB.
+     * @param faceListId Valid character is letter in lower case or digit or '-' or '_',
+     * maximum length is 64.
+     * @param name Name of the created face list, maximum length is 128.
+     * @param userData User-specified data for any purpose. The maximum length is 16KB.
      * @return a built {@link CreateFaceListAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524b">MS Cognitive Docs (Face List - Create a Face List)</a>
      */
     @NotNull
-    public CreateFaceListAction createFaceList(@NotNull String faceListId, @Nullable String name, @Nullable String userData) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64."));
-        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name", "The maximum length is 128"));
-        Validation.validate(Utils.blankIfNull(userData), 16, new ParameterValidationException("userData", "The size limit is 16KB"));
+    public CreateFaceListAction createFaceList(@NotNull String faceListId,
+                                               @Nullable String name,
+                                               @Nullable String userData) {
+        validateFaceListID(faceListId);
+        Validation.validate(name, "^.{1,128}$",
+                new ParameterValidationException("name", "The maximum length is 128"));
+        Validation.validate(Utils.blankIfNull(userData), 16,
+                new ParameterValidationException("userData", "The size limit is 16KB"));
         return new CreateFaceListAction(cognitiveContext, faceListId, name, userData);
     }
 
     /**
-     * Add a face to a face list. The input face is specified as an image with a targetFace rectangle. It returns an persistedFaceId representing the added face, and persistedFaceId will not expire.
+     * Add a face to a face list. The input face is specified as an image with a targetFace
+     * rectangle. It returns an persistedFaceId representing the added face, and persistedFaceId
+     * will not expire.
      * <p>
-     * The persistedFaceId will be used in output JSON of Face - Find Similar, or in Face List - Delete a Face from a Face List to remove face from a face list.
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
-     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.
-     * The given rectangle specifies both face location and face size at the same time. There is no guarantee of corrent result if you are using rectangle which are not returned from Face - Detect.
-     * Face list is a group of faces, and these faces will not expire. Face list is used as a parameter of source faces in Face - Find Similar. Face List is useful when to find similar faces in a fixed face set very often, e.g. to find a similar face in a face list of celebrities, friends, or family members.
-     * <p>
-     * A face list can have a maximum of 1000 faces.
-     *
-     * @param faceListId Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
-     * @param userData   User-specified data for any purpose. The maximum length is 1KB.
-     * @param targetFace A face rectangle to specify the target face to be added into the face list, in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100". No targetFace means to detect the only face in the entire image.
-     * @param imageUrl   Image url. Image file size should between 1KB to 4MB. Only one face is allowed per image.
-     * @return a built {@link AddFaceToFaceListAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395250">MS Cognitive Docs (Face List - Add a Face to a Face List
-     * )</a>
-     */
-    @NotNull
-    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String faceListId, @Nullable String userData, @Nullable String targetFace, @NotNull String imageUrl) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64."));
-        Validation.validate(Utils.blankIfNull(userData), 1, new ParameterValidationException("userData", "The size limit is 1KB"));
-        return new AddFaceToFaceListAction(cognitiveContext, faceListId, userData, targetFace, imageUrl);
-    }
-
-
-    /**
-     * Add a face to a face list. The input face is specified as an image with a targetFace rectangle. It returns an persistedFaceId representing the added face, and persistedFaceId will not expire.
-     * <p>
-     * The persistedFaceId will be used in output JSON of Face - Find Similar, or in Face List - Delete a Face from a Face List to remove face from a face list.
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
-     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.
-     * The given rectangle specifies both face location and face size at the same time. There is no guarantee of corrent result if you are using rectangle which are not returned from Face - Detect.
-     * Face list is a group of faces, and these faces will not expire. Face list is used as a parameter of source faces in Face - Find Similar. Face List is useful when to find similar faces in a fixed face set very often, e.g. to find a similar face in a face list of celebrities, friends, or family members.
+     * The persistedFaceId will be used in output JSON of Face - Find Similar, or in Face List -
+     * Delete a Face from a Face List to remove face from a face list.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no
+     * larger than 4MB.
+     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range
+     * will not be detected.
+     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces
+     * will be regarded as an error. Out of detectable face size, large head-pose, or very large
+     * occlusions will also result in fail to add a person face.
+     * The given rectangle specifies both face location and face size at the same time.
+     * There is no guarantee of corrent result if you are using rectangle which are not returned
+     * from Face - Detect.
+     * Face list is a group of faces, and these faces will not expire. Face list is used as a
+     * parameter of source faces in Face - Find Similar. Face List is useful when to find similar
+     * faces in a fixed face set very often, e.g. to find a similar face in a face list of
+     * celebrities, friends, or family members.
      * <p>
      * A face list can have a maximum of 1000 faces.
      *
-     * @param faceListId Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
+     * @param faceListId Valid character is letter in lower case or digit or '-' or '_',
+     * maximum length is 64.
      * @param userData   User-specified data for any purpose. The maximum length is 1KB.
-     * @param targetFace A face rectangle to specify the target face to be added into the face list, in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100". No targetFace means to detect the only face in the entire image.
-     * @param image      Image stream. Image file size should between 1KB to 4MB. Only one face is allowed per image.
+     * @param targetFace A face rectangle to specify the target face to be added into the face list,
+     * in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100".
+     * No targetFace means to detect the only face in the entire image.
+     * @param imageUrl   Image url. Image file size should between 1KB to 4MB. Only one face is
+     * allowed per image.
      * @return a built {@link AddFaceToFaceListAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395250">MS Cognitive Docs (Face List - Add a Face to a Face List
-     * )</a>
      */
     @NotNull
-    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String faceListId, @Nullable String userData, @Nullable String targetFace, @NotNull InputStream image) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64."));
-        Validation.validate(Utils.blankIfNull(userData), 1, new ParameterValidationException("userData", "The size limit is 1KB"));
-        return new AddFaceToFaceListAction(cognitiveContext, faceListId, userData, targetFace, image);
+    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String faceListId,
+                                                     @Nullable String userData,
+                                                     @Nullable String targetFace,
+                                                     @NotNull String imageUrl) {
+        validateFaceListID(faceListId);
+        Validation.validate(Utils.blankIfNull(userData), 1,
+                new ParameterValidationException("userData", "The size limit is 1KB"));
+        return new AddFaceToFaceListAction(
+                cognitiveContext, faceListId, userData, targetFace, imageUrl);
     }
 
     /**
-     * Retrieve a face list's information, including face list ID, name, userData and faces in the face list. Face list simply represents a list of faces, and could be treated as a searchable data source in Face - Find Similar.
+     * Add a face to a face list. The input face is specified as an image with a targetFace
+     * rectangle. It returns an persistedFaceId representing the added face, and persistedFaceId
+     * will not expire.
+     * <p>
+     * The persistedFaceId will be used in output JSON of Face - Find Similar, or in Face List -
+     * Delete a Face from a Face List to remove face from a face list.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no
+     * larger than 4MB.
+     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range
+     * will not be detected.
+     * Rectangle specified by targetFace should contain exactly one face. Zero or multiple faces
+     * will be regarded as an error. Out of detectable face size, large head-pose, or very large
+     * occlusions will also result in fail to add a person face.
+     * The given rectangle specifies both face location and face size at the same time.
+     * There is no guarantee of corrent result if you are using rectangle which are not returned
+     * from Face - Detect.
+     * Face list is a group of faces, and these faces will not expire. Face list is used as a
+     * parameter of source faces in Face - Find Similar. Face List is useful when to find similar
+     * faces in a fixed face set very often, e.g. to find a similar face in a face list of
+     * celebrities, friends, or family members.
+     * <p>
+     * A face list can have a maximum of 1000 faces.
      *
-     * @param faceListId - Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
+     * @param faceListId Valid character is letter in lower case or digit or '-' or '_',
+     * maximum length is 64.
+     * @param userData   User-specified data for any purpose. The maximum length is 1KB.
+     * @param targetFace A face rectangle to specify the target face to be added into the face list,
+     * in the format of "targetFace=left,top,width,height". E.g. "targetFace=10,10,100,100".
+     * No targetFace means to detect the only face in the entire image.
+     * @param image      Image stream. Image file size should between 1KB to 4MB. Only one face is
+     * allowed per image.
+     * @return a built {@link AddFaceToFaceListAction}
+     */
+    @NotNull
+    public AddFaceToFaceListAction addFaceToFaceList(@NotNull String faceListId,
+                                                     @Nullable String userData,
+                                                     @Nullable String targetFace,
+                                                     @NotNull InputStream image) {
+        validateFaceListID(faceListId);
+        Validation.validate(Utils.blankIfNull(userData), 1,
+                new ParameterValidationException("userData", "The size limit is 1KB"));
+        return new AddFaceToFaceListAction(
+                cognitiveContext, faceListId, userData, targetFace, image);
+    }
+
+    /**
+     * Retrieve a face list's information, including face list ID, name, userData and faces in the
+     * face list. Face list simply represents a list of faces, and could be treated as a searchable
+     * data source in Face - Find Similar.
+     *
+     * @param faceListId - Valid character is letter in lower case or digit or '-' or '_', maximum
+     * length is 64.
      * @return a built {@link GetFaceListAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524c">MS Cognitive Docs (Face List - Get a Face List)</a>
      */
     @NotNull
     public GetFaceListAction getFaceList(String faceListId) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "FaceList ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validateFaceListID(faceListId);
         return new GetFaceListAction(cognitiveContext, faceListId);
     }
 
     /**
-     * Retrieve information about all existing face lists. Only face list ID, name and user data will be returned. Try Face List - Get a Face List to retrieve face information inside faceList.
+     * Retrieve information about all existing face lists. Only face list ID, name and user data
+     * will be returned. Try Face List - Get a Face List to retrieve face information inside
+     * faceList.
      *
      * @return a built {@link ListFaceListsAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524d">MS Cognitive Docs (Face List - List Face Lists)</a>
      */
     @NotNull
     public ListFaceListsAction listFaceLists() {
@@ -327,50 +390,58 @@ public class FaceListBuilder {
 
 
     /**
-     * Delete an existing face list according to face list ID. Persisted face images in the face list will also be deleted.
+     * Delete an existing face list according to face list ID. Persisted face images in the face
+     * list will also be deleted.
      *
-     * @param faceListId - Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
+     * @param faceListId - Valid character is letter in lower case or digit or '-' or '_',
+     * maximum length is 64.
      * @return a built {@link DeletePersonGroupAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524f">MS Cognitive Docs (Face List - Delete a Face List)</a>
      */
     @NotNull
     public DeleteFaceListAction deleteFaceList(@NotNull String faceListId) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "Person group ID is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validateFaceListID(faceListId);
         return new DeleteFaceListAction(cognitiveContext, faceListId);
     }
 
 
     /**
-     * Update face changes to a face list. Face list simply represents a list of faces, and could be treat as a searchable data source in Face - Find Similar.
+     * Update face changes to a face list. Face list simply represents a list of faces, and could be
+     * treat as a searchable data source in Face - Find Similar.
      *
-     * @param faceListId User-provided person group ID as a string. The valid characters include numbers, english letters in lower case, '-' and '_'. The maximum length of the personGroupId is 64
+     * @param faceListId User-provided person group ID as a string. The valid characters include
+     * numbers, english letters in lower case, '-' and '_'. The maximum length of the personGroupId
+     * is 64
      * @param name       FaceList display name. The maximum length is 128.
-     * @param userData   User-provided data attached to the faceList. The size limit is 16KB (UTF-16 encoded).
+     * @param userData   User-provided data attached to the faceList. The size limit is 16KB
+     * (UTF-16 encoded).
      * @return a built {@link UpdateFaceListAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039524e">MS Cognitive Docs (Face List - Update a Face List)</a>
      */
     @NotNull
-    public UpdateFaceListAction updateFaceList(@NotNull String faceListId, @NotNull String name, @Nullable String userData) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "faceListId is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
-        Validation.validate(name, "^.{1,128}$", new ParameterValidationException("name", "The maximum length is 128"));
-        Validation.validate(Utils.blankIfNull(userData), 16, new ParameterValidationException("userData", "The size limit is 16KB"));
+    public UpdateFaceListAction updateFaceList(@NotNull String faceListId,
+                                               @NotNull String name,
+                                               @Nullable String userData) {
+        validateFaceListID(faceListId);
+        Validation.validate(name, "^.{1,128}$",
+                new ParameterValidationException("name", "The maximum length is 128"));
+        Validation.validate(Utils.blankIfNull(userData), 16,
+                new ParameterValidationException("userData", "The size limit is 16KB"));
         return new UpdateFaceListAction(cognitiveContext, faceListId, name, userData);
     }
-
-
+    
     /**
-     * Delete an existing face from a face list (given by a face ID and a face list ID). Persisted image related to the face will also be deleted.
+     * Delete an existing face from a face list (given by a face ID and a face list ID).
+     * Persisted image related to the face will also be deleted.
      *
-     * @param faceListId      Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
-     * @param persistedFaceId Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.
+     * @param faceListId Valid character is letter in lower case or digit or '-' or '_',
+     * maximum length is 64.
+     * @param persistedFaceId Valid character is letter in lower case or digit or '-' or '_',
+     * maximum length is 64.
      * @return a built {@link DeleteFaceListFaceAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395251">MS Cognitive Docs (Face List - Delete a Face from a Face List)</a>
      */
     @NotNull
     public DeleteFaceListFaceAction deleteFaceListFace(@NotNull String faceListId, @NotNull String persistedFaceId) {
-        Validation.validate(faceListId, "^[a-z0-9_-]{1,64}$", new ParameterValidationException("faceListId", "FaceListId is invalid. Valid format should be a string composed by numbers, english letters in lower case, '-', '_', and no longer than 64 characters."));
+        validateFaceListID(faceListId);
         return new DeleteFaceListFaceAction(cognitiveContext, faceListId, persistedFaceId);
     }
-
 
 }

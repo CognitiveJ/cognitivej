@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.person.action;
 
-
 import cognitivej.core.ChainedRestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
@@ -217,7 +216,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
 
-public class UpdateFaceToPersonAction extends ChainedRestAction<PersistedFace, ChainedPersistedFaceBuilder> {
+public final class UpdateFaceToPersonAction
+        extends ChainedRestAction<PersistedFace, ChainedPersistedFaceBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
@@ -225,7 +226,9 @@ public class UpdateFaceToPersonAction extends ChainedRestAction<PersistedFace, C
     private final String userData;
     private final CognitiveContext cognitiveContext;
 
-    public UpdateFaceToPersonAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId, @NotNull String persistedFaceId, @Nullable String userData) {
+    public UpdateFaceToPersonAction(@NotNull CognitiveContext cognitiveContext,
+                                    @NotNull String personGroupId, @NotNull String personId,
+                                    @NotNull String persistedFaceId, @Nullable String userData) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.personGroupId = personGroupId;
@@ -237,12 +240,12 @@ public class UpdateFaceToPersonAction extends ChainedRestAction<PersistedFace, C
 
     private void buildContext() {
         workingContext.addPayload("userData", userData)
-                .setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}/persistedFaces/${persistedFaceId}")
+                .setPath("face/v1.0/persongroups/${personGroupId}/" +
+                        "persons/${personId}/persistedFaces/${persistedFaceId}")
                 .addPathVariable("personGroupId", personGroupId)
                 .addPathVariable("personId", personId)
                 .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.PATCH);
-
     }
 
     @Override
@@ -253,7 +256,8 @@ public class UpdateFaceToPersonAction extends ChainedRestAction<PersistedFace, C
     @NotNull
     @Override
     protected ChainedPersistedFaceBuilder groupBuilder(PersistedFace persistedFace) {
-        return new ChainedPersistedFaceBuilder(cognitiveContext, personGroupId, personId, persistedFace);
+        return new ChainedPersistedFaceBuilder(
+                cognitiveContext, personGroupId, personId, persistedFace);
     }
 
     @Override
@@ -265,4 +269,5 @@ public class UpdateFaceToPersonAction extends ChainedRestAction<PersistedFace, C
     protected Type typedResponse() {
         return PersistedFace.class;
     }
+    
 }

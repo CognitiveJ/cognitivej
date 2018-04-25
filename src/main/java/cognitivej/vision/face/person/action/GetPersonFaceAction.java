@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.person.action;
 
-
 import cognitivej.core.ChainedRestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -220,14 +219,18 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class GetPersonFaceAction extends ChainedRestAction<PersistedFace, ChainedPersistedFaceBuilder> {
+public final class GetPersonFaceAction
+        extends ChainedRestAction<PersistedFace, ChainedPersistedFaceBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
     private final String persistedFaceId;
     private final CognitiveContext cognitiveContext;
 
-    public GetPersonFaceAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId, @NotNull String persistedFaceId) {
+    public GetPersonFaceAction(@NotNull CognitiveContext cognitiveContext,
+                               @NotNull String personGroupId, @NotNull String personId,
+                               @NotNull String persistedFaceId) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.personGroupId = personGroupId;
@@ -237,8 +240,11 @@ public class GetPersonFaceAction extends ChainedRestAction<PersistedFace, Chaine
     }
 
     private void buildContext() {
-        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}/persistedFaces/${persistedFaceId}").addPathVariable("personGroupId", personGroupId)
-                .addPathVariable("personId", personId).addPathVariable("persistedFaceId", persistedFaceId)
+        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/" +
+                "persons/${personId}/persistedFaces/${persistedFaceId}")
+                .addPathVariable("personGroupId", personGroupId)
+                .addPathVariable("personId", personId)
+                .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.GET);
     }
 
@@ -250,7 +256,8 @@ public class GetPersonFaceAction extends ChainedRestAction<PersistedFace, Chaine
     @NotNull
     @Override
     protected ChainedPersistedFaceBuilder groupBuilder(PersistedFace persistedFace) {
-        return new ChainedPersistedFaceBuilder(cognitiveContext, personGroupId, personId, persistedFace);
+        return new ChainedPersistedFaceBuilder(
+                cognitiveContext, personGroupId, personId, persistedFace);
     }
 
     @Override
@@ -260,6 +267,8 @@ public class GetPersonFaceAction extends ChainedRestAction<PersistedFace, Chaine
 
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-        errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonFaceNotFoundErrorHandler(personGroupId, personId, persistedFaceId));
+        errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonFaceNotFoundErrorHandler(
+                personGroupId, personId, persistedFaceId));
     }
+    
 }

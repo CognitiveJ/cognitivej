@@ -207,28 +207,36 @@ package cognitivej.vision.face.person;
 
 import cognitivej.core.CognitiveResult;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Person extends CognitiveResult {
+public final class Person extends CognitiveResult {
     
-    public final String personId, name, userData;
-    List<String> persistedFaceIds = new ArrayList<>();
+    private final String personId, name, userData;
 
     public Person(String personId, String name, String userData) {
         this.personId = personId;
         this.name = name;
         this.userData = userData;
     }
-
+    
+    public String getPersonId() {
+        return personId;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getUserData() {
+        return userData;
+    }
+    
     @Override
     public String toString() {
         return "Person{" +
                 "personId='" + personId + '\'' +
                 ", name='" + name + '\'' +
                 ", userData='" + userData + '\'' +
-                ", persistedFaceIds=" + persistedFaceIds +
-                '}';
+                ", persistedFaceIds=[]" +
+                "}";
     }
     
 }

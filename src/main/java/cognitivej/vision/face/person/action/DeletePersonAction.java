@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.person.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -217,12 +216,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class DeletePersonAction extends RestAction<Void> {
+public final class DeletePersonAction extends RestAction<Void> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
 
-    public DeletePersonAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId) {
+    public DeletePersonAction(@NotNull CognitiveContext cognitiveContext,
+                              @NotNull String personGroupId, @NotNull String personId) {
         super(cognitiveContext);
         this.personGroupId = personGroupId;
         this.personId = personId;
@@ -231,7 +232,8 @@ public class DeletePersonAction extends RestAction<Void> {
 
     private void buildContext(String id) {
         workingContext.setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}")
-                .addPathVariable("personGroupId", id).addPathVariable("personId", personId)
+                .addPathVariable("personGroupId", id)
+                .addPathVariable("personId", personId)
                 .httpMethod(HttpMethod.DELETE);
     }
 
@@ -242,6 +244,7 @@ public class DeletePersonAction extends RestAction<Void> {
 
     @Override
     protected void customErrorHandlers(Map<Integer, ErrorHandler> errorHandlers) {
-        errorHandlers.put(HttpStatus.SC_NOT_FOUND, new PersonNotFoundErrorHandler(personGroupId, personId));
+        errorHandlers.put(HttpStatus.SC_NOT_FOUND,
+                new PersonNotFoundErrorHandler(personGroupId, personId));
     }
 }

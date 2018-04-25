@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.person.action;
 
-
 import cognitivej.core.ChainedRestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.core.error.ErrorHandler;
@@ -222,14 +221,18 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class AddFaceToPersonAction extends ChainedRestAction<PersistedFace, ChainedPersistedFaceBuilder> {
+public final class AddFaceToPersonAction
+        extends ChainedRestAction<PersistedFace, ChainedPersistedFaceBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
     private final String userData;
     private final CognitiveContext cognitiveContext;
 
-    public AddFaceToPersonAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId, @Nullable String userData, @NotNull Object image) {
+    public AddFaceToPersonAction(@NotNull CognitiveContext cognitiveContext,
+                                 @NotNull String personGroupId, @NotNull String personId,
+                                 @Nullable String userData, @NotNull Object image) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.personGroupId = personGroupId;
@@ -240,14 +243,17 @@ public class AddFaceToPersonAction extends ChainedRestAction<PersistedFace, Chai
 
     private void buildContext(Object payload) {
         workingContext.addQueryParameter("userData", userData)
-                .setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}/persistedFaces").addPathVariable("personGroupId", personGroupId)
+                .setPath("face/v1.0/persongroups/${personGroupId}/" +
+                        "persons/${personId}/persistedFaces")
+                .addPathVariable("personGroupId", personGroupId)
                 .addPathVariable("personId", personId)
                 .httpMethod(HttpMethod.POST);
-        if (payload instanceof String)
+        if (payload instanceof String) {
             workingContext.addPayload("url", String.valueOf(payload));
-        if (payload instanceof InputStream)
+        }
+        if (payload instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, payload);
-
+        }
     }
 
     @Override
@@ -258,7 +264,8 @@ public class AddFaceToPersonAction extends ChainedRestAction<PersistedFace, Chai
     @NotNull
     @Override
     protected ChainedPersistedFaceBuilder groupBuilder(PersistedFace persistedFace) {
-        return new ChainedPersistedFaceBuilder(cognitiveContext, personGroupId, personId, persistedFace);
+        return new ChainedPersistedFaceBuilder(
+                cognitiveContext, personGroupId, personId, persistedFace);
     }
 
     @Override

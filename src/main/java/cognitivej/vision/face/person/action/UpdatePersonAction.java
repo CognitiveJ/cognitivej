@@ -214,7 +214,8 @@ import com.mashape.unirest.http.HttpMethod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class UpdatePersonAction extends ChainedRestAction<Person, ChainedPersonBuilder> {
+public final class UpdatePersonAction extends ChainedRestAction<Person, ChainedPersonBuilder> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
@@ -222,7 +223,9 @@ public class UpdatePersonAction extends ChainedRestAction<Person, ChainedPersonB
     private final String userData;
     private final CognitiveContext cognitiveContext;
 
-    public UpdatePersonAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId, @NotNull String name, @Nullable String userData) {
+    public UpdatePersonAction(@NotNull CognitiveContext cognitiveContext,
+                              @NotNull String personGroupId, @NotNull String personId,
+                              @NotNull String name, @Nullable String userData) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.personGroupId = personGroupId;
@@ -234,8 +237,10 @@ public class UpdatePersonAction extends ChainedRestAction<Person, ChainedPersonB
 
     private void buildContext() {
         workingContext.addPayload("name", name).addPayload("userData", userData)
-                .setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}").addPathVariable("personGroupId", personGroupId)
-                .addPathVariable("personId", personId).httpMethod(HttpMethod.PATCH);
+                .setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}")
+                .addPathVariable("personGroupId", personGroupId)
+                .addPathVariable("personId", personId)
+                .httpMethod(HttpMethod.PATCH);
     }
 
     @Override
@@ -253,4 +258,5 @@ public class UpdatePersonAction extends ChainedRestAction<Person, ChainedPersonB
     protected ChainedPersonBuilder groupBuilder(Person person) {
         return new ChainedPersonBuilder(cognitiveContext, personGroupId, person);
     }
+    
 }

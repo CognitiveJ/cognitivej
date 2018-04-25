@@ -205,20 +205,22 @@
 
 package cognitivej.vision.face.person.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
 import com.mashape.unirest.http.HttpMethod;
 import org.jetbrains.annotations.NotNull;
 
-public class DeletePersonFaceAction extends RestAction<Void> {
+public final class DeletePersonFaceAction extends RestAction<Void> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String personGroupId;
     private final String personId;
     private final String persistedFaceId;
 
-    public DeletePersonFaceAction(@NotNull CognitiveContext cognitiveContext, @NotNull String personGroupId, @NotNull String personId, @NotNull String persistedFaceId) {
+    public DeletePersonFaceAction(@NotNull CognitiveContext cognitiveContext,
+                                  @NotNull String personGroupId, @NotNull String personId,
+                                  @NotNull String persistedFaceId) {
         super(cognitiveContext);
         this.personGroupId = personGroupId;
         this.personId = personId;
@@ -227,8 +229,11 @@ public class DeletePersonFaceAction extends RestAction<Void> {
     }
 
     private void buildContext() {
-        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/persons/${personId}/persistedFaces/${persistedFaceId}").addPathVariable("personGroupId", personGroupId)
-                .addPathVariable("personId", personId).addPathVariable("persistedFaceId", persistedFaceId)
+        workingContext.setPath("face/v1.0/persongroups/${personGroupId}/" +
+                "persons/${personId}/persistedFaces/${persistedFaceId}")
+                .addPathVariable("personGroupId", personGroupId)
+                .addPathVariable("personId", personId)
+                .addPathVariable("persistedFaceId", persistedFaceId)
                 .httpMethod(HttpMethod.DELETE);
     }
 
