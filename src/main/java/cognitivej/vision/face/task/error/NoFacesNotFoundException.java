@@ -205,11 +205,10 @@
 
 package cognitivej.vision.face.task.error;
 
-public class NoFacesNotFoundException extends RuntimeException {
-
+public final class NoFacesNotFoundException extends RuntimeException {
+    
     public NoFacesNotFoundException(String message) {
-        super(String.format("no found faces", message));
+        super(String.format("no found faces: %s", message));
     }
-
-
+    
 }

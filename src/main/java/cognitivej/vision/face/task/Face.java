@@ -254,15 +254,56 @@ public final class Face {
     }
     
     public final class FaceAttributesResp {
-        public Gender gender;
-        public double age;
-        public double smile;
-        public FacialHair facialHair;
-        public HeadPose headPose;
-        public Glasses glasses;
+        
+        private final Gender gender;
+        private final double age;
+        private final double smile;
+        private final FacialHair facialHair;
+        private final HeadPose headPose;
+        private final Glasses glasses;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private FaceAttributesResp() {
+            gender = null;
+            age = 0;
+            smile = 0;
+            facialHair = null;
+            headPose = null;
+            glasses = null;
+        }
+        
+        public Gender getGender() {
+            return gender;
+        }
+        
+        public double getAge() {
+            return age;
+        }
+        
+        public double getSmile() {
+            return smile;
+        }
+        
+        public FacialHair getFacialHair() {
+            return facialHair;
+        }
+        
+        public HeadPose getHeadPose() {
+            return headPose;
+        }
+        
+        public Glasses getGlasses() {
+            return glasses;
+        }
         
         public Map<FaceAttributes, String> formattedValues() {
             return new HashMap<FaceAttributes, String>() {{
+                assert gender != null;
+                assert facialHair != null;
+                assert headPose != null;
+                assert glasses != null;
                 put(FaceAttributes.GENDER, WordUtils.capitalize(gender.name()));
                 put(FaceAttributes.AGE, String.format("Age: %.2f", age));
                 put(FaceAttributes.SMILE, String.format("Smile: %.2f", smile));
@@ -275,13 +316,11 @@ public final class Face {
             }};
         }
         
-        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-    
     
     public enum Gender {
         FEMALE, MALE
@@ -292,7 +331,29 @@ public final class Face {
     }
     
     public final class FacialHair {
-        public double mustache, beard, sideburns;
+        
+        private final double mustache, beard, sideburns;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private FacialHair() {
+            mustache = 0;
+            beard = 0;
+            sideburns = 0;
+        }
+        
+        public double getMustache() {
+            return mustache;
+        }
+        
+        public double getBeard() {
+            return beard;
+        }
+        
+        public double getSideburns() {
+            return sideburns;
+        }
         
         @Override
         public String toString() {
@@ -303,7 +364,29 @@ public final class Face {
     
     public final class HeadPose {
         
-        public double roll, yaw, pitch;
+        private final double roll, yaw;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private HeadPose() {
+            roll = 0;
+            yaw = 0;
+        }
+        
+        public double getRoll() {
+            return roll;
+        }
+        
+        public double getYaw() {
+            return yaw;
+        }
+        
+        public double getPitch() {
+            return pitch;
+        }
+        
+        public double pitch;
         
         @Override
         public String toString() {
@@ -311,5 +394,5 @@ public final class Face {
         }
         
     }
+    
 }
-

@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
@@ -214,12 +213,13 @@ import com.mashape.unirest.http.HttpMethod;
 
 import java.lang.reflect.Type;
 
-public class VerifyFaceAction extends RestAction<Verification> {
+public final class VerifyFaceAction extends RestAction<Verification> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final CognitiveContext cognitiveContext;
     private final String faceId1;
     private final String faceId2;
-
+    
     public VerifyFaceAction(CognitiveContext cognitiveContext, String faceId1, String faceId2) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
@@ -227,19 +227,21 @@ public class VerifyFaceAction extends RestAction<Verification> {
         this.faceId2 = faceId2;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/verify")
-                .httpMethod(HttpMethod.POST).addPayload("faceId1", faceId1).addPayload("faceId2", faceId2);
+                .httpMethod(HttpMethod.POST).addPayload("faceId1", faceId1)
+                .addPayload("faceId2", faceId2);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return Verification.class;
     }
+    
 }

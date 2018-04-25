@@ -209,12 +209,27 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Identification {
-    public String faceId;
-    public List<Candidate> candidates = new ArrayList<>();
-
+public final class Identification {
+    
+    private final String faceId = null;
+    private final List<Candidate> candidates = new ArrayList<>(0);
+    
+    /**
+     * Constructor for GSON.
+     */
+    private Identification() {}
+    
+    public String getFaceId() {
+        return faceId;
+    }
+    
+    public List<Candidate> getCandidates() {
+        return Collections.unmodifiableList(candidates);
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

@@ -205,28 +205,28 @@
 
 package cognitivej.vision.face.task;
 
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FaceGrouping {
-
+public final class FaceGrouping {
+    
     /**
-     * A partition of the original faces based on face similarity. Groups are ranked by number of faces.
+     * A partition of the original faces based on face similarity.
+     * Groups are ranked by number of faces.
      */
-    public List<List<String>> groups = new ArrayList<>();
-
+    private final List<List<String>> groups = new ArrayList<>();
+    
     /**
      * Face ids array of faces that cannot find any similar faces from original faces.
      */
-    public List<String> messyGroup = new ArrayList<>();
-
+    private final List<String> messyGroup = new ArrayList<>();
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }

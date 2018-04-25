@@ -227,7 +227,7 @@ public final class FaceStringBuilder {
      */
     @NotNull
     public static String age(@NotNull Face face) {
-        return String.format("Age: %.1f", face.getFaceAttributesResp().age);
+        return String.format("Age: %.1f", face.getFaceAttributesResp().getAge());
     }
     
     /**
@@ -239,7 +239,7 @@ public final class FaceStringBuilder {
     @NotNull
     public static String genderAndAge(@NotNull Face face) {
         return String.format("%s, %.1f",
-                face.getFaceAttributesResp().gender, face.getFaceAttributesResp().age);
+                face.getFaceAttributesResp().getGender(), face.getFaceAttributesResp().getAge());
     }
     
     public static String buildStringFor(Face face, EnumSet<FaceAttributes> faceAttributes) {

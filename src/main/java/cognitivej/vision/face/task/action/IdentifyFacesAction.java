@@ -216,16 +216,17 @@ import com.mashape.unirest.http.HttpMethod;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class IdentifyFacesAction extends RestAction<List<Identification>> {
+public final class IdentifyFacesAction extends RestAction<List<Identification>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     private final CognitiveContext cognitiveContext;
     private final List<String> faceIds;
     private final String personGroupId;
     private final int maxNumOfCandidatesReturned;
-
-
-    public IdentifyFacesAction(CognitiveContext cognitiveContext, List<String> faceIds, String personGroupId, int maxNumOfCandidatesReturned) {
+    
+    public IdentifyFacesAction(CognitiveContext cognitiveContext, List<String> faceIds,
+                               String personGroupId, int maxNumOfCandidatesReturned) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.faceIds = faceIds;
@@ -233,21 +234,22 @@ public class IdentifyFacesAction extends RestAction<List<Identification>> {
         this.maxNumOfCandidatesReturned = maxNumOfCandidatesReturned;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/identify")
-                .httpMethod(HttpMethod.POST).addPayload("personGroupId", personGroupId).addPayload("faceIds", faceIds)
+                .httpMethod(HttpMethod.POST).addPayload("personGroupId", personGroupId)
+                .addPayload("faceIds", faceIds)
                 .addPayload("maxNumOfCandidatesReturned", maxNumOfCandidatesReturned);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
-        return new TypeToken<List<Identification>>() {
-        }.getType();
+        return new TypeToken<List<Identification>>() {}.getType();
     }
+    
 }

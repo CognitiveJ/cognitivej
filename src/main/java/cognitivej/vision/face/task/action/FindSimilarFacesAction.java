@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.Utils;
 import cognitivej.core.WorkingContext;
@@ -218,15 +217,17 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class FindSimilarFacesAction extends RestAction<List<FindSimilar>> {
+public final class FindSimilarFacesAction extends RestAction<List<FindSimilar>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final String faceId;
     private final List<String> faceIds;
     private final String faceListId;
     private final int maxNumOfCandidates;
-
-
-    public FindSimilarFacesAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceId, List<String> faceIds, String faceListId, int maxNumOfCandidates) {
+    
+    public FindSimilarFacesAction(@NotNull CognitiveContext cognitiveContext,
+                                  @NotNull String faceId, List<String> faceIds,
+                                  String faceListId, int maxNumOfCandidates) {
         super(cognitiveContext);
         this.faceId = faceId;
         this.faceIds = faceIds;
@@ -234,25 +235,26 @@ public class FindSimilarFacesAction extends RestAction<List<FindSimilar>> {
         this.maxNumOfCandidates = maxNumOfCandidates;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/findsimilars")
-                .httpMethod(HttpMethod.POST).addPayload("faceId", faceId).addPayload("maxNumOfCandidatesReturned", maxNumOfCandidates);
-        if (Utils.isNotEmpty(faceIds))
+                .httpMethod(HttpMethod.POST).addPayload("faceId", faceId)
+                .addPayload("maxNumOfCandidatesReturned", maxNumOfCandidates);
+        if (Utils.isNotEmpty(faceIds)) {
             workingContext().addPayload("faceIds", faceIds);
-        else
+        } else {
             workingContext().addPayload("faceListId", faceListId);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
-
+    
     @Override
     protected Type typedResponse() {
-        return new TypeToken<List<FindSimilar>>() {
-        }.getType();
+        return new TypeToken<List<FindSimilar>>() {}.getType();
     }
+    
 }

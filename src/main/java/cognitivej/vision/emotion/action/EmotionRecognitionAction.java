@@ -205,7 +205,6 @@
 
 package cognitivej.vision.emotion.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.emotion.Emotion;
@@ -220,39 +219,44 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 
-
-public class EmotionRecognitionAction extends RestAction<List<Emotion>> {
+public final class EmotionRecognitionAction extends RestAction<List<Emotion>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
     private final FaceRectangle faceRectangle;
-
-    public EmotionRecognitionAction(@NotNull CognitiveContext cognitiveContext, @Nullable FaceRectangle faceRectangle, @NotNull Object image) {
+    
+    public EmotionRecognitionAction(@NotNull CognitiveContext cognitiveContext,
+                                    @Nullable FaceRectangle faceRectangle,
+                                    @NotNull Object image) {
         super(cognitiveContext);
         this.faceRectangle = faceRectangle;
         buildContext(image);
     }
-
-
+    
     private void buildContext(Object image) {
         workingContext.setPath("emotion/v1.0/recognize")
                 .httpMethod(HttpMethod.POST);
-        if (faceRectangle != null)
-            workingContext().addQueryParameter("faceRectangle", String.format("%s;%s;%s;%s", faceRectangle.left, faceRectangle.top, faceRectangle.width, faceRectangle.height));
-        if (image instanceof String)
+        if (faceRectangle != null) {
+            workingContext().addQueryParameter("faceRectangle", String.format("%s;%s;%s;%s",
+                    faceRectangle.getLeft(), faceRectangle.getTop(),
+                    faceRectangle.getWidth(), faceRectangle.getHeight()));
+        }
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return new TypeToken<java.util.List<Emotion>>() {
         }.getType();
     }
-
-
+    
 }

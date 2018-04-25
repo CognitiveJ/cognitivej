@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task;
 
-
 import cognitivej.core.Validation;
 import cognitivej.core.error.exceptions.ParameterValidationException;
 import cognitivej.vision.face.CognitiveContext;
@@ -216,59 +215,85 @@ import java.io.InputStream;
 import java.util.EnumSet;
 import java.util.List;
 
-public class FaceTaskBuilder {
+public final class FaceTaskBuilder {
+    
     private final CognitiveContext cognitiveContext;
-
+    
     public FaceTaskBuilder(CognitiveContext cognitiveContext) {
         this.cognitiveContext = cognitiveContext;
     }
-
-
+    
     /**
-     * * Detect human faces in an image and returns face locations, and optionally with face ID, landmarks, and attributes.
+     * Detect human faces in an image and returns face locations, and optionally with face ID,
+     * landmarks, and attributes.
      * <p>
-     * Optional parameters for returning face ID, landmarks, and attributes. Attributes include age, gender, smile intensity, facial hair and head-pose. Face ID is for other APIs use including Face - Identify, Face - Verify, and Face - Find Similar. The face ID will expire in 24 hours after detection call.
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
-     * A maximum of 64 faces could be returned for an image. The returned faces are ranked by face rectangle size in descending order.
-     * Some faces may not be detected for technical challenges, e.g. very large face angles (head-pose) or large occlusion. Frontal and near-frontal faces have the best results.
-     * Attributes (age, gender, headPose, smile and facialHair, and glasses) are still experimental and may not be very accurate. HeadPose's pitch value is reserved as 0.
+     * Optional parameters for returning face ID, landmarks, and attributes. Attributes include age,
+     * gender, smile intensity, facial hair and head-pose. Face ID is for other APIs use including
+     * Face - Identify, Face - Verify, and Face - Find Similar. The face ID will expire in 24 hours
+     * after detection call.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no
+     * larger than 4MB.
+     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range
+     * will not be detected.
+     * A maximum of 64 faces could be returned for an image. The returned faces are ranked by face
+     * rectangle size in descending order.
+     * Some faces may not be detected for technical challenges, e.g. very large face angles
+     * (head-pose) or large occlusion. Frontal and near-frontal faces have the best results.
+     * Attributes (age, gender, headPose, smile and facialHair, and glasses) are still experimental
+     * and may not be very accurate. HeadPose's pitch value is reserved as 0.
      *
-     * @param returnFaceId         Return face IDs of the detected faces or not. The default value is true.
-     * @param returnFaceLandmarks  Return face landmarks of the detected faces or not. The default value is false.
+     * @param returnFaceId Return face IDs of the detected faces or not. The default value is true.
+     * @param returnFaceLandmarks Return face landmarks of the detected faces or not. The default
+     * value is false.
      * @param returnFaceAttributes Analyze and return the one or more specified face attributes.
-     * @param imageUrl             URL of input image.
+     * @param imageUrl URL of input image.
      * @return a built {@link DetectFaceAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236">MS Cognitive Docs (Face - Detect)</a>
      */
     @NotNull
-    public DetectFaceAction detectFace(boolean returnFaceId, boolean returnFaceLandmarks, @NotNull EnumSet<FaceAttributes> returnFaceAttributes, @NotNull String imageUrl) {
-        return new DetectFaceAction(cognitiveContext, returnFaceId, returnFaceLandmarks, returnFaceAttributes, imageUrl);
+    public DetectFaceAction detectFace(boolean returnFaceId, boolean returnFaceLandmarks,
+                                       @NotNull EnumSet<FaceAttributes> returnFaceAttributes,
+                                       @NotNull String imageUrl) {
+        return new DetectFaceAction(cognitiveContext, returnFaceId,
+                returnFaceLandmarks, returnFaceAttributes, imageUrl);
     }
-
+    
     /**
-     * * Detect human faces in an image and returns face locations, and optionally with face ID, landmarks, and attributes.
+     * * Detect human faces in an image and returns face locations, and optionally with face ID,
+     * landmarks, and attributes.
      * <p>
-     * Optional parameters for returning face ID, landmarks, and attributes. Attributes include age, gender, smile intensity, facial hair and head-pose. Face ID is for other APIs use including Face - Identify, Face - Verify, and Face - Find Similar. The face ID will expire in 24 hours after detection call.
-     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no larger than 4MB.
-     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.
-     * A maximum of 64 faces could be returned for an image. The returned faces are ranked by face rectangle size in descending order.
-     * Some faces may not be detected for technical challenges, e.g. very large face angles (head-pose) or large occlusion. Frontal and near-frontal faces have the best results.
-     * Attributes (age, gender, headPose, smile and facialHair, and glasses) are still experimental and may not be very accurate. HeadPose's pitch value is reserved as 0.
+     * Optional parameters for returning face ID, landmarks, and attributes. Attributes include age,
+     * gender, smile intensity, facial hair and head-pose. Face ID is for other APIs use including
+     * Face - Identify, Face - Verify, and Face - Find Similar. The face ID will expire in 24 hours
+     * after detection call.
+     * JPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be no
+     * larger than 4MB.
+     * The detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range
+     * will not be detected.
+     * A maximum of 64 faces could be returned for an image. The returned faces are ranked by face
+     * rectangle size in descending order.
+     * Some faces may not be detected for technical challenges, e.g. very large face angles
+     * (head-pose) or large occlusion. Frontal and near-frontal faces have the best results.
+     * Attributes (age, gender, headPose, smile and facialHair, and glasses) are still experimental
+     * and may not be very accurate. HeadPose's pitch value is reserved as 0.
      *
-     * @param returnFaceId         Return face IDs of the detected faces or not. The default value is true.
-     * @param returnFaceLandmarks  Return face landmarks of the detected faces or not. The default value is false.
-     * @param returnFaceAttributes Analyze and return the one or more specified face attributes in the comma-separated string like "returnFaceAttributes=age,gender".Supported face attributes include age, gender, headPose, smile, facialHair, and glasses. Note that each face attribute analysis has additional computational and time cost.
-     * @param image                Input stream image
+     * @param returnFaceId Return face IDs of the detected faces or not. The default value is true.
+     * @param returnFaceLandmarks Return face landmarks of the detected faces or not. The default
+     * value is false.
+     * @param returnFaceAttributes Analyze and return the one or more specified face attributes in
+     * the comma-separated string like "returnFaceAttributes=age,gender".Supported face attributes
+     * include age, gender, headPose, smile, facialHair, and glasses. Note that each face attribute
+     * analysis has additional computational and time cost.
+     * @param image Input stream image
      * @return a built {@link DetectFaceAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395236">MS Cognitive Docs (Face - Detect)</a>
      */
     @NotNull
-    public DetectFaceAction detectFace(boolean returnFaceId, boolean returnFaceLandmarks, @NotNull EnumSet<FaceAttributes> returnFaceAttributes, @NotNull InputStream image) {
-        return new DetectFaceAction(cognitiveContext, returnFaceId, returnFaceLandmarks, returnFaceAttributes, image);
+    public DetectFaceAction detectFace(boolean returnFaceId, boolean returnFaceLandmarks,
+                                       @NotNull EnumSet<FaceAttributes> returnFaceAttributes,
+                                       @NotNull InputStream image) {
+        return new DetectFaceAction(
+                cognitiveContext, returnFaceId, returnFaceLandmarks, returnFaceAttributes, image);
     }
-
-
+    
     /**
      * Verify whether two faces belong to a same person.
      * <p>
@@ -280,69 +305,93 @@ public class FaceTaskBuilder {
      * @param faceId1 ID of one face.
      * @param faceId2 ID of another face.
      * @return a built {@link VerifyFaceAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523a">MS Cognitive Docs (Face - Verify)</a>
      */
     public VerifyFaceAction verifyFace(String faceId1, String faceId2) {
         return new VerifyFaceAction(cognitiveContext, faceId1, faceId2);
     }
-
-
+    
     /**
      * Identify unknown faces from an person group.
      * <p>
-     * For each face in the faceIds array, Face Identify will compute similarity for the face among all faces within a person group (given by personGroupId), and returns candidate person(s) for that face ranked by similarity confidence. The person group should be trained to make it ready for identify. See more in Person Group - Train Person Group.
+     * For each face in the faceIds array, Face Identify will compute similarity for the face among
+     * all faces within a person group (given by personGroupId), and returns candidate person(s) for
+     * that face ranked by similarity confidence. The person group should be trained to make it
+     * ready for identify. See more in Person Group - Train Person Group.
      * <p>
      * Remarks:
      * <p>
      * The algorithm allows more than one face to be isIdentified, but the no more than 10 faces.
      * Each person in the person group could have more than one face, but no more than 64 faces.
      * Identification works well for frontal faces and near-frontal faces.
-     * Number of candidates returned is restricted by maxNumOfCandidatesReturned. If no person is isIdentified, the candidate returned will be an empty array.
-     * Try Face - Find Similar when you need to identify similar faces from a face list instead of a person group.
+     * Number of candidates returned is restricted by maxNumOfCandidatesReturned. If no person is
+     * isIdentified, the candidate returned will be an empty array.
+     * Try Face - Find Similar when you need to identify similar faces from a face list instead of
+     * a person group.
      *
-     * @param faceIds                    Query faces' IDs. The length of faceIds is between [1, 10].
-     * @param personGroupId              Target person group's ID
-     * @param maxNumOfCandidatesReturned The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1).
+     * @param faceIds Query faces' IDs. The length of faceIds is between [1, 10].
+     * @param personGroupId Target person group's ID
+     * @param maxNumOfCandidatesReturned The range of maxNumOfCandidatesReturned is between 1 and 5
+     * (default is 1).
      * @return a built {@link IdentifyFacesAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395239">MS Cognitive Docs (Face - Identify)</a>
      */
-    public IdentifyFacesAction identifyFaces(List<String> faceIds, String personGroupId, int maxNumOfCandidatesReturned) {
-        Validation.validateArray(faceIds, 1, 10, new ParameterValidationException("faceIds", "length must be between 1 & 10"));
-        Validation.validateInt(maxNumOfCandidatesReturned, 5, new ParameterValidationException("maxNumOfCandidatesReturned", "maxNumOfCandidatesReturned must be between 1 & 5"));
-        return new IdentifyFacesAction(cognitiveContext, faceIds, personGroupId, maxNumOfCandidatesReturned);
+    public IdentifyFacesAction identifyFaces(List<String> faceIds, String personGroupId,
+                                             int maxNumOfCandidatesReturned) {
+        Validation.validateArray(faceIds, 1, 10, new ParameterValidationException(
+                "faceIds", "length must be between 1 & 10"));
+        Validation.validateInt(maxNumOfCandidatesReturned, 5, new ParameterValidationException(
+                "maxNumOfCandidatesReturned", "maxNumOfCandidatesReturned must be between 1 & 5"));
+        return new IdentifyFacesAction(
+                cognitiveContext, faceIds, personGroupId, maxNumOfCandidatesReturned);
     }
-
-
+    
     /**
      * Divide candidate faces into groups based on face similarity.
-     * The output is one or more disjointed face groups and a messyGroup. A face group contains faces that have similar looking, often of the same person. Face groups are ranked by group size, i.e. number of faces. Notice that faces belonging to a same person might be split into several groups in the result.
-     * MessyGroup is a special face group containing faces that cannot find any similar counterpart face from original faces. The messyGroup will not appear in the result if all faces found their counterparts.
-     * Group API needs at least 2 candidate faces and 1000 at most. We suggest to try Face - Verify when you only have 2 candidate faces.
+     * The output is one or more disjointed face groups and a messyGroup. A face group contains
+     * faces that have similar looking, often of the same person. Face groups are ranked by group
+     * size, i.e. number of faces. Notice that faces belonging to a same person might be split into
+     * several groups in the result.
+     * MessyGroup is a special face group containing faces that cannot find any similar counterpart
+     * face from original faces. The messyGroup will not appear in the result if all faces found
+     * their counterparts.
+     * Group API needs at least 2 candidate faces and 1000 at most. We suggest to try Face - Verify
+     * when you only have 2 candidate faces.
      *
      * @param faceIds Candidate face IDs. The maximum is 1000 faces.
      * @return a built {@link GroupFacesAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395238">MS Cognitive Docs (Face - Group)</a>
      */
     public GroupFacesAction groupFaces(List<String> faceIds) {
-        Validation.validateArray(faceIds, 1, 1000, new ParameterValidationException("faceIds", "length must be between 1 & 1000"));
+        Validation.validateArray(faceIds, 1, 1000, new ParameterValidationException(
+                "faceIds", "length must be between 1 & 1000"));
         return new GroupFacesAction(cognitiveContext, faceIds);
     }
-
+    
     /**
-     * Find similar - looking faces for a query face from a list of candidate faces (given by a face list or a face ID array) and return similar face IDs ranked by similarity.
+     * Find similar - looking faces for a query face from a list of candidate faces (given by a face
+     * list or a face ID array) and return similar face IDs ranked by similarity.
      * The candidate face list has a limitation of 1000 faces.
      *
-     * @param faceId             Query face. The faceId comes from the {@link FaceTaskBuilder#detectFace(boolean, boolean, EnumSet, InputStream)} .
-     * @param faceIds            A candidate face list. Face list simply represents a list of faces, reference Face List - Create a Face List for more detail. faceListId and faceIds should not be provided at the same time.
-     * @param faceListId         A face ID array of candidate faces. Length of faceIds should between [1, 1000]. Parameter faceListId and faceIds should not be provided at the same time.
-     * @param maxNumOfCandidates Only top maxNumOfCandidatesReturned most similar faces will be returned. maxNumOfCandidatesReturned ranges between [1, 20].
+     * @param faceId Query face. The faceId comes from the {@link FaceTaskBuilder#detectFace(
+     *boolean, boolean, EnumSet, InputStream)} .
+     * @param faceIds A candidate face list. Face list simply represents a list of faces, reference
+     * Face List - Create a Face List for more detail. faceListId and faceIds should not be provided
+     * at the same time.
+     * @param faceListId A face ID array of candidate faces. Length of faceIds should between
+     * [1, 1000]. Parameter faceListId and faceIds should not be provided at the same time.
+     * @param maxNumOfCandidates Only top maxNumOfCandidatesReturned most similar faces will be
+     * returned. maxNumOfCandidatesReturned ranges between [1, 20].
      * @return a built {@link FindSimilarFacesAction}
-     * @see <a href="https://dev.projectoxford.ai/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f30395237">MS Cognitive Docs (Face - Find Similar)</a>
      */
-    public FindSimilarFacesAction findSimilarFace(String faceId, List<String> faceIds, String faceListId, int maxNumOfCandidates) {
-        Validation.validateArray(faceIds, 0, 1000, new ParameterValidationException("faceIds", "length must be between 1 & 1000"));
-        Validation.validateInt(maxNumOfCandidates, 20, new ParameterValidationException("maxNumOfCandidates", "length must be between 1 & 20"));
-        Validation.validateExclusive(faceIds, faceListId, new ParameterValidationException("faceIds", "must only supply either faceListId OR a faceId (pass null or empty collection)"));
-        return new FindSimilarFacesAction(cognitiveContext, faceId, faceIds, faceListId, maxNumOfCandidates);
+    public FindSimilarFacesAction findSimilarFace(String faceId, List<String> faceIds,
+                                                  String faceListId, int maxNumOfCandidates) {
+        Validation.validateArray(faceIds, 0, 1000, new ParameterValidationException(
+                "faceIds", "length must be between 1 & 1000"));
+        Validation.validateInt(maxNumOfCandidates, 20, new ParameterValidationException(
+                "maxNumOfCandidates", "length must be between 1 & 20"));
+        Validation.validateExclusive(faceIds, faceListId, new ParameterValidationException(
+                "faceIds",
+                "must only supply either faceListId OR a faceId (pass null or empty collection)"));
+        return new FindSimilarFacesAction(
+                cognitiveContext, faceId, faceIds, faceListId, maxNumOfCandidates);
     }
+    
 }

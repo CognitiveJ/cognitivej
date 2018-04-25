@@ -462,7 +462,7 @@ public final class ImageOverlayBuilder {
                 new Rectangle(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()),
                 face.getFaceRectangle().asAwtRectangle(), new Insets(0, 0, 0, 0),
                 DEFAULT_TEXT_FONT, colourPalette, textPosition, String.format("Age %.2f",
-                face.getFaceAttributesResp().age));
+                face.getFaceAttributesResp().getAge()));
         bufferedImage = textOnRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
@@ -548,8 +548,8 @@ public final class ImageOverlayBuilder {
                 new Rectangle(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight()),
                 face.getFaceRectangle().asAwtRectangle(), insets,
                 DEFAULT_TEXT_FONT, colourPalette, textPosition, String.format("%s, Age %.1f",
-                WordUtils.capitalize(face.getFaceAttributesResp().gender.name()),
-                face.getFaceAttributesResp().age));
+                WordUtils.capitalize(face.getFaceAttributesResp().getGender().name()),
+                face.getFaceAttributesResp().getAge()));
         bufferedImage = textOnRectangleFilter.applyFilter(bufferedImage);
         return this;
     }
@@ -849,7 +849,7 @@ public final class ImageOverlayBuilder {
     @NotNull
     public ImageOverlayBuilder verify(@NotNull BufferedImage candidateImage,
                                       @NotNull VerificationSet verificationSet) {
-        CognitiveJColourPalette verificationColor = verificationSet.getVerification().isIdentical
+        CognitiveJColourPalette verificationColor = verificationSet.getVerification().isIdentical()
                 ? CognitiveJColourPalette.GREEN
                 : CognitiveJColourPalette.RED;
         outlineFaceOnImage(verificationSet.getFirstFace(), RectangleType.CORNERED,
@@ -874,11 +874,11 @@ public final class ImageOverlayBuilder {
                 new ApplyCaptionOutsideImageFilter(PointLocations.BOTTOM_CENTER,
                         DEFAULT_TEXT_FONT.deriveFont(80f).deriveFont(80f),
                         verificationColor,
-                        verification.isIdentical
+                        verification.isIdentical()
                                 ? String.format(
-                                "Match (confidence %.3f)", verification.confidence)
+                                "Match (confidence %.3f)", verification.getConfidence())
                                 : String.format(
-                                "No Match (confidence %.3f)", verification.confidence));
+                                "No Match (confidence %.3f)", verification.getConfidence()));
         bufferedImage = applyCaptionOutsideImageFilter.applyFilter(
                 lineJoinRectangleFilter.applyFilter(mergeImagesFilter.applyFilter(bufferedImage)));
         return this;

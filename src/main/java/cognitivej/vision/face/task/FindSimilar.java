@@ -208,14 +208,34 @@ package cognitivej.vision.face.task;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-
-public class FindSimilar {
-    public String faceId, persistedFaceId;
-    public double confidence;
-
+public final class FindSimilar {
+    
+    private final String faceId, persistedFaceId;
+    private final double confidence;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private FindSimilar() {
+        faceId = persistedFaceId = null;
+        confidence = 0;
+    }
+    
+    public String getFaceId() {
+        return faceId;
+    }
+    
+    public String getPersistedFaceId() {
+        return persistedFaceId;
+    }
+    
+    public double getConfidence() {
+        return confidence;
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
-
+    
 }

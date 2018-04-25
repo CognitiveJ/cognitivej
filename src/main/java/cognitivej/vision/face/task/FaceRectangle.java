@@ -208,17 +208,45 @@ package cognitivej.vision.face.task;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
-public class FaceRectangle {
-    public int height, left, top, width;
-
+public final class FaceRectangle {
+    
+    /**
+     * Dimensions of face
+     */
+    private final int height, left, top, width;
+    
+    /**
+     * Constructor for GSON.
+     */
+    private FaceRectangle() {
+        height = left = top = width = 0;
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+    
+    public int getLeft() {
+        return left;
+    }
+    
+    public int getTop() {
+        return top;
+    }
+    
+    public int getWidth() {
+        return width;
+    }
+    
     public Rectangle asAwtRectangle() {
         return new Rectangle(left, top, width, height);
     }
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

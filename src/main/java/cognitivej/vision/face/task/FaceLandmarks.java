@@ -210,11 +210,15 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.HashMap;
 
-public class FaceLandmarks {
-    public Point pupilLeft, pupilRight, mouthLeft, mouthRight, eyebrowLeftOuter, eyebrowLeftInner, eyeLeftOuter, eyeLeftTop, eyeLeftBottom, eyeLeftInner,
-            eyebrowRightInner, eyebrowRightOuter, eyeRightInner, eyeRightTop, eyeRightBottom, eyeRightOuter, noseRootLeft, noseRootRight, noseLeftAlarTop,
-            noseRightAlarTop, noseTip, noseLeftAlarOutTip, noseRightAlarOutTip, mupperLipTop, upperLipTop, upperLipBottom, underLipTop, underLipBottom;
-
+public final class FaceLandmarks {
+    
+    private Point pupilLeft, pupilRight, mouthLeft, mouthRight, eyebrowLeftOuter, eyebrowLeftInner,
+            eyeLeftOuter, eyeLeftTop, eyeLeftBottom, eyeLeftInner, eyebrowRightInner,
+            eyebrowRightOuter, eyeRightInner, eyeRightTop, eyeRightBottom, eyeRightOuter,
+            noseRootLeft, noseRootRight, noseLeftAlarTop, noseRightAlarTop, noseTip,
+            noseLeftAlarOutTip, noseRightAlarOutTip, mupperLipTop, upperLipTop, upperLipBottom,
+            underLipTop, underLipBottom;
+    
     public HashMap<String, Point> landmarks() {
         return new HashMap<String, Point>() {{
             put("pupilLeft", pupilLeft);
@@ -247,23 +251,31 @@ public class FaceLandmarks {
             put("underLipBottom", underLipBottom);
         }};
     }
-
-    public class Point {
-        public double x, y;
-
+    
+    public final class Point {
+        
+        private final double x, y;
+        
+        /**
+         * Constructor for GSON.
+         */
+        private Point() {
+            x = y = 0;
+        }
+        
         public java.awt.Point asAwtPoint() {
             return new java.awt.Point((int) x, (int) y);
         }
-
+        
         @Override
         public String toString() {
             return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
         }
     }
-
-
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }
+    
 }

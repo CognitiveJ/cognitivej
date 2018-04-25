@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
@@ -215,32 +214,33 @@ import com.mashape.unirest.http.HttpMethod;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class GroupFacesAction extends RestAction<FaceGrouping> {
+public final class GroupFacesAction extends RestAction<FaceGrouping> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     private final CognitiveContext cognitiveContext;
     private final List<String> faceIds;
-
-
+    
     public GroupFacesAction(CognitiveContext cognitiveContext, List<String> faceIds) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.faceIds = faceIds;
         buildContext();
     }
-
+    
     private void buildContext() {
         workingContext.setPath("face/v1.0/group")
                 .httpMethod(HttpMethod.POST).addPayload("faceIds", faceIds);
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return FaceGrouping.class;
     }
+    
 }

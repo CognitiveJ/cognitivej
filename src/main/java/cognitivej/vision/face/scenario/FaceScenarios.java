@@ -552,9 +552,10 @@ public final class FaceScenarios {
         Identification identification = Utils.elementAt(
                 faceTaskBuilder.identifyFaces(Collections.singletonList(singleFace.getFaceId()),
                         personGroupId, 1).withResult(), 0);
-        if (identification != null && Utils.isNotEmpty(identification.candidates)) {
+        if (identification != null && Utils.isNotEmpty(identification.getCandidates())) {
             return new IdentificationSet(singleFace, identification, personBuilder.getPerson(
-                    personGroupId, identification.candidates.get(0).getPersonId()).withResult());
+                    personGroupId, identification.getCandidates().get(0)
+                            .getPersonId()).withResult());
         } else if (identification == null) {
             throw new Error("Unexpected!");
         }
@@ -584,12 +585,12 @@ public final class FaceScenarios {
         List<IdentificationSet> identificationSetList = new ArrayList<>();
         for (Identification identification : identificationList) {
             Optional<Face> first = faces.stream()
-                    .filter(x -> x.getFaceId().equals(identification.faceId)).findFirst();
+                    .filter(x -> x.getFaceId().equals(identification.getFaceId())).findFirst();
             identificationSetList.add(new IdentificationSet(
                     first.get(), identification,
-                    Utils.isNotEmpty(identification.candidates)
+                    Utils.isNotEmpty(identification.getCandidates())
                             ? personBuilder.getPerson(
-                            personGroupId, identification.candidates.get(0).getPersonId())
+                            personGroupId, identification.getCandidates().get(0).getPersonId())
                             .withResult()
                             : null));
             System.out.println(identification);

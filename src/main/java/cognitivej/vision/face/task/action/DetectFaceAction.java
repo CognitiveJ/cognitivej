@@ -205,7 +205,6 @@
 
 package cognitivej.vision.face.task.action;
 
-
 import cognitivej.core.RestAction;
 import cognitivej.core.WorkingContext;
 import cognitivej.vision.face.CognitiveContext;
@@ -220,14 +219,15 @@ import java.lang.reflect.Type;
 import java.util.EnumSet;
 import java.util.List;
 
-public class DetectFaceAction extends RestAction<List<Face>> {
+public final class DetectFaceAction extends RestAction<List<Face>> {
+    
     private final WorkingContext workingContext = new WorkingContext();
-
+    
     private final CognitiveContext cognitiveContext;
     private final boolean returnFaceId;
     private final boolean returnFaceLandmarks;
     private final EnumSet<FaceAttributes> returnFaceAttributes;
-
+    
     public DetectFaceAction(CognitiveContext cognitiveContext, boolean returnFaceId,
                             boolean returnFaceLandmarks, EnumSet<FaceAttributes> returnFaceAttributes, Object image) {
         super(cognitiveContext);
@@ -237,27 +237,34 @@ public class DetectFaceAction extends RestAction<List<Face>> {
         this.returnFaceAttributes = returnFaceAttributes;
         buildContext(image);
     }
-
+    
     private void buildContext(Object image) {
-        workingContext.setPath("face/v1.0/detect").addQueryParameter("returnFaceId", String.valueOf(returnFaceId)).
-                addQueryParameter("returnFaceId", String.valueOf(returnFaceId)).addQueryParameter("returnFaceLandmarks", String.valueOf(returnFaceLandmarks))
+        workingContext.setPath("face/v1.0/detect").addQueryParameter("returnFaceId",
+                String.valueOf(returnFaceId)).
+                addQueryParameter("returnFaceId", String.valueOf(returnFaceId))
+                .addQueryParameter("returnFaceLandmarks", String.valueOf(returnFaceLandmarks))
                 .httpMethod(HttpMethod.POST);
-        if (returnFaceAttributes != null)
-            workingContext().addQueryParameter("returnFaceAttributes", StringUtils.join(returnFaceAttributes, ','));
-        if (image instanceof String)
+        if (returnFaceAttributes != null) {
+            workingContext().addQueryParameter("returnFaceAttributes",
+                    StringUtils.join(returnFaceAttributes, ','));
+        }
+        if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));
-        if (image instanceof InputStream)
+        }
+        if (image instanceof InputStream) {
             workingContext.addPayload(IMAGE_INPUT_STREAM_KEY, image);
+        }
     }
-
+    
     @Override
     protected WorkingContext workingContext() {
         return workingContext;
     }
-
+    
     @Override
     protected Type typedResponse() {
         return new TypeToken<List<Face>>() {
         }.getType();
     }
+    
 }
