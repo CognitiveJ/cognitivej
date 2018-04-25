@@ -48,12 +48,12 @@ and analyze images. 
 
 ```groovy
 repositories {
-        jcenter()
-    }
+    jcenter()
+}
 
-    dependencies {
+dependencies {
     compile "cognitivej:cognitivej:0.6.2"
-    }
+}
 
 ```
 
@@ -84,6 +84,8 @@ boundaries
 
 Simple domain wrappers around request/response/parameter objects (e.g. Face,
 FaceAttributes, Person etc)
+
+### Concrete Examples
 
 #### Face – Detect
 
