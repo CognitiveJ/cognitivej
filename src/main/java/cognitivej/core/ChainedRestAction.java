@@ -205,7 +205,6 @@
 
 package cognitivej.core;
 
-
 import cognitivej.vision.face.CognitiveContext;
 import org.jetbrains.annotations.NotNull;
 
@@ -224,8 +223,7 @@ public abstract class ChainedRestAction<T extends CognitiveResult, CB extends Ch
     public CB then() {
         T result = withResult();
         cognitiveContext.addToResultChain(result);
-        CB cb = groupBuilder(result);
-        return cb;
+        return groupBuilder(result);
     }
     
     @NotNull

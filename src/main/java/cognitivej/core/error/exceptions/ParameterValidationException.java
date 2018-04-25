@@ -207,7 +207,8 @@ package cognitivej.core.error.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ParameterValidationException extends RuntimeException {
+public final class ParameterValidationException extends RuntimeException {
+    
     private final String field;
     
     public ParameterValidationException(@NotNull String field, @NotNull String message) {

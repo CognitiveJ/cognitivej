@@ -209,13 +209,14 @@ import cognitivej.core.error.exceptions.RateLimitExceededException;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
 /**
  * Manages the rate limit error message return from MS Cognitive
  */
-public class RateLimitExceededErrorHandler extends ErrorHandler {
+public final class RateLimitExceededErrorHandler extends ErrorHandler {
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new RateLimitExceededException(extractErrorString(httpResponse));
     }
+    
 }

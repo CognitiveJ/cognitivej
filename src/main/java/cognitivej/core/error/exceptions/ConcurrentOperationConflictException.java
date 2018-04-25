@@ -208,7 +208,7 @@ package cognitivej.core.error.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ConcurrentOperationConflictException extends RuntimeException {
+public final class ConcurrentOperationConflictException extends RuntimeException {
     public ConcurrentOperationConflictException(@NotNull String message) {
         super(message);
     }

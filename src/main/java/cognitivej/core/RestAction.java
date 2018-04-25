@@ -205,7 +205,6 @@
 
 package cognitivej.core;
 
-
 import cognitivej.core.error.ConcurrentOperationConflictErrorHandler;
 import cognitivej.core.error.ErrorHandler;
 import cognitivej.core.error.ForbiddenErrorHandler;
@@ -255,6 +254,7 @@ public abstract class RestAction<T> {
         return ExponentialBackOff.execute(this::doWork);
     }
     
+    @NotNull
     private T doWork() {
         try {
             setupErrorHandlers();

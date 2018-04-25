@@ -214,43 +214,52 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Validation {
-    public static void validate(@Nullable String str, @NotNull String regex, @NotNull ParameterValidationException toThrow) {
+public final class Validation {
+    
+    public static void validate(@Nullable String str, @NotNull String regex,
+                                @NotNull ParameterValidationException toThrow) {
         Pattern pattern = Pattern.compile(regex);
         if (str == null || !pattern.matcher(str).matches()) {
             throw toThrow;
         }
-        
     }
     
-    public static void validate(@Nullable String str, int sizeInKB, @NotNull ParameterValidationException toThrow) {
-        if (str == null) throw toThrow;
-        final byte[] utf16Bytes;
-        try {
-            utf16Bytes = str.getBytes("UTF-16");
-            if (utf16Bytes.length > sizeInKB * 1024)
-                throw toThrow;
-        } catch (UnsupportedEncodingException ignored) {
-        }
-        
-        
-    }
-    
-    public static void validateArray(@NotNull List elements, int min, int max, @NotNull ParameterValidationException toThrow) {
-        if (min == 0 && Utils.isEmpty(elements))
-            return;
-        if (Utils.isEmpty(elements) || elements.size() < min || elements.size() > max)
+    public static void validate(@Nullable String str, int sizeInKB,
+                                @NotNull ParameterValidationException toThrow) {
+        if (str == null) {
             throw toThrow;
+        }
+        try {
+            byte[] utf16Bytes = str.getBytes("UTF-16");
+            if (utf16Bytes.length > sizeInKB * 1024) {
+                throw toThrow;
+            }
+        } catch (UnsupportedEncodingException ignored) {
+        
+        }
+    }
+    
+    public static void validateArray(@NotNull List elements, int min, int max,
+                                     @NotNull ParameterValidationException toThrow) {
+        if (min == 0 && Utils.isEmpty(elements)) {
+            return;
+        }
+        if (Utils.isEmpty(elements) || elements.size() < min || elements.size() > max) {
+            throw toThrow;
+        }
     }
     
     public static void validateInt(int num, int max, ParameterValidationException toThrow) {
-        if (num > max)
+        if (num > max) {
             throw toThrow;
+        }
     }
     
-    public static void validateExclusive(List collection, String str, ParameterValidationException toThrow) {
+    public static void validateExclusive(List collection, String str,
+                                         ParameterValidationException toThrow) {
         if ((Utils.isEmpty(collection) && Utils.isBlank(str))
-                || (Utils.isNotEmpty(collection) && Utils.isNotBlank(str)))
+                || (Utils.isNotEmpty(collection) && Utils.isNotBlank(str))) {
             throw toThrow;
+        }
     }
 }

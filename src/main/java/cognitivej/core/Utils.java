@@ -205,7 +205,6 @@
 
 package cognitivej.core;
 
-
 import cognitivej.core.error.exceptions.CognitiveException;
 import cognitivej.vision.face.task.Face;
 
@@ -218,11 +217,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
-public class Utils {
+public final class Utils {
     
     public static boolean isNotEmpty(Collection collection) {
-        return collection != null && collection.size() > 0;
+        return collection != null && !collection.isEmpty();
     }
     
     public static boolean isEmpty(Collection collection) {
@@ -230,7 +228,7 @@ public class Utils {
     }
     
     public static boolean isBlank(String str) {
-        return str == null || str.trim().length() == 0;
+        return str == null || str.trim().isEmpty();
     }
     
     public static boolean isNotBlank(String str) {
@@ -241,14 +239,15 @@ public class Utils {
         return s == null? "": s;
     }
     
-    public static boolean throwsException(Runnable toInvoke, Class<? extends Throwable> toBeThrown) {
+    public static boolean throwsException(Runnable toInvoke,
+                                          Class<? extends Throwable> toBeThrown) {
         try {
             toInvoke.run();
         } catch (Exception e) {
-            if (e.getClass().equals(toBeThrown))
+            if (e.getClass().equals(toBeThrown)) {
                 return true;
+            }
             throw e;
-            
         }
         return false;
     }
@@ -258,17 +257,17 @@ public class Utils {
         try {
             fileInputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            throw new CognitiveException(String.format("Could not open file:%s", file.toString()), e);
+            throw new CognitiveException(
+                    String.format("Could not open file:%s", file.toString()), e);
         }
-        
         return fileInputStream;
-        
     }
     
     public static void waitFor(int duration, TimeUnit timeUnit) {
         try {
             Thread.sleep(timeUnit.toMillis(duration));
         } catch (InterruptedException ignored) {
+            // DO NOTHING?!
         }
     }
     
@@ -279,4 +278,5 @@ public class Utils {
     public static List<String> extractFaceIds(List<Face> faces) {
         return faces.stream().map(Face::getFaceId).collect(Collectors.toList());
     }
+    
 }

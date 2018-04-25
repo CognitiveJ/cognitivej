@@ -209,10 +209,11 @@ import cognitivej.core.error.exceptions.SubscriptionKeyNotAuthorizedException;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class UnAuthorizedErrorHandler extends ErrorHandler {
+public final class UnAuthorizedErrorHandler extends ErrorHandler {
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new SubscriptionKeyNotAuthorizedException(extractErrorString(httpResponse));
     }
+    
 }

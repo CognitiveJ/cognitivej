@@ -207,7 +207,9 @@ package cognitivej.core.error.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CognitiveException extends RuntimeException {
+
+public final class CognitiveException extends RuntimeException {
+    
     public CognitiveException(@NotNull String message) {
         super(message);
     }
@@ -219,4 +221,5 @@ public class CognitiveException extends RuntimeException {
     public CognitiveException(@NotNull String message, @NotNull Exception reason) {
         super(message, reason);
     }
+    
 }

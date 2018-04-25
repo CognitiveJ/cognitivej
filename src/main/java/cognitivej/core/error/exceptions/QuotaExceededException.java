@@ -207,7 +207,7 @@ package cognitivej.core.error.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
-public class QuotaExceededException extends RuntimeException {
+public final class QuotaExceededException extends RuntimeException {
     public QuotaExceededException(@NotNull String message) {
         super(message);
     }

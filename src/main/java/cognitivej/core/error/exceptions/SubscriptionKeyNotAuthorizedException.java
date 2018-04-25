@@ -205,11 +205,12 @@
 
 package cognitivej.core.error.exceptions;
 
-
 import org.jetbrains.annotations.NotNull;
 
-public class SubscriptionKeyNotAuthorizedException extends RuntimeException {
+public final class SubscriptionKeyNotAuthorizedException extends RuntimeException {
+    
     public SubscriptionKeyNotAuthorizedException(@NotNull String message) {
         super(message);
     }
+    
 }

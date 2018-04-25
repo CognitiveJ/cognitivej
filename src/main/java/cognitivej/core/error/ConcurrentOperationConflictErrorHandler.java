@@ -209,10 +209,11 @@ import cognitivej.core.error.exceptions.ConcurrentOperationConflictException;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class ConcurrentOperationConflictErrorHandler extends ErrorHandler {
+public final class ConcurrentOperationConflictErrorHandler extends ErrorHandler {
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new ConcurrentOperationConflictException(extractErrorString(httpResponse));
     }
+    
 }

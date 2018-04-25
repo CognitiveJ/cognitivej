@@ -205,16 +205,16 @@
 
 package cognitivej.core;
 
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ResultChain {
+public final class ResultChain {
     
-    private List<CognitiveResult> chainedResult = new ArrayList<>();
+    private final List<CognitiveResult> chainedResult = new ArrayList<>();
     
     public void addToChain(@NotNull CognitiveResult result) {
         chainedResult.add(result);
@@ -222,7 +222,7 @@ public class ResultChain {
     
     @NotNull
     public List<CognitiveResult> resultChain() {
-        return chainedResult;
+        return Collections.unmodifiableList(chainedResult);
     }
     
     public void clear() {
@@ -236,4 +236,5 @@ public class ResultChain {
                 .stream().filter(cognitiveResult -> cognitiveResult.getClass().equals(type))
                 .map(cognitiveResult -> (T) cognitiveResult).collect(Collectors.toList());
     }
+    
 }

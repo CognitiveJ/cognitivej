@@ -209,10 +209,11 @@ import cognitivej.core.error.exceptions.QuotaExceededException;
 import com.mashape.unirest.http.HttpResponse;
 import org.jetbrains.annotations.NotNull;
 
-
-public class ForbiddenErrorHandler extends ErrorHandler {
+public final class ForbiddenErrorHandler extends ErrorHandler {
+    
     @Override
     public void publishError(@NotNull HttpResponse httpResponse) {
         throw new QuotaExceededException(extractErrorString(httpResponse));
     }
+    
 }

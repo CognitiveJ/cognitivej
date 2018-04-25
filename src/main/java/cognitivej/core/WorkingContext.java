@@ -205,7 +205,6 @@
 
 package cognitivej.core;
 
-
 import com.mashape.unirest.http.HttpMethod;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.jetbrains.annotations.NotNull;
@@ -213,14 +212,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WorkingContext {
+public final class WorkingContext {
+    
     private Map<String, String> headers = new HashMap<>();
     private Map<String, String> pathVaribles = new HashMap<>();
     private Map<String, Object> queryParams = new HashMap<>();
     private Map<String, Object> payload = new HashMap<>();
     private String path;
     private HttpMethod httpMethod;
-    
     
     @NotNull
     public WorkingContext addHeader(@NotNull String key, @NotNull String value) {
@@ -274,7 +273,6 @@ public class WorkingContext {
         this.httpMethod = httpMethod;
         return this;
     }
-    
     
     public String getPath() {
         return path;

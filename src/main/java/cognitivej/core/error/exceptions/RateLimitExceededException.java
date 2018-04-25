@@ -205,10 +205,9 @@
 
 package cognitivej.core.error.exceptions;
 
-
 import org.jetbrains.annotations.NotNull;
 
-public class RateLimitExceededException extends RuntimeException {
+public final class RateLimitExceededException extends RuntimeException {
     public RateLimitExceededException(@NotNull String message) {
         super(message);
     }

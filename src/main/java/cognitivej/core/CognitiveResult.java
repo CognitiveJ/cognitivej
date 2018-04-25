@@ -205,7 +205,6 @@
 
 package cognitivej.core;
 
-
 import org.jetbrains.annotations.NotNull;
 
 public abstract class CognitiveResult {
@@ -214,4 +213,5 @@ public abstract class CognitiveResult {
     public final Class resultType() {
         return getClass();
     }
+    
 }
