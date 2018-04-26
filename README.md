@@ -49,12 +49,11 @@ and analyze images. 
 ```groovy
 repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
 }
-
 dependencies {
-    compile "cognitivej:cognitivej:0.6.2"
+    compile 'com.github.SamChou19815:cognitivej:0.7.0'
 }
-
 ```
 
 ### Concepts
