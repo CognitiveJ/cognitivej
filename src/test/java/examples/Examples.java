@@ -79,7 +79,7 @@ public final class Examples {
                 OBAMA_1, OBAMA_2, GABEN_1, GABEN_2, GABEN_3, JEFF_DEAN_1, JEFF_DEAN_2));
         FaceGrouping faceGrouping = faceGroupingSet.getGroupings();
         List<String> info = faceGroupingSet.getImageAndFaces().parallelStream()
-                .map(o -> o.getImage() +  ", " + o.getFace().getFaceId())
+                .map(o -> o.getImage() +  ", " + o.getFace().getFaceId() + "; ")
                 .collect(Collectors.toList());
         System.out.println(info);
         System.out.println("Grouped: " + faceGrouping.getGroups());
