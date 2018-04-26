@@ -218,8 +218,20 @@ import java.util.EnumSet;
  */
 public enum FaceAttributes {
     
-    GENDER, SMILE, AGE, FACIAL_HAIR, HEAD_POSE, GLASSES;
+    GENDER("GENDER"), SMILE("SMILE"), AGE("AGE"),
+    FACIAL_HAIR("FACIALHAIR"), HEAD_POSE("HEADPOSE"), GLASSES("GLASSES");
+    
+    private final String tag;
+    
+    FaceAttributes(String tag) {
+        this.tag = tag;
+    }
     
     public static final EnumSet<FaceAttributes> ALL = EnumSet.allOf(FaceAttributes.class);
+    
+    @Override
+    public String toString() {
+        return tag;
+    }
     
 }

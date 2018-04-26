@@ -229,7 +229,9 @@ public final class DetectFaceAction extends RestAction<List<Face>> {
     private final EnumSet<FaceAttributes> returnFaceAttributes;
     
     public DetectFaceAction(CognitiveContext cognitiveContext, boolean returnFaceId,
-                            boolean returnFaceLandmarks, EnumSet<FaceAttributes> returnFaceAttributes, Object image) {
+                            boolean returnFaceLandmarks,
+                            EnumSet<FaceAttributes> returnFaceAttributes,
+                            Object image) {
         super(cognitiveContext);
         this.cognitiveContext = cognitiveContext;
         this.returnFaceId = returnFaceId;
@@ -240,13 +242,13 @@ public final class DetectFaceAction extends RestAction<List<Face>> {
     
     private void buildContext(Object image) {
         workingContext.setPath("face/v1.0/detect").addQueryParameter("returnFaceId",
-                String.valueOf(returnFaceId)).
-                addQueryParameter("returnFaceId", String.valueOf(returnFaceId))
+                String.valueOf(returnFaceId))
+                .addQueryParameter("returnFaceId", String.valueOf(returnFaceId))
                 .addQueryParameter("returnFaceLandmarks", String.valueOf(returnFaceLandmarks))
                 .httpMethod(HttpMethod.POST);
         if (returnFaceAttributes != null) {
-            workingContext().addQueryParameter("returnFaceAttributes",
-                    StringUtils.join(returnFaceAttributes, ','));
+            String faceAttribute = StringUtils.join(returnFaceAttributes, ',');
+            workingContext().addQueryParameter("returnFaceAttributes", faceAttribute);
         }
         if (image instanceof String) {
             workingContext.addPayload("url", String.valueOf(image));

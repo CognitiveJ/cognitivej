@@ -222,7 +222,8 @@ public final class GetFaceListAction extends RestAction<FaceList> {
     private final WorkingContext workingContext = new WorkingContext();
     private final String id;
     
-    public GetFaceListAction(@NotNull CognitiveContext cognitiveContext, @NotNull String faceListId) {
+    public GetFaceListAction(@NotNull CognitiveContext cognitiveContext,
+                             @NotNull String faceListId) {
         super(cognitiveContext);
         this.id = faceListId;
         buildContext(faceListId);

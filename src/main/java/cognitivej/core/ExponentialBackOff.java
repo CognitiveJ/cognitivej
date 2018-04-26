@@ -218,13 +218,12 @@ import static java.util.Arrays.asList;
  * thanks to: http://carlosbecker.com/posts/exponential-backoff-java8
  */
 public final class ExponentialBackOff {
+    
     private static final int[] FIBONACCI = new int[]{1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
     private static final List<Class<? extends Exception>> EXPECTED_COMMUNICATION_ERRORS = asList(
             RateLimitExceededException.class);
     
-    private ExponentialBackOff() {
-    
-    }
+    private ExponentialBackOff() {}
     
     @NotNull
     public static <T> T execute(@NotNull ExponentialBackOffFunction<T> fn) {
@@ -233,7 +232,6 @@ public final class ExponentialBackOff {
                 return fn.execute();
             } catch (Exception e) {
                 handleFailure(attempt, (RuntimeException) e);
-                
             }
         }
         throw new CognitiveException("Failed to communicate.");
@@ -247,7 +245,8 @@ public final class ExponentialBackOff {
     
     private static void doWait(int attempt, @NotNull Exception exc) {
         try {
-            //System.out.printf("FAILED - WAITING FOR %d%n, exception caught was: %s", FIBONACCI[attempt] * 1000, exc.getMessage());
+            // System.out.printf("FAILED - WAITING FOR %d%n, exception caught was: %s",
+            // FIBONACCI[attempt] * 1000, exc.getMessage());
             Thread.sleep(FIBONACCI[attempt] * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
