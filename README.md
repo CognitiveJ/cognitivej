@@ -111,9 +111,26 @@ public static void main(String[] args) {
 }
 ```
 
-#### Face - Find Similar
+#### Face - Group Similar
 
-It can find similar faces from a set of images and turn them into a
+It can find similar faces from a set of images and turn them into grouped sets.
+
+###### Example
+
+```java
+public static void main(String[] args) {
+    FaceGroupingSet faceGroupingSet = faceScenarios().groupFaceListOnSingleFace(
+            Arrays.asList(OBAMA_1, OBAMA_2, GABEN_1, GABEN_2, GABEN_3,
+                    JEFF_DEAN_1, JEFF_DEAN_2));
+    FaceGrouping faceGrouping = faceGroupingSet.getGroupings();
+    List<String> info = faceGroupingSet.getImageAndFaces().parallelStream()
+            .map(o -> o.getImage() +  ", " + o.getFace().getFaceId())
+            .collect(Collectors.toList());
+    System.out.println(info);
+    System.out.println("Grouped: " + faceGrouping.getGroups());
+    System.out.println("UnGrouped: " + faceGrouping.getMessyGroup());
+}
+```
 
 #### Face - Landmarks
 

@@ -3,7 +3,9 @@ package examples;
 import cognitivej.vision.computervision.ComputerVisionScenario;
 import cognitivej.vision.computervision.ImageDescription;
 import cognitivej.vision.computervision.OCRResult;
+import cognitivej.vision.face.scenario.FaceGroupingSet;
 import cognitivej.vision.face.scenario.FaceScenarios;
+import cognitivej.vision.face.scenario.ImageAndFace;
 import cognitivej.vision.face.scenario.ImageHolder;
 import cognitivej.vision.face.scenario.ImageNamingStrategy;
 import cognitivej.vision.face.scenario.People;
@@ -17,6 +19,7 @@ import cognitivej.vision.overlay.builder.ImageOverlayBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.System.getProperty;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -71,10 +74,14 @@ public final class Examples {
     /**
      * Find similar faces and group them.
      */
-    public static void faceSimilar() {
-        FaceGrouping faceGrouping = faceScenarios().groupFaceListOnSingleFace(Arrays.asList(
-                OBAMA_1, OBAMA_2, GABEN_1, GABEN_2, GABEN_3, JEFF_DEAN_1, JEFF_DEAN_2))
-                .getGroupings();
+    public static void faceGroupSimilar() {
+        FaceGroupingSet faceGroupingSet = faceScenarios().groupFaceListOnSingleFace(Arrays.asList(
+                OBAMA_1, OBAMA_2, GABEN_1, GABEN_2, GABEN_3, JEFF_DEAN_1, JEFF_DEAN_2));
+        FaceGrouping faceGrouping = faceGroupingSet.getGroupings();
+        List<String> info = faceGroupingSet.getImageAndFaces().parallelStream()
+                .map(o -> o.getImage() +  ", " + o.getFace().getFaceId())
+                .collect(Collectors.toList());
+        System.out.println(info);
         System.out.println("Grouped: " + faceGrouping.getGroups());
         System.out.println("UnGrouped: " + faceGrouping.getMessyGroup());
     }
