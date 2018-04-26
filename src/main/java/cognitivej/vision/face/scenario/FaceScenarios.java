@@ -238,6 +238,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -368,7 +369,28 @@ public final class FaceScenarios {
     }
     
     /**
-     * Find a single face within a given url
+     * Find a single face within a given url.
+     *
+     * @param imageUrl the url to find the single face.
+     * @param allAttributes whether to include all face attributes.
+     * @return the found face
+     * @throws SingleFaceNotFoundException If a single face is not found
+     */
+    @NotNull
+    private Face findSingleFace(@NotNull String imageUrl, boolean allAttributes) {
+        EnumSet<FaceAttributes> set = allAttributes
+                ? FaceAttributes.ALL: EnumSet.noneOf(FaceAttributes.class);
+        List<Face> faces = faceTaskBuilder.detectFace(true, true,
+                set, imageUrl).withResult();
+        if (Utils.isEmpty(faces) || faces.size() > 1) {
+            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(),
+                    "a single face was not present");
+        }
+        return faces.get(0);
+    }
+    
+    /**
+     * Find a single face within a given url. It includes no face attributes by default.
      *
      * @param imageUrl the url to find the single face.
      * @return the found face
@@ -376,12 +398,7 @@ public final class FaceScenarios {
      */
     @NotNull
     public Face findSingleFace(@NotNull String imageUrl) {
-        List<Face> faces = faceTaskBuilder.detectFace(true, true,
-                FaceAttributes.ALL, imageUrl).withResult();
-        if (Utils.isEmpty(faces) || faces.size() > 1)
-            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(),
-                    "a single face was not present");
-        return faces.get(0);
+        return findSingleFace(imageUrl, true);
     }
     
     /**
@@ -400,11 +417,10 @@ public final class FaceScenarios {
         return singleFace;
     }
     
-    
     /**
-     * @param image - the Image (as an inputStream
+     * @param image - the Image (as an inputStream).
      * @return Face
-     * @see FaceScenarios#findSingleFace(String)
+     * @see FaceScenarios#findSingleFace(String).
      */
     @NotNull
     public Face findSingleFace(@NotNull InputStream image) {
@@ -537,10 +553,13 @@ public final class FaceScenarios {
     public FaceGroupingSet groupFaceListOnSingleFace(List<String> images) {
         List<ImageAndFace> imageAndFaces = new ArrayList<>();
         for (String image : images) {
-            imageAndFaces.add(new ImageAndFace<>(image, findSingleFace(image)));
+            Face face = findSingleFace(image, false);
+            ImageAndFace imageAndFace = new ImageAndFace<>(image, face);
+            imageAndFaces.add(imageAndFace);
         }
         List<String> faceIds = imageAndFaces.parallelStream()
-                .map(it -> it.getFace().getFaceId()).collect(Collectors.toList());
+                .map(ImageAndFace::getFace).map(Face::getFaceId)
+                .collect(Collectors.toList());
         FaceGrouping groupings = faceTaskBuilder.groupFaces(faceIds).withResult();
         return new FaceGroupingSet(imageAndFaces, groupings);
     }

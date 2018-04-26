@@ -265,8 +265,7 @@ public final class DetectFaceAction extends RestAction<List<Face>> {
     
     @Override
     protected Type typedResponse() {
-        return new TypeToken<List<Face>>() {
-        }.getType();
+        return new TypeToken<List<Face>>() {}.getType();
     }
     
 }

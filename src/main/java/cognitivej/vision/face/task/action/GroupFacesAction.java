@@ -230,7 +230,8 @@ public final class GroupFacesAction extends RestAction<FaceGrouping> {
     
     private void buildContext() {
         workingContext.setPath("face/v1.0/group")
-                .httpMethod(HttpMethod.POST).addPayload("faceIds", faceIds);
+                .httpMethod(HttpMethod.POST)
+                .addPayload("faceIds", faceIds);
     }
     
     @Override
