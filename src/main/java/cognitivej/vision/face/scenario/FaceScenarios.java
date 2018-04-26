@@ -544,7 +544,7 @@ public final class FaceScenarios {
     }
     
     /**
-     * Groups Single Face Images into groups.
+     * Groups single face Images into groups.
      *
      * @param images the image urls (as a list).
      * @return a built {@link FaceGroupingSet}
@@ -556,6 +556,29 @@ public final class FaceScenarios {
             Face face = findSingleFace(image, false);
             ImageAndFace imageAndFace = new ImageAndFace<>(image, face);
             imageAndFaces.add(imageAndFace);
+        }
+        List<String> faceIds = imageAndFaces.parallelStream()
+                .map(ImageAndFace::getFace).map(Face::getFaceId)
+                .collect(Collectors.toList());
+        FaceGrouping groupings = faceTaskBuilder.groupFaces(faceIds).withResult();
+        return new FaceGroupingSet(imageAndFaces, groupings);
+    }
+    
+    /**
+     * Groups multiple face images into groups.
+     *
+     * @param images the image urls (as a list).
+     * @return a built {@link FaceGroupingSet}
+     */
+    @NotNull
+    public FaceGroupingSet groupFaceListOnMultipleFaces(List<String> images) {
+        List<ImageAndFace> imageAndFaces = new ArrayList<>();
+        for (String image : images) {
+            List<Face> faces = findFaces(image);
+            for (Face face: faces) {
+                ImageAndFace imageAndFace = new ImageAndFace<>(image, face);
+                imageAndFaces.add(imageAndFace);
+            }
         }
         List<String> faceIds = imageAndFaces.parallelStream()
                 .map(ImageAndFace::getFace).map(Face::getFaceId)

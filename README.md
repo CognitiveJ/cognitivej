@@ -114,6 +114,8 @@ public static void main(String[] args) {
 
 It can find similar faces from a set of images and turn them into grouped sets.
 
+`groupFaceListOnMultipleFaces` is also available.
+
 ###### Example
 
 ```java
