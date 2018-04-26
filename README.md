@@ -89,7 +89,7 @@ FaceAttributes, Person etc)
 
 Check `examples.Examples` in test for all those examples listed below.
 
-#### Face – Detect
+#### Face - Detect
 
 It can detect faces from within an image and return the results as a collection
 of ‘face’ results.
@@ -111,7 +111,11 @@ public static void main(String[] args) {
 }
 ```
 
-#### Face – Landmarks
+#### Face - Find Similar
+
+It can find similar faces from a set of images and turn them into a
+
+#### Face - Landmarks
 
 It can detect faces from within an image and apply facial landmarks
 
@@ -130,7 +134,7 @@ public static void main(String[] args) throws IOException {
 }
 ```
 
-#### Face – Detect with Attributes
+#### Face - Detect with Attributes
 
 It displays associated attributes for detected faces
 
@@ -150,7 +154,7 @@ public static void main(String[] args) {
 }
 ```
 
-#### Face – Verify
+#### Face - Verify
 
 It will validate (with a confidence ratio) if 2 different faces are of the same
 persons.
@@ -174,7 +178,7 @@ public static void main(String[] args) {
 }
 ```
 
-#### Face – Identify
+#### Face - Identify
 
 It will identify a person (or people) within an image. Before the library can
 identify, we need to provide the the Cognitive libraries with the samples set of
@@ -198,7 +202,7 @@ public static void main(String[] args) {
 }
 ```
 
-#### Face – Pixelate
+#### Face - Pixelate
 
 It will identify all faces within an image and pixelate them.
 
@@ -219,7 +223,7 @@ public static void main(String[] args) {
 }
 ```
 
-#### Emotion – Detect
+#### Emotion - Detect
 
 It will detect what emotion a face(s) is showing within an image.
 
@@ -237,7 +241,7 @@ public static void main(String[] args) {
 }
 ```
 
-#### Vision – Describe
+#### Vision - Describe
 
 It will analyze and describe the contents of an image in a human readable
 caption.
@@ -258,7 +262,7 @@ public static void main(String[] args) {
 }
 ```
 
-#### Vision – OCR 
+#### Vision - OCR 
 
 It will analyse and extract text from within an image into a computer
 understandable stream.

@@ -255,7 +255,7 @@ public final class FaceScenarios {
     
     /**
      * @param faceSubscriptionKey your MS Cognitive key(s) -
-     * Signup here -https://www.microsoft.com/cognitive-services/en-us/face-api
+     * Signup here - https://www.microsoft.com/cognitive-services/en-us/face-api
      * @param emotionSubscriptionKey the emotion subscription key
      */
     public FaceScenarios(@NotNull String faceSubscriptionKey,
