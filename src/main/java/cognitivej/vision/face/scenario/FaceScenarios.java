@@ -369,27 +369,6 @@ public final class FaceScenarios {
     }
     
     /**
-     * Find a single face within a given url.
-     *
-     * @param imageUrl the url to find the single face.
-     * @param allAttributes whether to include all face attributes.
-     * @return the found face
-     * @throws SingleFaceNotFoundException If a single face is not found
-     */
-    @NotNull
-    private Face findSingleFace(@NotNull String imageUrl, boolean allAttributes) {
-        EnumSet<FaceAttributes> set = allAttributes
-                ? FaceAttributes.ALL: EnumSet.noneOf(FaceAttributes.class);
-        List<Face> faces = faceTaskBuilder.detectFace(true, true,
-                set, imageUrl).withResult();
-        if (Utils.isEmpty(faces) || faces.size() > 1) {
-            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(),
-                    "a single face was not present");
-        }
-        return faces.get(0);
-    }
-    
-    /**
      * Find a single face within a given url. It includes no face attributes by default.
      *
      * @param imageUrl the url to find the single face.
@@ -398,7 +377,13 @@ public final class FaceScenarios {
      */
     @NotNull
     public Face findSingleFace(@NotNull String imageUrl) {
-        return findSingleFace(imageUrl, true);
+        List<Face> faces = faceTaskBuilder.detectFace(true, true,
+                FaceAttributes.ALL, imageUrl).withResult();
+        if (Utils.isEmpty(faces) || faces.size() > 1) {
+            throw new SingleFaceNotFoundException(Utils.isEmpty(faces)? 0: faces.size(),
+                    "a single face was not present");
+        }
+        return faces.get(0);
     }
     
     /**
@@ -553,7 +538,7 @@ public final class FaceScenarios {
     public FaceGroupingSet groupFaceListOnSingleFace(List<String> images) {
         List<ImageAndFace> imageAndFaces = new ArrayList<>();
         for (String image : images) {
-            Face face = findSingleFace(image, false);
+            Face face = findSingleFace(image);
             ImageAndFace imageAndFace = new ImageAndFace<>(image, face);
             imageAndFaces.add(imageAndFace);
         }

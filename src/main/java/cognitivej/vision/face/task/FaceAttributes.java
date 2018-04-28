@@ -218,8 +218,8 @@ import java.util.EnumSet;
  */
 public enum FaceAttributes {
     
-    GENDER("GENDER"), SMILE("SMILE"), AGE("AGE"),
-    FACIAL_HAIR("FACIALHAIR"), HEAD_POSE("HEADPOSE"), GLASSES("GLASSES");
+    GENDER("gender"), SMILE("smile"), AGE("age"), EMOTION("emotion"),
+    FACIAL_HAIR("facialHair"), HEAD_POSE("headPose"), GLASSES("glasses");
     
     private final String tag;
     

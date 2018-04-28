@@ -205,6 +205,7 @@
 
 package cognitivej.vision.face.task;
 
+import cognitivej.vision.emotion.Emotion;
 import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -258,6 +259,7 @@ public final class Face {
         private final Gender gender;
         private final double age;
         private final double smile;
+        private final Emotion.Scores emotion;
         private final FacialHair facialHair;
         private final HeadPose headPose;
         private final Glasses glasses;
@@ -269,6 +271,7 @@ public final class Face {
             gender = null;
             age = 0;
             smile = 0;
+            emotion = null;
             facialHair = null;
             headPose = null;
             glasses = null;
@@ -285,7 +288,11 @@ public final class Face {
         public double getSmile() {
             return smile;
         }
-        
+    
+        public Emotion.Scores getEmotion() {
+            return emotion;
+        }
+    
         public FacialHair getFacialHair() {
             return facialHair;
         }
@@ -302,11 +309,13 @@ public final class Face {
             return new HashMap<FaceAttributes, String>() {{
                 assert gender != null;
                 assert facialHair != null;
+                assert emotion != null;
                 assert headPose != null;
                 assert glasses != null;
                 put(FaceAttributes.GENDER, WordUtils.capitalize(gender.name()));
                 put(FaceAttributes.AGE, String.format("Age: %.2f", age));
                 put(FaceAttributes.SMILE, String.format("Smile: %.2f", smile));
+                put(FaceAttributes.EMOTION, String.format("Emotion: %s", emotion.toString()));
                 put(FaceAttributes.FACIAL_HAIR, String.format("Beard:%.2f", facialHair.beard));
                 put(FaceAttributes.HEAD_POSE, String.format("Pitch:%.2f", headPose.pitch));
                 put(FaceAttributes.GLASSES, WordUtils.capitalize(StringUtils.join(

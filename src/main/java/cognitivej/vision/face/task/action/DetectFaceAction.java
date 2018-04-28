@@ -247,7 +247,8 @@ public final class DetectFaceAction extends RestAction<List<Face>> {
                 .addQueryParameter("returnFaceLandmarks", String.valueOf(returnFaceLandmarks))
                 .httpMethod(HttpMethod.POST);
         if (returnFaceAttributes != null) {
-            String faceAttribute = StringUtils.join(returnFaceAttributes, ',');
+            String faceAttribute = StringUtils.join(
+                    returnFaceAttributes.toArray(new FaceAttributes[0]), ',');
             workingContext().addQueryParameter("returnFaceAttributes", faceAttribute);
         }
         if (image instanceof String) {
