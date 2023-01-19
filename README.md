@@ -1,3 +1,5 @@
+***Looking for new collabrators for this repo - open an issue if you would like to be considered*** 
+
 # CognitiveJ - Image Analysis in Java
  [![Apache-2.0 license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
   [ ![Download](https://api.bintray.com/packages/cognitivej/CognitiveJ/CognitiveJ/images/download.svg) ](https://bintray.com/cognitivej/CognitiveJ/CognitiveJ/_latestVersion)
