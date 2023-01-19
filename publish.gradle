@@ -20,7 +20,7 @@ artifacts {
 }
 
 task release() {
-    dependsOn 'assemble', 'bintrayUpload'
+    dependsOn 'assemble'
 }
 
 publishing {
@@ -33,34 +33,34 @@ publishing {
     }
 }
 
-bintray {
-    user = project.hasProperty('bintray_user') ? bintray_user : ''
-    key = project.hasProperty('bintray_api_key') ? bintray_api_key : ''
-    publications = ['mavenJava']
-    dryRun = false
-    publish = true
-    pkg {
-        repo = 'CognitiveJ'
-        name = 'CognitiveJ'
-        desc = 'Image Analysis in Java Made Easy'
-        websiteUrl = 'https://github.com/CognitiveJ/cognitivej'
-        issueTrackerUrl = 'https://github.com/CognitiveJ/cognitivej/issues'
-        vcsUrl = 'https://github.com/CognitiveJ/cognitivej.git'
-        licenses = ['Apache-2.0']
-        labels = ['cognitivej', 'java', 'Image Analysis', 'microsoft cognitive']
-        publicDownloadNumbers = true
-        //Optional version descriptor
-        version {
-            name = project.version
-            released = new Date()
-            mavenCentralSync {
-                sync = false //Optional (true by default). Determines whether to sync the version to Maven Central.
-                user = 'userToken' //OSS user token
-                password = 'paasword' //OSS user password
-                close = '1'
-            }
-        }
-    }
-}
-
+// todo: setup release to maven central
+//bintray {
+//    user = project.hasProperty('bintray_user') ? bintray_user : ''
+//    key = project.hasProperty('bintray_api_key') ? bintray_api_key : ''
+//    publications = ['mavenJava']
+//    dryRun = false
+//    publish = true
+//    pkg {
+//        repo = 'CognitiveJ'
+//        name = 'CognitiveJ'
+//        desc = 'Image Analysis in Java Made Easy'
+//        websiteUrl = 'https://github.com/CognitiveJ/cognitivej'
+//        issueTrackerUrl = 'https://github.com/CognitiveJ/cognitivej/issues'
+//        vcsUrl = 'https://github.com/CognitiveJ/cognitivej.git'
+//        licenses = ['Apache-2.0']
+//        labels = ['cognitivej', 'java', 'Image Analysis', 'microsoft cognitive']
+//        publicDownloadNumbers = true
+//        //Optional version descriptor
+//        version {
+//            name = project.version
+//            released = new Date()
+//            mavenCentralSync {
+//                sync = false //Optional (true by default). Determines whether to sync the version to Maven Central.
+//                user = 'userToken' //OSS user token
+//                password = 'paasword' //OSS user password
+//                close = '1'
+//            }
+//        }
+//    }
+//}
 
