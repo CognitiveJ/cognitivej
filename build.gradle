@@ -16,7 +16,7 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.2'
     implementation 'org.apache.httpcomponents:httpasyncclient:4.1.1'
     implementation 'org.apache.httpcomponents:httpmime:4.5.2'
-    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.apache.commons:commons-lang3:3.4'
     implementation 'commons-io:commons-io:2.5'
     implementation 'com.intellij:annotations:12.0'
