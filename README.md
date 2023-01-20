@@ -11,6 +11,8 @@ Microsofts’ Cognitive (Project Oxford) Machine Learning & Image Processing lib
 
 ![](https://iwkelly.files.wordpress.com/2016/05/screen-shot-2016-05-11-at-11-54-02.png) 
 
+> Face service access is limited based on eligibility and usage criteria. You will need a valid subscription id to Azure Face service
+
 **Faces**
 
  * Facial Detection – Capture faces, gender, age and associated facial features and landmarks from an image
